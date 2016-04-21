@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="toolbarBg">#D6383A</color>
     <color name="playAreaBg">#666666</color>
+    <color name="submitAreaBg">#D32F2F</color>
 </resources>
