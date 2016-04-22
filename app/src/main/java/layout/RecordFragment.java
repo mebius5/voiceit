@@ -1,9 +1,12 @@
 package layout;
 
 import android.content.Context;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +54,9 @@ public class RecordFragment extends Fragment {
     private boolean isRecording = false;
     private boolean choseRecording = false;
 
+    private MediaRecorder mediaRecorder;
+    private String outputFile = null;
+
     public RecordFragment() {
         // Required empty public constructor
     }
@@ -75,6 +81,9 @@ public class RecordFragment extends Fragment {
     }
 
     public void cleanUpOnStop() {
+        mediaRecorder.stop();
+        mediaRecorder.release();
+
         recordButton.setImageResource(R.drawable.record_button);
         recordTime.setText("00:30");
         isRecording = false;
@@ -124,7 +133,38 @@ public class RecordFragment extends Fragment {
         setRecordButtonListener();
         setSubmitButtonListener();
 
+        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
+
+        mediaRecorder = new MediaRecorder();
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+        mediaRecorder.setOutputFile(outputFile);
+
         return view;
+    }
+
+    public void setPlayButtonListener() {
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MediaPlayer m = new MediaPlayer();
+
+                try {
+                    m.setDataSource(outputFile);
+                } catch(Exception e ){
+                    e.printStackTrace();
+                }
+
+                try {
+                    m.prepare();
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+
+                m.start();
+            }
+        });
     }
 
     public void setRecordButtonListener() {
@@ -136,6 +176,14 @@ public class RecordFragment extends Fragment {
                     recordButton.setImageResource(R.drawable.stop_button);
                     isRecording = true;
                     controlTimer();
+
+                    try {
+                        mediaRecorder.prepare();
+                        mediaRecorder.start();
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    }
+
                 } else {
                     //Change image, change state, store recording on list
                     countDownTimer.cancel();
