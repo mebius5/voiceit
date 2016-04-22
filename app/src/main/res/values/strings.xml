@@ -7,4 +7,5 @@
     <string name="description_placeholder">Add description..</string>
     <string name="search_placeholder">Enter User ID</string>
     <string name="add_record_feedback">Record has been added to your list</string>
+    <string name="play_record_feedback">Please select a record to play</string>
 </resources>

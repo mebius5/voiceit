@@ -164,8 +164,8 @@ public class RecordFragment extends BaseFragment {
     public void changeBackgroundColors(int position) {
         for(int i = 0; i < recordList.getChildCount(); i++) {
             if(position == i) {
-                Log.i("Click", "Position: " + position);
-                recordList.getChildAt(i).setBackgroundColor(Color.BLUE);
+                recordList.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.lightRed));
+                selected = recordings.get(position);
             } else {
                 recordList.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
             }
@@ -177,7 +177,7 @@ public class RecordFragment extends BaseFragment {
 
         outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording " + fileNumber + ".3gp";
 
-        Post newPost = new Post(user, outputFile);
+        Post newPost = new Post(user, outputFile, null);
 
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -193,21 +193,25 @@ public class RecordFragment extends BaseFragment {
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MediaPlayer m = new MediaPlayer();
+                if(selected != null) {
+                    MediaPlayer m = new MediaPlayer();
 
-                try {
-                    m.setDataSource(outputFile);
-                } catch(Exception e ){
-                    e.printStackTrace();
+                    try {
+                        m.setDataSource(selected.getFilename());
+                    } catch(Exception e ){
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        m.prepare();
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    m.start();
+                } else {
+                    Toast.makeText(getActivity(), R.string.play_record_feedback, Toast.LENGTH_SHORT).show();
                 }
-
-                try {
-                    m.prepare();
-                } catch(Exception e) {
-                    e.printStackTrace();
-                }
-
-                m.start();
             }
         });
     }
