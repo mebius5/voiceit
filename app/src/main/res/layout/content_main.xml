@@ -25,18 +25,41 @@
         </FrameLayout>
 
         <android.support.design.widget.TabLayout
-            android:id="@+id/sliding_tabs"
+            android:id="@+id/tab_layout"
+            app:tabMode="fixed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blue"
-            />
+            android:background="@color/white">
+
+            <android.support.design.widget.TabItem
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:icon="@drawable/ic_home_black_24dp"/>
+
+            <android.support.design.widget.TabItem
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:icon="@drawable/ic_mic_black_24dp" />
+
+            <android.support.design.widget.TabItem
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:icon="@drawable/ic_hearing_black_24dp" />
+
+            <android.support.design.widget.TabItem
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:icon="@drawable/ic_person_pin_black_24dp" />
+
+        </android.support.design.widget.TabLayout>
+
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.82"
             android:background="@color/white"/>
+
 
     </LinearLayout>
 
