@@ -109,7 +109,7 @@ public class RecordFragment extends BaseFragment {
      * @return A new instance of fragment RecordFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static RecordFragment newInstance(String param1, String param2) {
+    public static RecordFragment newInstance() {
         RecordFragment fragment = new RecordFragment();
         return fragment;
     }
