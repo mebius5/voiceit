@@ -75,7 +75,7 @@ public class RecordFragment extends Fragment {
     }
 
     public void cleanUpOnStop() {
-        recordButton.setImageResource(R.drawable.recordbutton);
+        recordButton.setImageResource(R.drawable.record_button);
         recordTime.setText("00:30");
         isRecording = false;
         Toast.makeText(getActivity(), R.string.add_record_feedback, Toast.LENGTH_SHORT).show();
@@ -133,7 +133,7 @@ public class RecordFragment extends Fragment {
             public void onClick(View v) {
                 if(!isRecording) {
                     //Change image, change state, start recording
-                    recordButton.setImageResource(R.drawable.stopbutton);
+                    recordButton.setImageResource(R.drawable.stop_button);
                     isRecording = true;
                     controlTimer();
                 } else {
