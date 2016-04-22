@@ -2,6 +2,7 @@
     <string name="app_name">VoiceIt</string>
     <string name="action_settings">Settings</string>
 
+    <string name="firebase_url">https://uimaexample.firebaseio.com</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="description_placeholder">Add description..</string>
