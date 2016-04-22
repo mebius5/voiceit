@@ -1,6 +1,7 @@
 package layout;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -8,9 +9,11 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -55,6 +58,8 @@ public class RecordFragment extends BaseFragment {
 
     private ArrayList<Post> recordings;
     private PostAdapter postAdapter;
+
+    private Post selected;
 
     private User user;
 
@@ -131,18 +136,40 @@ public class RecordFragment extends BaseFragment {
         recordings = new ArrayList<Post>();
         postAdapter = new PostAdapter(getActivity(), recordings);
         recordList.setAdapter(postAdapter);
+        selected = null;
 
         setRecordButtonListener();
         setSubmitButtonListener();
         setPlayButtonListener();
+        setListListener();
 
-        mediaRecorder = new MediaRecorder();
+        /*mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
-        mediaRecorder.setOutputFile(outputFile);
+        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);*/
 
         return view;
+    }
+
+    public void setListListener() {
+        recordList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                changeBackgroundColors(position);
+                selected = recordings.get(position);
+            }
+        });
+    }
+
+    public void changeBackgroundColors(int position) {
+        for(int i = 0; i < recordList.getChildCount(); i++) {
+            if(position == i) {
+                Log.i("Click", "Position: " + position);
+                recordList.getChildAt(i).setBackgroundColor(Color.BLUE);
+            } else {
+                recordList.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
+            }
+        }
     }
 
     public void insertNewRecording() {
@@ -151,6 +178,11 @@ public class RecordFragment extends BaseFragment {
         outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording " + fileNumber + ".3gp";
 
         Post newPost = new Post(user, outputFile);
+
+        mediaRecorder = new MediaRecorder();
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
         mediaRecorder.setOutputFile(outputFile);
 
         recordings.add(newPost);
@@ -211,7 +243,7 @@ public class RecordFragment extends BaseFragment {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!choseRecording) {
+                if(!choseRecording && !isRecording) {
                     //Hide list, show description box, change state
                     recordList.setVisibility(View.INVISIBLE);
                     recordDescription.setVisibility(View.VISIBLE);
