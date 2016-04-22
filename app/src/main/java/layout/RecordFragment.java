@@ -51,10 +51,12 @@ public class RecordFragment extends BaseFragment {
     private CountDownTimer countDownTimer;
 
     private boolean isRecording = false;
-    private boolean choseRecording = false;
+    private boolean isPlaying = false;
+    private boolean isAddingDescription = false;
 
     private MediaRecorder mediaRecorder;
     private String outputFile = null;
+    private MediaPlayer mediaPlayer;
 
     private ArrayList<Post> recordings;
     private PostAdapter postAdapter;
@@ -193,22 +195,41 @@ public class RecordFragment extends BaseFragment {
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(selected != null) {
-                    MediaPlayer m = new MediaPlayer();
+                //Checks if the user selected a file from the list and is not recording
+                if(selected != null && !isRecording) {
+                    //Checks if it's already playing to configure PLAY or PAUSE
+                    if(isPlaying) {
+                        //Changes image, stops the sound, reverts the Boolean
+                        playButton.setImageResource(R.drawable.ic_action_play);
+                        mediaPlayer.stop();
+                        isPlaying = false;
+                    } else {
+                        //Instantiate new mediaPlayer
+                        mediaPlayer = new MediaPlayer();
 
-                    try {
-                        m.setDataSource(selected.getFilename());
-                    } catch(Exception e ){
-                        e.printStackTrace();
+                        try {
+                            mediaPlayer.setDataSource(selected.getFilename());
+                        } catch(Exception e ){
+                            e.printStackTrace();
+                        }
+
+                        try {
+                            mediaPlayer.prepare();
+                        } catch(Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        //Play, change image and reverts the Boolean
+                        mediaPlayer.start();
+                        playButton.setImageResource(R.drawable.ic_action_pause);
+                        isPlaying = true;
                     }
 
-                    try {
-                        m.prepare();
-                    } catch(Exception e) {
-                        e.printStackTrace();
-                    }
+                    //Gives appropriate feedback to the user
+                } else if(isRecording) {
+                    Toast.makeText(getActivity(), R.string.play_while_recording_feedback, Toast.LENGTH_SHORT).show();
 
-                    m.start();
+                    //Gives appropriate feedback to the user
                 } else {
                     Toast.makeText(getActivity(), R.string.play_record_feedback, Toast.LENGTH_SHORT).show();
                 }
@@ -247,13 +268,21 @@ public class RecordFragment extends BaseFragment {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!choseRecording && !isRecording) {
-                    //Hide list, show description box, change state
-                    recordList.setVisibility(View.INVISIBLE);
-                    recordDescription.setVisibility(View.VISIBLE);
-                    choseRecording = true;
+                if(selected != null && !isRecording) {
+                    if(!isAddingDescription) {
+                        //Hide list, show description box, change state
+                        recordList.setVisibility(View.INVISIBLE);
+                        recordDescription.setVisibility(View.VISIBLE);
+                        isAddingDescription = true;
+                    } else {
+                        //Store the description in the post, submit to firebase
+                        selected.setDescription(recordDescription.getText().toString());
+                        Toast.makeText(getActivity(), selected.getDescription(), Toast.LENGTH_SHORT).show();
+                    }
+                } else if(isRecording){
+                    Toast.makeText(getActivity(), R.string.play_while_recording_feedback, Toast.LENGTH_SHORT).show();
                 } else {
-                    //Publish the recording TODO
+                    Toast.makeText(getActivity(), R.string.submit_error_feedback, Toast.LENGTH_SHORT).show();
                 }
             }
         });

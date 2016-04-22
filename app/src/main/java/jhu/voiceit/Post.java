@@ -23,4 +23,8 @@ public class Post {
     public String getFilename() { return filename;}
     public String getDescription(){ return this.description;}
     public Calendar getCreateDate() { return createDate;}
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
