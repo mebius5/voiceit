@@ -3,13 +3,10 @@ package layout;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import jhu.voiceit.R;
 
@@ -19,12 +16,12 @@ import jhu.voiceit.R;
  * Use the {@link ProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfileFragment extends BaseFragment {
+public class SettingsFragment extends BaseFragment {
 
-    public final static String FRAGMENTNAME = "ProfileFragment";
+    public final static String FRAGMENTNAME = "SearchFragment";
     private final String fragmentName = FRAGMENTNAME;
 
-    public ProfileFragment() {
+    public SettingsFragment() {
         // Required empty public constructor
     }
 
@@ -37,8 +34,8 @@ public class ProfileFragment extends BaseFragment {
      * this fragment using the provided parameters.
      * @return A new instance of fragment ProfileFragment.
      */
-    public static ProfileFragment newInstance() {
-        ProfileFragment fragment = new ProfileFragment();
+    public static SettingsFragment newInstance() {
+        SettingsFragment fragment = new SettingsFragment();
         return fragment;
     }
 
@@ -51,7 +48,7 @@ public class ProfileFragment extends BaseFragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
         return view;
     }
 }
