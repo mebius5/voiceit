@@ -2,7 +2,6 @@ package jhu.voiceit.layout;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +12,7 @@ import android.view.ViewGroup;
 import jhu.voiceit.R;
 import jhu.voiceit.layout.dummy.DummyContent;
 import jhu.voiceit.layout.dummy.DummyContent.DummyItem;
+import layout.BaseFragment;
 
 /**
  * A fragment representing a list of Items.
@@ -20,7 +20,10 @@ import jhu.voiceit.layout.dummy.DummyContent.DummyItem;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class HomeFeedFragment extends Fragment {
+public class HomeFeedFragment extends BaseFragment {
+
+    public final static String FRAGMENTNAME = "ProfileFragment";
+    private final String fragmentName = FRAGMENTNAME;
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -34,6 +37,11 @@ public class HomeFeedFragment extends Fragment {
      */
     public HomeFeedFragment() {
     }
+
+    public String getFragmentName(){
+        return this.fragmentName;
+    }
+
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
