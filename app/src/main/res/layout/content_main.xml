@@ -28,7 +28,8 @@
             android:id="@+id/tab_layout"
             app:tabMode="fixed"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="2"
             android:background="@color/white">
 
             <android.support.design.widget.TabItem

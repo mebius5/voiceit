@@ -26,27 +26,33 @@ public class MainActivity extends AppCompatActivity{
 
     private final String CURRENTFRAGMENT = "currentFragment";
 
+
+    /*
+    ####################### Instance Variables #####################
+     */
     private SharedPreferences myPrefs;
     private SharedPreferences.Editor peditor;
     private BaseFragment baseFragment;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         /***
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
          ****/
 
+
         Context context = getApplicationContext();  // app level storage
-        myPrefs= PreferenceManager.getDefaultSharedPreferences(this);
+        myPrefs= PreferenceManager.getDefaultSharedPreferences(context);
         peditor = myPrefs.edit();
 
         //Deal with navigation to Search Fragment
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_search_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +61,23 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Log.i("MainActivity","Selected Tab Position: "+tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                Log.i("MainActivity","Unselected Tab Position: "+tab.getPosition());
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                Log.i("MainActivity","Reselected Tab Position: "+tab.getPosition());
+            }
+        });
 
         initiateFragment();
     }
