@@ -17,11 +17,27 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:textAlignment="center"
             android:layout_marginTop="10dp"
             android:textColor="@color/white"
-            android:textIsSelectable="false" />
+            android:textIsSelectable="false"
+            android:textSize="24sp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/textView2"
+            android:layout_below="@+id/textView"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="20dp"
+            android:textAlignment="center"
+            android:layout_marginTop="5dp" />
     </RelativeLayout>
 </RelativeLayout>
