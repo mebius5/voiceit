@@ -28,7 +28,7 @@
     <EditText
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:id="@+id/editText3"
+        android:id="@+id/usrname"
         android:hint="Username"
         android:layout_marginTop="58dp"
         android:layout_below="@+id/title"
@@ -41,14 +41,14 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/editText2"
+        android:id="@+id/passwd"
         android:hint="Password"
         android:background="#376a6a6a"
         android:padding="5dp"
         android:layout_marginTop="39dp"
-        android:layout_below="@+id/editText3"
-        android:layout_alignLeft="@+id/editText3"
-        android:layout_alignStart="@+id/editText3" />
+        android:layout_below="@+id/usrname"
+        android:layout_alignLeft="@+id/usrname"
+        android:layout_alignStart="@+id/usrname" />
 
     <LinearLayout
         android:orientation="horizontal"

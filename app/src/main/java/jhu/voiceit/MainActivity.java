@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity{
         startActivity(intent);
          ****/
 
-
         Context context = getApplicationContext();  // app level storage
         myPrefs= PreferenceManager.getDefaultSharedPreferences(this);
         peditor = myPrefs.edit();
