@@ -8,8 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-public class MainActivity extends AppCompatActivity implements RecordActivity.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements RecordActivity.OnFragmentInteractionListener,
+        SearchActivity.OnFragmentInteractionListener {
+
     FragmentManager fragmentManager;
     Fragment fragment;
 
@@ -18,12 +21,21 @@ public class MainActivity extends AppCompatActivity implements RecordActivity.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_search_white_24dp);
         setSupportActionBar(toolbar);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        final FragmentManager fragmentManager = getSupportFragmentManager();
         fragment = new RecordActivity();
         fragmentManager.beginTransaction().replace(R.id.mainActivityRelLayout, fragment).commit();
+
+        //Deal with navigation to Search Fragment
+        toolbar.setNavigationIcon(R.drawable.ic_search_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment = new SearchActivity();
+                fragmentManager.beginTransaction().replace(R.id.mainActivityRelLayout, fragment).commit();
+            }
+        });
     }
 
     @Override
@@ -47,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements RecordActivity.On
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {

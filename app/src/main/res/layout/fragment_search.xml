@@ -1,0 +1,37 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="jhu.voiceit.SearchActivity">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/editTextSearch"
+            android:layout_marginTop="33dp"
+            android:background="@color/submitAreaBg"
+            android:textAlignment="center"
+            android:hint="@string/search_placeholder"
+            android:textColor="#FFFFFF"
+            android:elegantTextHeight="false"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:padding="10dp" />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listViewSearch"
+            android:layout_below="@+id/editTextSearch"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp" />
+    </RelativeLayout>
+</FrameLayout>
