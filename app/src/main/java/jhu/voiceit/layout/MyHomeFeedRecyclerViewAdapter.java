@@ -30,7 +30,7 @@ public class MyHomeFeedRecyclerViewAdapter extends RecyclerView.Adapter<MyHomeFe
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_item, parent, false);
+                .inflate(R.layout.fragment_post, parent, false);
         return new ViewHolder(view);
     }
 
@@ -66,7 +66,7 @@ public class MyHomeFeedRecyclerViewAdapter extends RecyclerView.Adapter<MyHomeFe
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
+            mIdView = (TextView) view.findViewById(R.id.id_post);
             mContentView = (TextView) view.findViewById(R.id.content);
         }
 
