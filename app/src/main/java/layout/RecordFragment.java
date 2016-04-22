@@ -132,6 +132,7 @@ public class RecordFragment extends Fragment {
 
         setRecordButtonListener();
         setSubmitButtonListener();
+        setPlayButtonListener();
 
         outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
 
