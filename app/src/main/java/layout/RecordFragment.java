@@ -136,8 +136,6 @@ public class RecordFragment extends BaseFragment {
         setSubmitButtonListener();
         setPlayButtonListener();
 
-        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
-
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -148,7 +146,15 @@ public class RecordFragment extends BaseFragment {
     }
 
     public void insertNewRecording() {
+        String fileNumber = "" + recordings.size();
 
+        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording " + fileNumber + ".3gp";
+
+        Post newPost = new Post(user, outputFile);
+        mediaRecorder.setOutputFile(outputFile);
+
+        recordings.add(newPost);
+        postAdapter.notifyDataSetChanged();
     }
 
     public void setPlayButtonListener() {
@@ -185,6 +191,7 @@ public class RecordFragment extends BaseFragment {
                     controlTimer();
 
                     try {
+                        insertNewRecording();
                         mediaRecorder.prepare();
                         mediaRecorder.start();
                     } catch(Exception e) {
