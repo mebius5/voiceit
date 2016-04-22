@@ -1,6 +1,10 @@
 package jhu.voiceit;
 
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
@@ -10,14 +14,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import layout.BaseFragment;
+import layout.ProfileFragment;
 import layout.RecordFragment;
 import layout.SearchFragment;
+import layout.SettingsFragment;
 
-public class MainActivity extends AppCompatActivity implements RecordFragment.OnFragmentInteractionListener,
-        SearchFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity{
 
-    FragmentManager fragmentManager;
-    Fragment fragment;
+    private final String CURRENTFRAGMENT = "currentFragment";
+
+    private SharedPreferences myPrefs;
+    private SharedPreferences.Editor peditor;
+    private BaseFragment baseFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,19 +35,20 @@ public class MainActivity extends AppCompatActivity implements RecordFragment.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        fragment = new RecordFragment();
-        fragmentManager.beginTransaction().replace(R.id.mainActivityRelLayout, fragment).commit();
+        Context context = getApplicationContext();  // app level storage
+        myPrefs= PreferenceManager.getDefaultSharedPreferences(this);
+        peditor = myPrefs.edit();
 
         //Deal with navigation to Search Fragment
         toolbar.setNavigationIcon(R.drawable.ic_search_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment = new SearchFragment();
-                fragmentManager.beginTransaction().replace(R.id.mainActivityRelLayout, fragment).commit();
+                baseFragment = SearchFragment.newInstance();
             }
         });
+
+        initiateFragment();
     }
 
     @Override
@@ -63,10 +73,28 @@ public class MainActivity extends AppCompatActivity implements RecordFragment.On
         return super.onOptionsItemSelected(item);
     }
 
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
+    private void initiateFragment() {
+        if(myPrefs.getString(CURRENTFRAGMENT,"0").equals("0")){
+            baseFragment = RecordFragment.newInstance(null,null);
+        } else if(myPrefs.getString(CURRENTFRAGMENT,"0").equals(ProfileFragment.FRAGMENTNAME)){
+            baseFragment = ProfileFragment.newInstance();
+        } else if(myPrefs.getString(CURRENTFRAGMENT,"0").equals(RecordFragment.FRAGMENTNAME)){
+            baseFragment = RecordFragment.newInstance(null,null);
+        } else if(myPrefs.getString(CURRENTFRAGMENT,"0").equals(SettingsFragment.FRAGMENTNAME)){
+            baseFragment = SettingsFragment.newInstance();
+        } else if(myPrefs.getString(CURRENTFRAGMENT,"0").equals(SearchFragment.FRAGMENTNAME)){
+            baseFragment = SearchFragment.newInstance();
+        }
+        inflateAndCommitBaseFragment();
     }
+
+    private void inflateAndCommitBaseFragment() {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame_main, baseFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+        peditor.putString(CURRENTFRAGMENT, baseFragment.getFragmentName());
+        peditor.commit();
+    }
+
 }
