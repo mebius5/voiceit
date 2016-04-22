@@ -8,4 +8,6 @@
     <color name="submitAreaBg">#D32F2F</color>
     <color name="lightRed">#FFA0A0</color>
     <color name="darkGrey">#454545</color>
+    <color name="white">#FFFFFF</color>
+    <color name="blue">#0000ff</color>
 </resources>

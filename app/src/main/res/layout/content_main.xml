@@ -9,10 +9,35 @@
     tools:showIn="@layout/activity_main"
     android:id="@+id/mainActivityRelLayout">
 
-    <FrameLayout
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/frame_main">
-    </FrameLayout>
+        tools:context=".MainActivity"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:id="@+id/frame_main">
+        </FrameLayout>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/sliding_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/blue"
+            />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.82"
+            android:background="@color/white"/>
+
+    </LinearLayout>
 
 </RelativeLayout>
