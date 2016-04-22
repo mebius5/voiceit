@@ -24,8 +24,6 @@ public class LoginActivity extends AppCompatActivity {
         Typeface label = Typeface.createFromAsset(getAssets(), "fonts/Helvetica.otf");
         loginlabel.setTypeface(label);
         regislabel.setTypeface(label);
-
-        //ImageButton
     }
 
 
