@@ -3,6 +3,7 @@ package jhu.voiceit;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -24,5 +25,9 @@ public class LoginActivity extends AppCompatActivity {
         loginlabel.setTypeface(label);
         regislabel.setTypeface(label);
 
+        //ImageButton
     }
+
+
+
 }
