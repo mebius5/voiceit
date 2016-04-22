@@ -1,6 +1,7 @@
 package layout;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -8,9 +9,11 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -48,13 +51,17 @@ public class RecordFragment extends BaseFragment {
     private CountDownTimer countDownTimer;
 
     private boolean isRecording = false;
-    private boolean choseRecording = false;
+    private boolean isPlaying = false;
+    private boolean isAddingDescription = false;
 
     private MediaRecorder mediaRecorder;
     private String outputFile = null;
+    private MediaPlayer mediaPlayer;
 
     private ArrayList<Post> recordings;
     private PostAdapter postAdapter;
+
+    private Post selected;
 
     private User user;
 
@@ -131,18 +138,40 @@ public class RecordFragment extends BaseFragment {
         recordings = new ArrayList<Post>();
         postAdapter = new PostAdapter(getActivity(), recordings);
         recordList.setAdapter(postAdapter);
+        selected = null;
 
         setRecordButtonListener();
         setSubmitButtonListener();
         setPlayButtonListener();
+        setListListener();
 
-        mediaRecorder = new MediaRecorder();
+        /*mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
-        mediaRecorder.setOutputFile(outputFile);
+        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);*/
 
         return view;
+    }
+
+    public void setListListener() {
+        recordList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                changeBackgroundColors(position);
+                selected = recordings.get(position);
+            }
+        });
+    }
+
+    public void changeBackgroundColors(int position) {
+        for(int i = 0; i < recordList.getChildCount(); i++) {
+            if(position == i) {
+                recordList.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.lightRed));
+                selected = recordings.get(position);
+            } else {
+                recordList.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
+            }
+        }
     }
 
     public void insertNewRecording() {
@@ -150,7 +179,12 @@ public class RecordFragment extends BaseFragment {
 
         outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording " + fileNumber + ".3gp";
 
-        Post newPost = new Post(user, outputFile);
+        Post newPost = new Post(user, outputFile, null);
+
+        mediaRecorder = new MediaRecorder();
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
         mediaRecorder.setOutputFile(outputFile);
 
         recordings.add(newPost);
@@ -161,21 +195,44 @@ public class RecordFragment extends BaseFragment {
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MediaPlayer m = new MediaPlayer();
+                //Checks if the user selected a file from the list and is not recording
+                if(selected != null && !isRecording) {
+                    //Checks if it's already playing to configure PLAY or PAUSE
+                    if(isPlaying) {
+                        //Changes image, stops the sound, reverts the Boolean
+                        playButton.setImageResource(R.drawable.ic_action_play);
+                        mediaPlayer.stop();
+                        isPlaying = false;
+                    } else {
+                        //Instantiate new mediaPlayer
+                        mediaPlayer = new MediaPlayer();
 
-                try {
-                    m.setDataSource(outputFile);
-                } catch(Exception e ){
-                    e.printStackTrace();
+                        try {
+                            mediaPlayer.setDataSource(selected.getFilename());
+                        } catch(Exception e ){
+                            e.printStackTrace();
+                        }
+
+                        try {
+                            mediaPlayer.prepare();
+                        } catch(Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        //Play, change image and reverts the Boolean
+                        mediaPlayer.start();
+                        playButton.setImageResource(R.drawable.ic_action_pause);
+                        isPlaying = true;
+                    }
+
+                    //Gives appropriate feedback to the user
+                } else if(isRecording) {
+                    Toast.makeText(getActivity(), R.string.play_while_recording_feedback, Toast.LENGTH_SHORT).show();
+
+                    //Gives appropriate feedback to the user
+                } else {
+                    Toast.makeText(getActivity(), R.string.play_record_feedback, Toast.LENGTH_SHORT).show();
                 }
-
-                try {
-                    m.prepare();
-                } catch(Exception e) {
-                    e.printStackTrace();
-                }
-
-                m.start();
             }
         });
     }
@@ -211,13 +268,21 @@ public class RecordFragment extends BaseFragment {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!choseRecording) {
-                    //Hide list, show description box, change state
-                    recordList.setVisibility(View.INVISIBLE);
-                    recordDescription.setVisibility(View.VISIBLE);
-                    choseRecording = true;
+                if(selected != null && !isRecording) {
+                    if(!isAddingDescription) {
+                        //Hide list, show description box, change state
+                        recordList.setVisibility(View.INVISIBLE);
+                        recordDescription.setVisibility(View.VISIBLE);
+                        isAddingDescription = true;
+                    } else {
+                        //Store the description in the post, submit to firebase
+                        selected.setDescription(recordDescription.getText().toString());
+                        Toast.makeText(getActivity(), selected.getDescription(), Toast.LENGTH_SHORT).show();
+                    }
+                } else if(isRecording){
+                    Toast.makeText(getActivity(), R.string.play_while_recording_feedback, Toast.LENGTH_SHORT).show();
                 } else {
-                    //Publish the recording TODO
+                    Toast.makeText(getActivity(), R.string.submit_error_feedback, Toast.LENGTH_SHORT).show();
                 }
             }
         });
