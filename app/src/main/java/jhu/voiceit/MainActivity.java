@@ -10,8 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity implements RecordActivity.OnFragmentInteractionListener,
-        SearchActivity.OnFragmentInteractionListener {
+import layout.RecordFragment;
+import layout.SearchFragment;
+
+public class MainActivity extends AppCompatActivity implements RecordFragment.OnFragmentInteractionListener,
+        SearchFragment.OnFragmentInteractionListener {
 
     FragmentManager fragmentManager;
     Fragment fragment;
@@ -24,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements RecordActivity.On
         setSupportActionBar(toolbar);
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
-        fragment = new RecordActivity();
+        fragment = new RecordFragment();
         fragmentManager.beginTransaction().replace(R.id.mainActivityRelLayout, fragment).commit();
 
         //Deal with navigation to Search Fragment
@@ -32,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements RecordActivity.On
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment = new SearchActivity();
+                fragment = new SearchFragment();
                 fragmentManager.beginTransaction().replace(R.id.mainActivityRelLayout, fragment).commit();
             }
         });
