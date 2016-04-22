@@ -6,7 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import jhu.voiceit.layout.ItemFragment.OnListFragmentInteractionListener;
+import jhu.voiceit.R;
+import jhu.voiceit.layout.HomeFeedFragment.OnListFragmentInteractionListener;
 import jhu.voiceit.layout.dummy.DummyContent.DummyItem;
 
 import java.util.List;
@@ -16,12 +17,12 @@ import java.util.List;
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<MyPostRecyclerViewAdapter.ViewHolder> {
+public class MyHomeFeedRecyclerViewAdapter extends RecyclerView.Adapter<MyHomeFeedRecyclerViewAdapter.ViewHolder> {
 
     private final List<DummyItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyPostRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyHomeFeedRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
