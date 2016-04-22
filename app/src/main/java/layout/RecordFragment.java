@@ -1,15 +1,12 @@
 package layout;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -128,8 +125,8 @@ public class RecordFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_record, container, false);
 
-        recordButton = (ImageView) view.findViewById(R.id.imageViewRecordStop);
-        playButton = (ImageView) view.findViewById(R.id.imageViewPlay);
+        recordButton = (ImageView) view.findViewById(R.id.imageViewRecordButton);
+        playButton = (ImageView) view.findViewById(R.id.imageViewPlayButton);
         recordTime = (TextView) view.findViewById(R.id.textViewRecordLength);
         recordDescription = (EditText) view.findViewById(R.id.editTextRecordDescription);
         recordList = (ListView) view.findViewById(R.id.listViewRecording);
