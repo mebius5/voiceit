@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -66,11 +67,16 @@ public class RecordActivity extends Fragment {
 
             @Override
             public void onFinish() {
-                recordTime.setText("00:30");
-                recordButton.setImageResource(R.drawable.recordbutton);
-                isRecording = false;
+                cleanUpOnStop();
             }
         }.start();
+    }
+
+    public void cleanUpOnStop() {
+        recordButton.setImageResource(R.drawable.recordbutton);
+        recordTime.setText("00:30");
+        isRecording = false;
+        Toast.makeText(getActivity(), R.string.add_record_feedback, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -130,8 +136,8 @@ public class RecordActivity extends Fragment {
                     controlTimer();
                 } else {
                     //Change image, change state, store recording on list
-                    recordButton.setImageResource(R.drawable.recordbutton);
-                    isRecording = false;
+                    countDownTimer.cancel();
+                    cleanUpOnStop();
                 }
             }
         });
