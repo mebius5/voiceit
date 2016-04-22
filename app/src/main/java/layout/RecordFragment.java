@@ -17,7 +17,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
+import jhu.voiceit.Post;
 import jhu.voiceit.R;
+import jhu.voiceit.User;
+import jhu.voiceit.layout.PostAdapter;
 
 
 /**
@@ -56,6 +61,11 @@ public class RecordFragment extends Fragment {
 
     private MediaRecorder mediaRecorder;
     private String outputFile = null;
+
+    private ArrayList<Post> recordings;
+    private PostAdapter postAdapter;
+
+    private User user;
 
     public RecordFragment() {
         // Required empty public constructor
@@ -130,6 +140,10 @@ public class RecordFragment extends Fragment {
         recordList = (ListView) view.findViewById(R.id.listViewRecording);
         submitButton = (ImageView) view.findViewById(R.id.imageViewSubmit);
 
+        recordings = new ArrayList<Post>();
+        postAdapter = new PostAdapter(getActivity(), recordings);
+        recordList.setAdapter(postAdapter);
+
         setRecordButtonListener();
         setSubmitButtonListener();
         setPlayButtonListener();
@@ -143,6 +157,10 @@ public class RecordFragment extends Fragment {
         mediaRecorder.setOutputFile(outputFile);
 
         return view;
+    }
+
+    public void insertNewRecording() {
+
     }
 
     public void setPlayButtonListener() {
