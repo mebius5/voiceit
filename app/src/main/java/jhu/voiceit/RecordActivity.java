@@ -3,6 +3,7 @@ package jhu.voiceit;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,12 +43,34 @@ public class RecordActivity extends Fragment {
     private EditText recordDescription;
     private ListView recordList;
     private ImageView submitButton;
+    private CountDownTimer countDownTimer;
 
     private boolean isRecording = false;
     private boolean choseRecording = false;
 
     public RecordActivity() {
         // Required empty public constructor
+    }
+
+    public void controlTimer() {
+        countDownTimer = new CountDownTimer(30000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if(millisUntilFinished > 10000) {
+                    recordTime.setText("00:" + String.valueOf(millisUntilFinished / 1000));
+                } else {
+                    recordTime.setText("00:0" + String.valueOf(millisUntilFinished / 1000));
+                }
+
+            }
+
+            @Override
+            public void onFinish() {
+                recordTime.setText("00:30");
+                recordButton.setImageResource(R.drawable.recordbutton);
+                isRecording = false;
+            }
+        }.start();
     }
 
     /**
@@ -104,6 +127,7 @@ public class RecordActivity extends Fragment {
                     //Change image, change state, start recording
                     recordButton.setImageResource(R.drawable.stopbutton);
                     isRecording = true;
+                    controlTimer();
                 } else {
                     //Change image, change state, store recording on list
                     recordButton.setImageResource(R.drawable.recordbutton);
