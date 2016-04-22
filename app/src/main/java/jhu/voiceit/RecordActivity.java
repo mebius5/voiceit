@@ -7,6 +7,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 
 /**
@@ -28,6 +32,19 @@ public class RecordActivity extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    /*
+    ####################### Instance Variables #####################
+     */
+    private ImageView recordButton;
+    private ImageView playButton;
+    private TextView recordTime;
+    private EditText recordDescription;
+    private ListView recordList;
+    private ImageView submitButton;
+
+    private boolean isRecording = false;
+    private boolean choseRecording = false;
 
     public RecordActivity() {
         // Required empty public constructor
@@ -64,7 +81,52 @@ public class RecordActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_record, container, false);
+        View view =  inflater.inflate(R.layout.fragment_record, container, false);
+
+        recordButton = (ImageView) view.findViewById(R.id.imageViewRecordStop);
+        playButton = (ImageView) view.findViewById(R.id.imageViewPlay);
+        recordTime = (TextView) view.findViewById(R.id.textViewRecordLength);
+        recordDescription = (EditText) view.findViewById(R.id.editTextRecordDescription);
+        recordList = (ListView) view.findViewById(R.id.listViewRecording);
+        submitButton = (ImageView) view.findViewById(R.id.imageViewSubmit);
+
+        setRecordButtonListener();
+        setSubmitButtonListener();
+
+        return view;
+    }
+
+    public void setRecordButtonListener() {
+        recordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isRecording) {
+                    //Change image, change state, start recording
+                    recordButton.setImageResource(R.drawable.stopbutton);
+                    isRecording = true;
+                } else {
+                    //Change image, change state, store recording on list
+                    recordButton.setImageResource(R.drawable.recordbutton);
+                    isRecording = false;
+                }
+            }
+        });
+    }
+
+    public void setSubmitButtonListener() {
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!choseRecording) {
+                    //Hide list, show description box, change state
+                    recordList.setVisibility(View.INVISIBLE);
+                    recordDescription.setVisibility(View.VISIBLE);
+                    choseRecording = true;
+                } else {
+                    //Publish the recording TODO
+                }
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event
