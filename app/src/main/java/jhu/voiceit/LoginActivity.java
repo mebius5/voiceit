@@ -3,6 +3,7 @@ package jhu.voiceit;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -25,9 +26,22 @@ public class LoginActivity extends AppCompatActivity {
         loginlabel.setTypeface(label);
         regislabel.setTypeface(label);
 
-        //ImageButton
+        ImageButton login = (ImageButton) findViewById(R.id.login);
+        ImageButton regis = (ImageButton) findViewById(R.id.register);
     }
 
+    View.OnClickListener loginlistener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
 
+        }
+    };
+
+    View.OnClickListener regislistener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
 
 }
