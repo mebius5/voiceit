@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import jhu.voiceit.R;
 
 
-public class NotificationsFragment extends Fragment {
+public class NotificationsFragment extends BaseFragment {
     public final static String FRAGMENTNAME = "NotificationsFragment";
     private final String fragmentName = FRAGMENTNAME;
 
@@ -17,7 +17,11 @@ public class NotificationsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static NotificationsFragment newInstance(String param1, String param2) {
+    public String getFragmentName(){
+        return this.fragmentName;
+    }
+
+    public static NotificationsFragment newInstance() {
         NotificationsFragment fragment = new NotificationsFragment();
         return fragment;
     }

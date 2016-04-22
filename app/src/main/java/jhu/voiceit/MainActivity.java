@@ -16,7 +16,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import jhu.voiceit.layout.HomeFeedFragment;
 import layout.BaseFragment;
+import layout.NotificationsFragment;
 import layout.ProfileFragment;
 import layout.RecordFragment;
 import layout.SearchFragment;
@@ -25,7 +27,6 @@ import layout.SettingsFragment;
 public class MainActivity extends AppCompatActivity{
 
     private final String CURRENTFRAGMENT = "currentFragment";
-
 
     /*
     ####################### Instance Variables #####################
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 baseFragment = SearchFragment.newInstance();
+                inflateAndCommitBaseFragment();
             }
         });
 
@@ -65,7 +67,18 @@ public class MainActivity extends AppCompatActivity{
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Log.i("MainActivity","Selected Tab Position: "+tab.getPosition());
+                int position = tab.getPosition();
+                Log.i("MainActivity","Selected Tab Position: "+position);
+                if(position == 0) {
+                    baseFragment = HomeFeedFragment.newInstance(1);
+                }else if (position == 1){
+                    baseFragment = RecordFragment.newInstance();
+                }else if (position == 2){
+                    baseFragment = NotificationsFragment.newInstance();
+                }else if (position == 3){
+                    baseFragment = ProfileFragment.newInstance();
+                }
+                inflateAndCommitBaseFragment();
             }
 
             @Override
@@ -84,7 +97,7 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     public void onPause(){
-        Log.i("MainActivity", "onPause");
+        Log.i("MainActivity", "onPause on fragment: "+baseFragment.getFragmentName());
 
         super.onPause();
         peditor.putString(CURRENTFRAGMENT, baseFragment.getFragmentName());
@@ -107,6 +120,8 @@ public class MainActivity extends AppCompatActivity{
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            baseFragment = SettingsFragment.newInstance();
+            inflateAndCommitBaseFragment();
             return true;
         }
 
@@ -114,15 +129,20 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void initiateFragment() {
-        if(myPrefs.getString(CURRENTFRAGMENT,"0").equals("0")){
-            baseFragment = RecordFragment.newInstance(null,null);
-        } else if(myPrefs.getString(CURRENTFRAGMENT,"0").equals(ProfileFragment.FRAGMENTNAME)){
+        String currentFragment = myPrefs.getString(CURRENTFRAGMENT,"0");
+        if(currentFragment.equals("0")){
+            baseFragment = HomeFeedFragment.newInstance(1);
+        }else if(currentFragment.equals(HomeFeedFragment.FRAGMENTNAME)){
+            baseFragment = HomeFeedFragment.newInstance(1);
+        } else if(currentFragment.equals(ProfileFragment.FRAGMENTNAME)){
             baseFragment = ProfileFragment.newInstance();
-        } else if(myPrefs.getString(CURRENTFRAGMENT,"0").equals(RecordFragment.FRAGMENTNAME)){
-            baseFragment = RecordFragment.newInstance(null,null);
-        } else if(myPrefs.getString(CURRENTFRAGMENT,"0").equals(SettingsFragment.FRAGMENTNAME)){
+        } else if(currentFragment.equals(RecordFragment.FRAGMENTNAME)){
+            baseFragment = RecordFragment.newInstance();
+        } else if(currentFragment.equals(NotificationsFragment.FRAGMENTNAME)){
+            baseFragment = NotificationsFragment.newInstance();
+        } else if(currentFragment.equals(SettingsFragment.FRAGMENTNAME)){
             baseFragment = SettingsFragment.newInstance();
-        } else if(myPrefs.getString(CURRENTFRAGMENT,"0").equals(SearchFragment.FRAGMENTNAME)){
+        } else if(currentFragment.equals(SearchFragment.FRAGMENTNAME)){
             baseFragment = SearchFragment.newInstance();
         }
         inflateAndCommitBaseFragment();
