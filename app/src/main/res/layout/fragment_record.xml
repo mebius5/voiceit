@@ -94,6 +94,7 @@
             android:visibility="invisible"
             android:textAlignment="textStart"
             android:maxLength="150"
-            android:hint="@string/description_placeholder" />
+            android:hint="@string/description_placeholder"
+            android:maxLines="1" />
     </RelativeLayout>
 </FrameLayout>

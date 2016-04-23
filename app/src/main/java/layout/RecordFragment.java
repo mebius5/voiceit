@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -294,4 +295,9 @@ public class RecordFragment extends BaseFragment {
         });
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i("Record activity", "on pause");
+    }
 }
