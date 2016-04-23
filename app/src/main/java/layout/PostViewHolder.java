@@ -1,4 +1,4 @@
-package jhu.voiceit.layout;
+package layout;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

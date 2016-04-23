@@ -1,4 +1,4 @@
-package jhu.voiceit.layout;
+package layout;
 
 import android.app.Activity;
 import android.content.Context;

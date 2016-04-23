@@ -18,7 +18,7 @@ import jhu.voiceit.R;
  */
 public class SettingsFragment extends BaseFragment {
 
-    public final static String FRAGMENTNAME = "SearchFragment";
+    public final static String FRAGMENTNAME = "SettingsFragment";
     private final String fragmentName = FRAGMENTNAME;
 
     public SettingsFragment() {

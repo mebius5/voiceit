@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import jhu.voiceit.Post;
 import jhu.voiceit.R;
 import jhu.voiceit.User;
-import jhu.voiceit.layout.RecordingsAdapter;
 
 
 /**

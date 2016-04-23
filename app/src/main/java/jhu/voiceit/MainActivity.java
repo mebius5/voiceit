@@ -2,13 +2,10 @@ package jhu.voiceit;
 
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,7 +15,7 @@ import android.view.View;
 
 import com.firebase.client.Firebase;
 
-import jhu.voiceit.layout.HomeFeedFragment;
+import layout.HomeFeedFragment;
 import layout.BaseFragment;
 import layout.NotificationsFragment;
 import layout.ProfileFragment;
@@ -59,12 +56,14 @@ public class MainActivity extends AppCompatActivity{
         myPrefs= PreferenceManager.getDefaultSharedPreferences(context);
         peditor = myPrefs.edit();
 
-        if(myPrefs.getString("auth_token", "")==""){
+        /***
+        if(myPrefs.getString("auth_token", "").equals("")){
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }  else{
             //TODO: Load user information such as userName from Firebase
         }
+         ***/
 
         //Deal with navigation to Search Fragment
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -145,6 +144,7 @@ public class MainActivity extends AppCompatActivity{
 
     private void initiateFragment() {
         String currentFragment = myPrefs.getString(CURRENTFRAGMENT,"0");
+        Log.i("MainActivity", "Attempting to inflate: "+currentFragment);
         if(currentFragment.equals("0")){
             baseFragment = HomeFeedFragment.newInstance();
         }else if(currentFragment.equals(HomeFeedFragment.FRAGMENTNAME)){
@@ -159,6 +159,8 @@ public class MainActivity extends AppCompatActivity{
             baseFragment = SettingsFragment.newInstance();
         } else if(currentFragment.equals(SearchFragment.FRAGMENTNAME)){
             baseFragment = SearchFragment.newInstance();
+        } else{
+            Log.e("MainActivity", "InvalidFragmentNameFound: "+currentFragment);
         }
         inflateAndCommitBaseFragment();
     }

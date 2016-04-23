@@ -1,4 +1,4 @@
-package jhu.voiceit.layout;
+package layout;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import jhu.voiceit.Post;
 import jhu.voiceit.R;
 import jhu.voiceit.layout.dummy.DummyContent.DummyItem;
-import layout.BaseFragment;
 
 import com.firebase.client.Firebase;
 import com.firebase.ui.FirebaseRecyclerAdapter;
@@ -24,7 +23,7 @@ import com.firebase.ui.FirebaseRecyclerAdapter;
  */
 public class HomeFeedFragment extends BaseFragment {
 
-    public final static String FRAGMENTNAME = "ProfileFragment";
+    public final static String FRAGMENTNAME = "HomeFeedFragment";
     private final String fragmentName = FRAGMENTNAME;
 
     private Firebase mRef;
@@ -57,7 +56,7 @@ public class HomeFeedFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_list, container, false);
 
-        mRef = new Firebase("https://voiceit.firebaseio.com/posts");
+        mRef = new Firebase(getResources().getString(R.string.firebase_url)).child("posts");
 
         Context context = view.getContext();
         RecyclerView recyclerView = (RecyclerView) view;
