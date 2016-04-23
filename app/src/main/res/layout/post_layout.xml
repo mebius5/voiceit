@@ -85,7 +85,7 @@
 
         <ImageView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:id="@+id/imageViewPostPlay"
             android:src="@drawable/ic_action_play"
             android:layout_margin="0dp"
@@ -93,7 +93,7 @@
 
         <ImageView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:id="@+id/imageViewPostLike"
             android:src="@drawable/ic_action_favorite"
             android:layout_margin="0dp"
@@ -113,7 +113,7 @@
 
         <ImageView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:id="@+id/imageViewPostSettings"
             android:src="@drawable/ic_action_overflow"
             android:layout_margin="0dp"
