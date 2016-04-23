@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:padding="15dp"
+            android:padding="10dp"
             android:background="@color/lightRed">
 
             <ImageView
@@ -39,7 +39,7 @@
                     android:text="###"
                     android:id="@+id/post_num"
                     android:layout_gravity="center"
-                    android:textSize="35dp" />
+                    android:textSize="30dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
                     android:text="###"
                     android:id="@+id/follower_num"
                     android:layout_gravity="center"
-                    android:textSize="35dp" />
+                    android:textSize="30dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -90,7 +90,7 @@
                     android:text="###"
                     android:id="@+id/following_num"
                     android:layout_gravity="center"
-                    android:textSize="35dp" />
+                    android:textSize="30dp" />
 
                 <TextView
                     android:layout_width="wrap_content"

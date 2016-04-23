@@ -35,22 +35,26 @@
             <android.support.design.widget.TabItem
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:icon="@drawable/ic_home_black_24dp"/>
+                android:icon="@drawable/ic_home_black_24dp"
+                android:text="Home"/>
 
             <android.support.design.widget.TabItem
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:icon="@drawable/ic_mic_black_24dp" />
+                android:icon="@drawable/ic_mic_black_24dp"
+                android:text="Post"/>
 
             <android.support.design.widget.TabItem
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:icon="@drawable/ic_hearing_black_24dp" />
+                android:icon="@drawable/ic_hearing_black_24dp"
+                android:text="Notifs"/>
 
             <android.support.design.widget.TabItem
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:icon="@drawable/ic_person_pin_black_24dp" />
+                android:icon="@drawable/ic_person_pin_black_24dp"
+                android:text="Self"/>
 
         </android.support.design.widget.TabLayout>
 
