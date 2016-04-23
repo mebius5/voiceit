@@ -17,6 +17,7 @@ import android.view.View;
 import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import layout.HomeFeedFragment;
 import layout.BaseFragment;
@@ -195,24 +196,24 @@ public class MainActivity extends AppCompatActivity{
         peditor.putString(CURRENTFRAGMENT, baseFragment.getFragmentName());
         peditor.commit();
 
-        /***
+
         //Push dummy object to Firebase
-        Firebase dummyRef = new Firebase(getResources().getString(R.string.firebase_url)).child("dummy");
+        Firebase dummyRef = new Firebase(getResources().getString(R.string.firebaseurl)).child("dummy");
         DummyPost dummyPost = new DummyPost();
         dummyPost.addLiker("hello");
         dummyPost.addLiker("world");
         dummyRef.push().setValue(dummyPost);
 
-         ****/
+
     }
 
     public class DummyPost  {
-        ArrayList<String> likerIds= new ArrayList<String>();
+        HashSet<String> likerIds= new HashSet<String>();
 
         public DummyPost(){
         }
 
-        public ArrayList<String> getLikers(){
+        public HashSet<String> getLikers(){
             return this.likerIds;
         }
 
