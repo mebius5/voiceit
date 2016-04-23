@@ -10,4 +10,5 @@
     <color name="darkGrey">#454545</color>
     <color name="white">#FFFFFF</color>
     <color name="blue">#0000ff</color>
+    <color name="lightGrey">#C6BBBB</color>
 </resources>
