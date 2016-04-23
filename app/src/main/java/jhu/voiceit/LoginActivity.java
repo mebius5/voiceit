@@ -153,7 +153,8 @@ public class LoginActivity extends AppCompatActivity {
 
     public void movetoMain() {
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("UID", mAuthData.getUid());
+        SharedPreferences.Editor peditor = myPrefs.edit();
+        peditor.putString("UID", mAuthData.getUid());
         startActivity(intent);
     }
 
