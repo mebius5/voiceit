@@ -57,14 +57,13 @@
         android:paddingTop="15dp"
         android:textSize="18dp" />
 
-    <EditText
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/prevUsername"
-        android:layout_weight="1"
-        android:textAlignment="textStart"
-        android:textSize="16dp"
-        android:hint="your previous username" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="previousUsernameText"
+        android:id="@+id/previousUsername"
+        android:layout_marginTop="10dp" />
 
     <View
         android:layout_width="match_parent"
@@ -93,6 +92,7 @@
         android:layout_weight="1"
         android:textAlignment="textStart"
         android:textSize="16dp"
-        android:hint="your new username" />
+        android:hint="your new username"
+        android:layout_marginTop="10dp" />
 
 </LinearLayout>
