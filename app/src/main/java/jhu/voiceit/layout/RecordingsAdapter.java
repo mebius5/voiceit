@@ -16,11 +16,11 @@ import jhu.voiceit.R;
 /**
  * Created by Leo on 4/22/16.
  */
-public class PostAdapter extends BaseAdapter{
+public class RecordingsAdapter extends BaseAdapter{
     private Activity activity;
     private ArrayList<Post> posts;
 
-    public PostAdapter(Activity activity, ArrayList<Post> posts) {
+    public RecordingsAdapter(Activity activity, ArrayList<Post> posts) {
         this.activity = activity;
         this.posts = posts;
     }

@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import jhu.voiceit.Post;
 import jhu.voiceit.R;
 import jhu.voiceit.User;
-import jhu.voiceit.layout.PostAdapter;
+import jhu.voiceit.layout.RecordingsAdapter;
 
 
 /**
@@ -56,7 +56,7 @@ public class RecordFragment extends BaseFragment {
     private MediaPlayer mediaPlayer;
 
     private ArrayList<Post> recordings;
-    private PostAdapter postAdapter;
+    private RecordingsAdapter recordingsAdapter;
 
     private Post selected;
 
@@ -104,8 +104,6 @@ public class RecordFragment extends BaseFragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment RecordFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -133,8 +131,8 @@ public class RecordFragment extends BaseFragment {
         submitButton = (ImageView) view.findViewById(R.id.imageViewSubmit);
 
         recordings = new ArrayList<Post>();
-        postAdapter = new PostAdapter(getActivity(), recordings);
-        recordList.setAdapter(postAdapter);
+        recordingsAdapter = new RecordingsAdapter(getActivity(), recordings);
+        recordList.setAdapter(recordingsAdapter);
         selected = null;
 
         setRecordButtonListener();
@@ -185,7 +183,7 @@ public class RecordFragment extends BaseFragment {
         mediaRecorder.setOutputFile(outputFile);
 
         recordings.add(newPost);
-        postAdapter.notifyDataSetChanged();
+        recordingsAdapter.notifyDataSetChanged();
     }
 
     public void setPlayButtonListener() {
