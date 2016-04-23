@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,7 +51,7 @@ public class RecordFragment extends BaseFragment {
     private TextView recordTime;
     private EditText recordDescription;
     private ListView recordList;
-    private ImageView submitButton;
+    private RelativeLayout submitButton;
     private CountDownTimer countDownTimer;
 
     private boolean isRecording = false;
@@ -135,7 +136,7 @@ public class RecordFragment extends BaseFragment {
         recordTime = (TextView) view.findViewById(R.id.textViewRecordLength);
         recordDescription = (EditText) view.findViewById(R.id.editTextRecordDescription);
         recordList = (ListView) view.findViewById(R.id.listViewRecording);
-        submitButton = (ImageView) view.findViewById(R.id.imageViewSubmit);
+        submitButton = (RelativeLayout) view.findViewById(R.id.submitBar);
 
         recordings = new ArrayList<Post>();
         recordingsAdapter = new RecordingsAdapter(getActivity(), recordings);
