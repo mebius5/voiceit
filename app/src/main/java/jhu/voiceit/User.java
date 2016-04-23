@@ -5,5 +5,10 @@ package jhu.voiceit;
  */
 public class User {
     public static long USERIDCOUNTER;
+    private String userId;
     private String username;
+    private String profilePicName;
+
+    public String getUsername() { return username;}
+    public String getProfilePicName() { return profilePicName;}
 }

@@ -41,6 +41,16 @@
         android:src="@drawable/kanyeyeezus"
         android:layout_marginBottom="10dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10m"
+        android:id="@+id/textViewTimestamp"
+        android:layout_alignBottom="@+id/imageViewPostPicture"
+        android:layout_alignRight="@+id/textViewPostDescription"
+        android:layout_alignEnd="@+id/textViewPostDescription"
+        android:layout_marginRight="5dp" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
