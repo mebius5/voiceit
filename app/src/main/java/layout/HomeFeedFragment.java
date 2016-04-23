@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import jhu.voiceit.Post;
 import jhu.voiceit.R;
-import jhu.voiceit.layout.dummy.DummyContent.DummyItem;
 
 import com.firebase.client.Firebase;
 import com.firebase.ui.FirebaseRecyclerAdapter;
@@ -60,7 +59,6 @@ public class HomeFeedFragment extends BaseFragment {
 
         Context context = view.getContext();
         RecyclerView recyclerView = (RecyclerView) view;
-        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(
                 new FirebaseRecyclerAdapter<Post, PostViewHolder>(Post.class, R.layout.post_layout, PostViewHolder.class, mRef) {
@@ -70,7 +68,7 @@ public class HomeFeedFragment extends BaseFragment {
                 postViewHolder.description.setText(post.getDescription());
                 postViewHolder.numLikes.setText(""+post.getLikes());
                 //TODO: set postViewHolder.imageView to retrieve image;
-                postViewHolder.timeStamp.setText(post.getElapsedTime());
+                postViewHolder.timeStamp.setText(post.calculateElapsedTime());
             }
         });
         return view;
@@ -90,6 +88,6 @@ public class HomeFeedFragment extends BaseFragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Post post);
     }
 }

@@ -48,7 +48,7 @@ public class Post {
         this.description = description;
     }
 
-    public String getElapsedTime(){
+    public String calculateElapsedTime(){
         Date before = new Date(this.createDate);
         Date now = new Date();
 

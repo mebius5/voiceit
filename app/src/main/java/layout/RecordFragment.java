@@ -94,6 +94,9 @@ public class RecordFragment extends BaseFragment {
     }
 
     public void cleanUpOnStop() {
+
+        //TODO: This is causing an error
+
         mediaRecorder.stop();
         mediaRecorder.release();
 
@@ -109,7 +112,6 @@ public class RecordFragment extends BaseFragment {
      *
      * @return A new instance of fragment RecordFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static RecordFragment newInstance(User user) {
         RecordFragment fragment = new RecordFragment();
         owner = user;
@@ -180,7 +182,7 @@ public class RecordFragment extends BaseFragment {
 
         outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording " + fileNumber + ".3gp";
 
-        Post newPost = new Post(owner, outputFile, null);
+        Post newPost = new Post(owner, outputFile, "abc");
 
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);

@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity{
         }  else{
             //Valid user, so must have username
             String userId = myPrefs.getString("UID","Default");
-            String userName = myPrefs.getString("UserName", "Deafult");
+            String userName = myPrefs.getString("UserName", "Default");
             String profilePic = myPrefs.getString("ProfilePic","Default");
             Log.i("MainActivity","UID: "+userId);
             Log.i("MainActivity","UserName: "+userName);
@@ -158,9 +158,13 @@ public class MainActivity extends AppCompatActivity{
         String currentFragment = myPrefs.getString(CURRENTFRAGMENT,"");
         Log.i("MainActivity", "Attempting to inflate: "+currentFragment);
         if(currentFragment.equals("")){
+            //TODO: reset after fixing homefeed fragment
             baseFragment = HomeFeedFragment.newInstance();
+            //baseFragment = RecordFragment.newInstance(user);
         }else if(currentFragment.equals(HomeFeedFragment.FRAGMENTNAME)){
+            //TODO: reset after fixing homefeed fragment
             baseFragment = HomeFeedFragment.newInstance();
+            //baseFragment = RecordFragment.newInstance(user);
         } else if(currentFragment.equals(ProfileFragment.FRAGMENTNAME)){
             baseFragment = ProfileFragment.newInstance();
         } else if(currentFragment.equals(RecordFragment.FRAGMENTNAME)){
