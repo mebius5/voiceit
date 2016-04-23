@@ -8,6 +8,11 @@ public class User {
     private String username;
     private String profilePicName;
 
+    /***
+     * Default public constructor
+     * Firebase requries an empty public constructor for
+     * object representation
+     */
     public User(){
 
     }

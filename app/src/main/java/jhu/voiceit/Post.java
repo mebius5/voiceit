@@ -13,6 +13,11 @@ public class Post {
     private String createDate;
     private int likes;
 
+    /***
+     * Default public constructor
+     * Firebase requries an empty public constructor for
+     * object representation
+     */
     public Post(){
 
     }

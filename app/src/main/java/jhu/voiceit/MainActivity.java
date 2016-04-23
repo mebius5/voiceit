@@ -2,6 +2,7 @@ package jhu.voiceit;
 
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity{
     ####################### Data Variables #####################
      */
     private final String CURRENTFRAGMENT = "currentFragment";
+    private User user;
 
     /*
     ####################### Storage Variables #####################
@@ -46,24 +48,21 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
 
         Context context = getApplicationContext();  // app level storage
         myPrefs= PreferenceManager.getDefaultSharedPreferences(context);
         peditor = myPrefs.edit();
 
-        /***
         if(myPrefs.getString("auth_token", "").equals("")){
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }  else{
-            //TODO: Load user information such as userName from Firebase
+            //Valid user, so must have username
+            String username = myPrefs.getString("UID","");
+            String profilePic = myPrefs.getString("ProfilePic","");
+            Log.i("MainActivity","UID: "+username);
+            Log.i("MainActivity","ProfilePic: "+profilePic);
         }
-         ***/
 
         //Deal with navigation to Search Fragment
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -137,15 +136,24 @@ public class MainActivity extends AppCompatActivity{
             baseFragment = SettingsFragment.newInstance();
             inflateAndCommitBaseFragment();
             return true;
+        } else if (id == R.id.action_logout){
+            //Delete token;
+            peditor.putString("auth_token","");
+            peditor.putString("UID", "");
+            peditor.putString(CURRENTFRAGMENT, "");
+            peditor.commit();
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     private void initiateFragment() {
-        String currentFragment = myPrefs.getString(CURRENTFRAGMENT,"0");
+        String currentFragment = myPrefs.getString(CURRENTFRAGMENT,"");
         Log.i("MainActivity", "Attempting to inflate: "+currentFragment);
-        if(currentFragment.equals("0")){
+        if(currentFragment.equals("")){
             baseFragment = HomeFeedFragment.newInstance();
         }else if(currentFragment.equals(HomeFeedFragment.FRAGMENTNAME)){
             baseFragment = HomeFeedFragment.newInstance();
