@@ -59,7 +59,7 @@ public class HomeFeedFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_list, container, false);
 
-        mRef = new Firebase(getResources().getString(R.string.firebase_url)).child("posts");
+        mRef = new Firebase(getResources().getString(R.string.firebaseurl)).child("posts");
 
         Context context = view.getContext();
         RecyclerView recyclerView = (RecyclerView) view;

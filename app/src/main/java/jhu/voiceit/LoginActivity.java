@@ -17,8 +17,6 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-import java.util.Map;
-
 public class LoginActivity extends AppCompatActivity {
 
     private ImageButton login;
@@ -39,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        fireBase = new Firebase(getResources().getString(R.string.firebase_url));
+        fireBase = new Firebase(getResources().getString(R.string.firebaseurl));
         fireBase.addAuthStateListener(authlistener);
 
         myPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());

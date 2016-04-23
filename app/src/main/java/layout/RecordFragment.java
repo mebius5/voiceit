@@ -129,7 +129,7 @@ public class RecordFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_record, container, false);
 
-        mRef = new Firebase(getResources().getString(R.string.firebase_url)).child("posts");
+        mRef = new Firebase(getResources().getString(R.string.firebaseurl)).child("posts");
 
         recordButton = (ImageView) view.findViewById(R.id.imageViewRecordButton);
         playButton = (ImageView) view.findViewById(R.id.imageViewPlayButton);

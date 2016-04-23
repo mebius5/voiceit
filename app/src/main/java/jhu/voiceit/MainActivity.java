@@ -17,8 +17,6 @@ import android.view.View;
 import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Map;
 
 import layout.HomeFeedFragment;
 import layout.BaseFragment;
@@ -56,6 +54,9 @@ public class MainActivity extends AppCompatActivity{
         Context context = getApplicationContext();  // app level storage
         myPrefs= PreferenceManager.getDefaultSharedPreferences(context);
         peditor = myPrefs.edit();
+
+        //mRef = new Firebase(getResources().getString(R.string.firebaseurl));
+
 
         if(myPrefs.getString("auth_token", "").equals("")){
             Intent intent = new Intent(this, LoginActivity.class);
@@ -119,7 +120,6 @@ public class MainActivity extends AppCompatActivity{
     @Override
     public void onPause(){
 
-
         super.onPause();
         if(baseFragment==null){
             peditor.putString(CURRENTFRAGMENT, "0");
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void initiateFragment() {
-        String currentFragment = myPrefs.getString(CURRENTFRAGMENT,"");
+        String currentFragment = myPrefs.getString(CURRENTFRAGMENT,"0");
         Log.i("MainActivity", "Attempting to inflate: "+currentFragment);
         if(currentFragment.equals("0")){
             baseFragment = HomeFeedFragment.newInstance(user);
@@ -195,21 +195,24 @@ public class MainActivity extends AppCompatActivity{
         peditor.putString(CURRENTFRAGMENT, baseFragment.getFragmentName());
         peditor.commit();
 
+        /***
         //Push dummy object to Firebase
-        Firebase dummyRef = mRef.child("Dummy");
+        Firebase dummyRef = new Firebase(getResources().getString(R.string.firebase_url)).child("dummy");
         DummyPost dummyPost = new DummyPost();
         dummyPost.addLiker("hello");
         dummyPost.addLiker("world");
         dummyRef.push().setValue(dummyPost);
+
+         ****/
     }
 
     public class DummyPost  {
-        HashSet<String> likerIds;
+        ArrayList<String> likerIds= new ArrayList<String>();
 
         public DummyPost(){
         }
 
-        public HashSet<String> getLikers(){
+        public ArrayList<String> getLikers(){
             return this.likerIds;
         }
 
