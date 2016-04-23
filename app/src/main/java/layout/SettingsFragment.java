@@ -1,6 +1,7 @@
 package layout;
 
 import android.content.Context;
+import android.media.audiofx.BassBoost;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,10 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import jhu.voiceit.R;
 import jhu.voiceit.User;
 import settings_dialogs.ChangeNameDialog;
+import settings_dialogs.ChangePasswordDialog;
+import settings_dialogs.ChangePhotoDialog;
+import settings_dialogs.DeleteAccountDialog;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,6 +60,7 @@ public class SettingsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
@@ -62,12 +69,15 @@ public class SettingsFragment extends BaseFragment {
         Button changePictureButton = (Button) view.findViewById(R.id.changePictureButton);
         Button changePasswordButton = (Button) view.findViewById(R.id.changePasswordButton);
         Button deleteAccountButton = (Button) view.findViewById(R.id.deleteAccountButton);
+        TextView currentName = (TextView) view.findViewById(R.id.changeText);
+
+        currentName.setText(owner.getUsername());
 
         changeNameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //show popup to edit log item
-                ChangeNameDialog popUp = new ChangeNameDialog(getActivity(), SettingsFragment.this);
+                ChangeNameDialog popUp = new ChangeNameDialog(getActivity(), SettingsFragment.this, owner.getUserId(), owner.getUsername());
                 popUp.show();
             }
         });
@@ -75,24 +85,34 @@ public class SettingsFragment extends BaseFragment {
         changePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ChangePhotoDialog popUp = new ChangePhotoDialog(getActivity(), SettingsFragment.this, owner.getUserId());
+                popUp.show();
             }
         });
 
         changePasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ChangePasswordDialog popUp = new ChangePasswordDialog(getActivity(), SettingsFragment.this, owner.getUserId());
+                popUp.show();
             }
         });
+
 
         deleteAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                DeleteAccountDialog popUp = new DeleteAccountDialog(getActivity(), SettingsFragment.this, owner.getUserId());
+                popUp.show();
             }
         });
 
         return view;
+    }
+
+    public void makeToast(CharSequence text) {
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(getActivity(), text, duration);
+        toast.show();
     }
 }
