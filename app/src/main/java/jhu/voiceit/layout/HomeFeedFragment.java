@@ -2,17 +2,19 @@ package jhu.voiceit.layout;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import jhu.voiceit.Post;
 import jhu.voiceit.R;
-import jhu.voiceit.layout.dummy.DummyContent;
 import jhu.voiceit.layout.dummy.DummyContent.DummyItem;
 import layout.BaseFragment;
+
+import com.firebase.client.Firebase;
+import com.firebase.ui.FirebaseRecyclerAdapter;
 
 /**
  * A fragment representing a list of Items.
@@ -25,10 +27,7 @@ public class HomeFeedFragment extends BaseFragment {
     public final static String FRAGMENTNAME = "ProfileFragment";
     private final String fragmentName = FRAGMENTNAME;
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
+    private Firebase mRef;
     private OnListFragmentInteractionListener mListener;
 
     /**
@@ -43,23 +42,14 @@ public class HomeFeedFragment extends BaseFragment {
     }
 
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static HomeFeedFragment newInstance(int columnCount) {
+    public static HomeFeedFragment newInstance( ) {
         HomeFeedFragment fragment = new HomeFeedFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     @Override
@@ -67,37 +57,28 @@ public class HomeFeedFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_list, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+        mRef = new Firebase("https://voiceit.firebaseio.com/posts");
+
+        Context context = view.getContext();
+        RecyclerView recyclerView = (RecyclerView) view;
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(
+                new FirebaseRecyclerAdapter<Post, PostViewHolder>(Post.class, R.layout.post_layout, PostViewHolder.class, mRef) {
+            @Override
+            protected void populateViewHolder(PostViewHolder postViewHolder, Post post, int i) {
+                postViewHolder.username.setText(post.getOwner().getUsername());
+                postViewHolder.description.setText(post.getDescription());
+                postViewHolder.numLikes.setText(""+post.getLikes());
+                //TODO: set postViewHolder.imageView to retrieve image;
+                //TODO: add postViewCalculateElapsedTimeToNow
+                postViewHolder.timeStamp.setText(post.getCreateDate().toString());
             }
-            recyclerView.setAdapter(new MyHomeFeedRecyclerViewAdapter(DummyContent.ITEMS, mListener));
-        }
+        });
         return view;
     }
 
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
     /**
      * This interface must be implemented by activities that contain this

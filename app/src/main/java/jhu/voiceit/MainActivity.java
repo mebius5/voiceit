@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity{
                 int position = tab.getPosition();
                 Log.i("MainActivity","Selected Tab Position: "+position);
                 if(position == 0) {
-                    baseFragment = HomeFeedFragment.newInstance(1);
+                    baseFragment = HomeFeedFragment.newInstance();
                 }else if (position == 1){
                     baseFragment = RecordFragment.newInstance();
                 }else if (position == 2){
@@ -146,9 +146,9 @@ public class MainActivity extends AppCompatActivity{
     private void initiateFragment() {
         String currentFragment = myPrefs.getString(CURRENTFRAGMENT,"0");
         if(currentFragment.equals("0")){
-            baseFragment = HomeFeedFragment.newInstance(1);
+            baseFragment = HomeFeedFragment.newInstance();
         }else if(currentFragment.equals(HomeFeedFragment.FRAGMENTNAME)){
-            baseFragment = HomeFeedFragment.newInstance(1);
+            baseFragment = HomeFeedFragment.newInstance();
         } else if(currentFragment.equals(ProfileFragment.FRAGMENTNAME)){
             baseFragment = ProfileFragment.newInstance();
         } else if(currentFragment.equals(RecordFragment.FRAGMENTNAME)){

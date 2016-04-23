@@ -9,6 +9,14 @@ public class User {
     private String username;
     private String profilePicName;
 
-    public String getUsername() { return username;}
-    public String getProfilePicName() { return profilePicName;}
+    public User(String userId, String username, String profilePicName){
+        this.userId = userId;
+        this.username = username;
+        this.profilePicName = profilePicName;
+    }
+    public String getUserId(){
+        return this.userId;
+    }
+    public String getUsername() { return this.username;}
+    public String getProfilePicName() { return this.profilePicName;}
 }
