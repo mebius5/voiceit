@@ -17,7 +17,9 @@ public class DeleteAccountDialog{
     private AlertDialog.Builder builder;
     private View dialoglayout;
 
-    public DeleteAccountDialog(Activity a, final SettingsFragment myFrag){
+    //TODO: Delete account from user node and user authentication
+
+    public DeleteAccountDialog(Activity a, final SettingsFragment myFrag, final String userId){
         LayoutInflater inflater = a.getLayoutInflater();
         dialoglayout = inflater.inflate(R.layout.delete_account, null);
 

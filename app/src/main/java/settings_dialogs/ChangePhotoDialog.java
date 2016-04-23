@@ -17,7 +17,8 @@ public class ChangePhotoDialog{
     private AlertDialog.Builder builder;
     private View dialoglayout;
 
-    public ChangePhotoDialog(Activity a, final SettingsFragment myFrag){
+
+    public ChangePhotoDialog(Activity a, final SettingsFragment myFrag, final String userId){
         LayoutInflater inflater = a.getLayoutInflater();
         dialoglayout = inflater.inflate(R.layout.change_picture, null);
 

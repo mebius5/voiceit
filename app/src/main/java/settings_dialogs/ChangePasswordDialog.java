@@ -16,7 +16,8 @@ public class ChangePasswordDialog{
     private AlertDialog.Builder builder;
     private View dialoglayout;
 
-    public ChangePasswordDialog(Activity a, final SettingsFragment myFrag){
+    //TODO: Change password on firebase
+    public ChangePasswordDialog(Activity a, final SettingsFragment myFrag, final String userId){
         LayoutInflater inflater = a.getLayoutInflater();
         dialoglayout = inflater.inflate(R.layout.change_password, null);
 
