@@ -1,6 +1,7 @@
 package layout;
 
 import android.content.Context;
+import android.media.audiofx.BassBoost;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,9 @@ import android.widget.Button;
 import jhu.voiceit.R;
 import jhu.voiceit.User;
 import settings_dialogs.ChangeNameDialog;
+import settings_dialogs.ChangePasswordDialog;
+import settings_dialogs.ChangePhotoDialog;
+import settings_dialogs.DeleteAccountDialog;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,21 +79,25 @@ public class SettingsFragment extends BaseFragment {
         changePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ChangePhotoDialog popUp = new ChangePhotoDialog(getActivity(), SettingsFragment.this);
+                popUp.show();
             }
         });
 
         changePasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ChangePasswordDialog popUp = new ChangePasswordDialog(getActivity(), SettingsFragment.this);
+                popUp.show();
             }
         });
+
 
         deleteAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                DeleteAccountDialog popUp = new DeleteAccountDialog(getActivity(), SettingsFragment.this);
+                popUp.show();
             }
         });
 
