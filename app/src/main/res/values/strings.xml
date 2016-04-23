@@ -16,4 +16,6 @@
     <string name="play_while_recording_feedback">Finish your recording first</string>
     <string name="submit_error_feedback">Please pick a file to continue the submission</string>
     <string name="play_record_feedback">Please finish recording before playing</string>
+    <string name="missing_input_register">Please fill both username and email fields</string>
+    <string name="passwords_match_feedback">Please make sure the password is the same on both fields</string>
 </resources>
