@@ -71,8 +71,7 @@ public class HomeFeedFragment extends BaseFragment {
                 postViewHolder.description.setText(post.getDescription());
                 postViewHolder.numLikes.setText(""+post.getLikes());
                 //TODO: set postViewHolder.imageView to retrieve image;
-                //TODO: add postViewCalculateElapsedTimeToNow
-                postViewHolder.timeStamp.setText(post.getCreateDate().toString());
+                postViewHolder.timeStamp.setText(post.getElapsedTime());
             }
         });
         return view;

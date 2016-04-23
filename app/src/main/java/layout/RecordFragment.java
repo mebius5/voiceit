@@ -203,7 +203,7 @@ public class RecordFragment extends BaseFragment {
                         mediaPlayer = new MediaPlayer();
 
                         try {
-                            mediaPlayer.setDataSource(selected.getFilename());
+                            mediaPlayer.setDataSource(selected.getAudioFilename());
                         } catch(Exception e ){
                             e.printStackTrace();
                         }
