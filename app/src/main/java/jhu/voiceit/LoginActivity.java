@@ -7,6 +7,7 @@ import android.media.Image;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -81,6 +82,8 @@ public class LoginActivity extends AppCompatActivity {
                             mAuthData = authData;
                             SharedPreferences.Editor peditor = myPrefs.edit();
                             peditor.putString("auth_token", authData.getToken());
+                            peditor.putString("UID", authData.getUid());
+                            Log.i("LoginActivity","SuccessAuth: UID: "+authData.getUid());
                             peditor.commit();
                             movetoMain();
                         }
@@ -141,6 +144,7 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferences.Editor peditor = myPrefs.edit();
                 peditor.putString("auth_token", authData.getToken());
                 peditor.putString("UID", authData.getUid());
+                Log.i("LoginActivity","SuccessAuth: UID: "+authData.getUid());
                 peditor.commit();
                 movetoMain();
             }
