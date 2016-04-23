@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity{
             //Valid user, so must have username
             String userId = myPrefs.getString("UID","Default");
             String userName = myPrefs.getString("UserName", "Default");
-            String profilePic = myPrefs.getString("ProfilePic","Default");
+            String profilePic = myPrefs.getString("ProfilePic","default.png");
             Log.i("MainActivity","UID: "+userId);
             Log.i("MainActivity","UserName: "+userName);
             Log.i("MainActivity","ProfilePic: "+profilePic);
