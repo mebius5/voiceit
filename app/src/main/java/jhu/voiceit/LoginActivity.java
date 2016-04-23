@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
     View.OnClickListener regislistener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            fireBase.createUser(usrenter.getText().toString(), passenter.getText().toString(),
+            /*fireBase.createUser(usrenter.getText().toString(), passenter.getText().toString(),
                     new Firebase.ValueResultHandler<Map<String, Object>>() {
                 @Override
                 public void onSuccess(Map<String, Object> stringObjectMap) {
@@ -106,6 +106,8 @@ public class LoginActivity extends AppCompatActivity {
                     makeToast(firebaseError.toString());
                 }
             });
+            */
+            moveToRegister();
         }
     };
 
@@ -158,4 +160,8 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void moveToRegister() {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
 }
