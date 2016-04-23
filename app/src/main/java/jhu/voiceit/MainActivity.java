@@ -58,10 +58,14 @@ public class MainActivity extends AppCompatActivity{
             startActivity(intent);
         }  else{
             //Valid user, so must have username
-            String username = myPrefs.getString("UID","");
-            String profilePic = myPrefs.getString("ProfilePic","");
-            Log.i("MainActivity","UID: "+username);
+            String userId = myPrefs.getString("UID","Default");
+            String userName = myPrefs.getString("UserName", "Deafult");
+            String profilePic = myPrefs.getString("ProfilePic","Default");
+            Log.i("MainActivity","UID: "+userId);
+            Log.i("MainActivity","UserName: "+userName);
             Log.i("MainActivity","ProfilePic: "+profilePic);
+
+            this.user = new User(userId, userName, profilePic);
         }
 
         //Deal with navigation to Search Fragment
@@ -85,7 +89,7 @@ public class MainActivity extends AppCompatActivity{
                 if(position == 0) {
                     baseFragment = HomeFeedFragment.newInstance();
                 }else if (position == 1){
-                    baseFragment = RecordFragment.newInstance();
+                    baseFragment = RecordFragment.newInstance(user);
                 }else if (position == 2){
                     baseFragment = NotificationsFragment.newInstance();
                 }else if (position == 3){
@@ -160,7 +164,7 @@ public class MainActivity extends AppCompatActivity{
         } else if(currentFragment.equals(ProfileFragment.FRAGMENTNAME)){
             baseFragment = ProfileFragment.newInstance();
         } else if(currentFragment.equals(RecordFragment.FRAGMENTNAME)){
-            baseFragment = RecordFragment.newInstance();
+            baseFragment = RecordFragment.newInstance(user);
         } else if(currentFragment.equals(NotificationsFragment.FRAGMENTNAME)){
             baseFragment = NotificationsFragment.newInstance();
         } else if(currentFragment.equals(SettingsFragment.FRAGMENTNAME)){

@@ -17,6 +17,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+
 import java.util.ArrayList;
 
 import jhu.voiceit.Post;
@@ -34,6 +36,8 @@ import jhu.voiceit.User;
 public class RecordFragment extends BaseFragment {
     public final static String FRAGMENTNAME = "RecordFragment";
     private final String fragmentName = FRAGMENTNAME;
+
+    private Firebase mRef;
 
     /*
     ####################### Instance Variables #####################
@@ -59,7 +63,7 @@ public class RecordFragment extends BaseFragment {
 
     private Post selected;
 
-    private User user;
+    private static User owner;
 
     public RecordFragment() {
         // Required empty public constructor
@@ -106,8 +110,9 @@ public class RecordFragment extends BaseFragment {
      * @return A new instance of fragment RecordFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static RecordFragment newInstance() {
+    public static RecordFragment newInstance(User user) {
         RecordFragment fragment = new RecordFragment();
+        owner = user;
         return fragment;
     }
 
@@ -121,6 +126,8 @@ public class RecordFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_record, container, false);
+
+        mRef = new Firebase(getResources().getString(R.string.firebase_url)).child("posts");
 
         recordButton = (ImageView) view.findViewById(R.id.imageViewRecordButton);
         playButton = (ImageView) view.findViewById(R.id.imageViewPlayButton);
@@ -173,7 +180,7 @@ public class RecordFragment extends BaseFragment {
 
         outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording " + fileNumber + ".3gp";
 
-        Post newPost = new Post(user, outputFile, null);
+        Post newPost = new Post(owner, outputFile, null);
 
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -272,6 +279,9 @@ public class RecordFragment extends BaseFragment {
                         //Store the description in the post, submit to firebase
                         selected.setDescription(recordDescription.getText().toString());
                         Toast.makeText(getActivity(), selected.getDescription(), Toast.LENGTH_SHORT).show();
+
+                        //Push onto firebase
+                        mRef.push().setValue(selected);
                     }
                 } else if(isRecording){
                     Toast.makeText(getActivity(), R.string.play_while_recording_feedback, Toast.LENGTH_SHORT).show();
