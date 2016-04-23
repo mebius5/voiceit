@@ -16,6 +16,10 @@ import android.view.View;
 
 import com.firebase.client.Firebase;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map;
+
 import layout.HomeFeedFragment;
 import layout.BaseFragment;
 import layout.NotificationsFragment;
@@ -190,6 +194,28 @@ public class MainActivity extends AppCompatActivity{
         fragmentTransaction.commit();
         peditor.putString(CURRENTFRAGMENT, baseFragment.getFragmentName());
         peditor.commit();
+
+        //Push dummy object to Firebase
+        Firebase dummyRef = mRef.child("Dummy");
+        DummyPost dummyPost = new DummyPost();
+        dummyPost.addLiker("hello");
+        dummyPost.addLiker("world");
+        dummyRef.push().setValue(dummyPost);
+    }
+
+    public class DummyPost  {
+        HashSet<String> likerIds;
+
+        public DummyPost(){
+        }
+
+        public HashSet<String> getLikers(){
+            return this.likerIds;
+        }
+
+        public void addLiker(String likerUserId){
+            this.likerIds.add(likerUserId);
+        }
     }
 
 }

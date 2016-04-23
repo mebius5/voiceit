@@ -76,10 +76,10 @@ public class HomeFeedFragment extends BaseFragment {
                 //TODO: set postViewHolder.imageView to retrieve image;
                 postViewHolder.timeStamp.setText(post.calculateElapsedTime());
 
-                postViewHolder.numLikes.setOnClickListener(new View.OnClickListener() {
+                postViewHolder.btnLikes.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        post1.incrementLikes();
+                        post1.incrementLikes(); //Increment likes
                         postRef.setValue(post1);
                     }
                 });
