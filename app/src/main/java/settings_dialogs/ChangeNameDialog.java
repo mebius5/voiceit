@@ -3,6 +3,8 @@ package settings_dialogs;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -14,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jhu.voiceit.R;
+import jhu.voiceit.User;
 import layout.SettingsFragment;
 
 /**
@@ -25,11 +28,11 @@ public class ChangeNameDialog {
 
     private Firebase mRef;
 
-    public ChangeNameDialog (Activity a, final SettingsFragment myFrag, final String userId, final String username){
+    public ChangeNameDialog (Activity a, final SettingsFragment myFrag, final User user){
         LayoutInflater inflater = a.getLayoutInflater();
         dialoglayout = inflater.inflate(R.layout.change_name, null);
 
-        mRef=new Firebase("https://voiceit.firebaseio.com/users/"+userId);
+        mRef=new Firebase("https://voiceit.firebaseio.com/users/"+user.getUserId());
 
         //setup dialogue box
         builder = new AlertDialog.Builder(a);
@@ -38,7 +41,7 @@ public class ChangeNameDialog {
         final TextView prevUsername = (TextView) dialoglayout.findViewById(R.id.previousUsername);
         final EditText newUsername  = (EditText) dialoglayout.findViewById(R.id.newUsername);
 
-        prevUsername.setText(username);
+        prevUsername.setText(user.getUsername());
 
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -53,11 +56,24 @@ public class ChangeNameDialog {
                     myFrag.makeToast("You must input a new username! Username unchanged.");
                 } else {
                     System.out.println("Name Changed");
+
+                    //Change name of user object
+                    user.setUsername(newName);
+
+                    //Push changes to firebase
                     Map<String, Object> changes = new HashMap<String, Object>();
                     changes.put("username", newName);
                     mRef.updateChildren(changes);
 
+
+                    //Push changes to SharedPreferences
+                    SharedPreferences myPrefs= PreferenceManager.getDefaultSharedPreferences(myFrag.getActivity());
+                    SharedPreferences.Editor peditor = myPrefs.edit();
+                    peditor.putString("UserName", newName);
+                    prevUsername.setText(newName);
                     myFrag.makeToast("Your username was successfully changed.");
+                    myFrag.update();
+
                 }
             }
         });
