@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import jhu.voiceit.R;
+import jhu.voiceit.User;
 
 
 /**
@@ -21,6 +22,8 @@ public class SearchFragment extends BaseFragment {
 
     public final static String FRAGMENTNAME = "SearchFragment";
     private final String fragmentName = FRAGMENTNAME;
+
+    private static User owner;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -35,8 +38,9 @@ public class SearchFragment extends BaseFragment {
      * this fragment using the provided parameters.
      * @return A new instance of fragment ProfileFragment.
      */
-    public static SearchFragment newInstance() {
+    public static SearchFragment newInstance(User user) {
         SearchFragment fragment = new SearchFragment();
+        owner = user;
         return fragment;
     }
 

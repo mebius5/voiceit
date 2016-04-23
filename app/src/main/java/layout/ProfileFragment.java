@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import jhu.voiceit.R;
+import jhu.voiceit.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +24,8 @@ public class ProfileFragment extends BaseFragment {
 
     public final static String FRAGMENTNAME = "ProfileFragment";
     private final String fragmentName = FRAGMENTNAME;
+
+    private static User owner;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -37,8 +40,9 @@ public class ProfileFragment extends BaseFragment {
      * this fragment using the provided parameters.
      * @return A new instance of fragment ProfileFragment.
      */
-    public static ProfileFragment newInstance() {
+    public static ProfileFragment newInstance(User user) {
         ProfileFragment fragment = new ProfileFragment();
+        owner = user;
         return fragment;
     }
 

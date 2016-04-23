@@ -39,6 +39,8 @@ public class RecordFragment extends BaseFragment {
     private final String fragmentName = FRAGMENTNAME;
 
     private Firebase mRef;
+    private static User owner;
+
 
     /*
     ####################### Instance Variables #####################
@@ -63,8 +65,6 @@ public class RecordFragment extends BaseFragment {
     private RecordingsAdapter recordingsAdapter;
 
     private Post selected;
-
-    private static User owner;
 
     public RecordFragment() {
         // Required empty public constructor

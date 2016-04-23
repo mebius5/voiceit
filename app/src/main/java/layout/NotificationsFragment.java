@@ -7,11 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import jhu.voiceit.R;
+import jhu.voiceit.User;
 
 
 public class NotificationsFragment extends BaseFragment {
     public final static String FRAGMENTNAME = "NotificationsFragment";
     private final String fragmentName = FRAGMENTNAME;
+
+    private static User owner;
 
     public NotificationsFragment() {
         // Required empty public constructor
@@ -21,8 +24,9 @@ public class NotificationsFragment extends BaseFragment {
         return this.fragmentName;
     }
 
-    public static NotificationsFragment newInstance() {
+    public static NotificationsFragment newInstance(User user) {
         NotificationsFragment fragment = new NotificationsFragment();
+        owner = user;
         return fragment;
     }
 

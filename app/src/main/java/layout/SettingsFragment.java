@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import jhu.voiceit.R;
+import jhu.voiceit.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +21,8 @@ public class SettingsFragment extends BaseFragment {
 
     public final static String FRAGMENTNAME = "SettingsFragment";
     private final String fragmentName = FRAGMENTNAME;
+
+    private static User owner;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -34,8 +37,9 @@ public class SettingsFragment extends BaseFragment {
      * this fragment using the provided parameters.
      * @return A new instance of fragment ProfileFragment.
      */
-    public static SettingsFragment newInstance() {
+    public static SettingsFragment newInstance(User user) {
         SettingsFragment fragment = new SettingsFragment();
+        owner = user;
         return fragment;
     }
 

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import jhu.voiceit.Post;
 import jhu.voiceit.R;
+import jhu.voiceit.User;
 
 import com.firebase.client.Firebase;
 import com.firebase.ui.FirebaseRecyclerAdapter;
@@ -28,6 +29,8 @@ public class HomeFeedFragment extends BaseFragment {
     private Firebase mRef;
     private OnListFragmentInteractionListener mListener;
 
+    private static User owner;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -40,8 +43,9 @@ public class HomeFeedFragment extends BaseFragment {
     }
 
 
-    public static HomeFeedFragment newInstance( ) {
+    public static HomeFeedFragment newInstance(User user) {
         HomeFeedFragment fragment = new HomeFeedFragment();
+        owner = user;
         return fragment;
     }
 

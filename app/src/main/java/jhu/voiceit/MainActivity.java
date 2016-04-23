@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity{
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                baseFragment = SearchFragment.newInstance();
+                baseFragment = SearchFragment.newInstance(user);
                 inflateAndCommitBaseFragment();
             }
         });
@@ -87,13 +87,13 @@ public class MainActivity extends AppCompatActivity{
                 int position = tab.getPosition();
                 Log.i("MainActivity","Selected Tab Position: "+position);
                 if(position == 0) {
-                    baseFragment = HomeFeedFragment.newInstance();
+                    baseFragment = HomeFeedFragment.newInstance(user);
                 }else if (position == 1){
                     baseFragment = RecordFragment.newInstance(user);
                 }else if (position == 2){
-                    baseFragment = NotificationsFragment.newInstance();
+                    baseFragment = NotificationsFragment.newInstance(user);
                 }else if (position == 3){
-                    baseFragment = ProfileFragment.newInstance();
+                    baseFragment = ProfileFragment.newInstance(user);
                 }
                 inflateAndCommitBaseFragment();
             }
@@ -114,10 +114,15 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     public void onPause(){
-        Log.i("MainActivity", "onPause on fragment: "+baseFragment.getFragmentName());
+
 
         super.onPause();
-        peditor.putString(CURRENTFRAGMENT, baseFragment.getFragmentName());
+        if(baseFragment==null){
+            peditor.putString(CURRENTFRAGMENT, "0");
+        }else {
+            Log.i("MainActivity", "onPause on fragment: "+baseFragment.getFragmentName());
+            peditor.putString(CURRENTFRAGMENT, baseFragment.getFragmentName());
+        }
         peditor.commit();
     }
 
@@ -137,14 +142,15 @@ public class MainActivity extends AppCompatActivity{
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            baseFragment = SettingsFragment.newInstance();
+            baseFragment = SettingsFragment.newInstance(user);
             inflateAndCommitBaseFragment();
             return true;
         } else if (id == R.id.action_logout){
             //Delete token;
+            baseFragment=null;
             peditor.putString("auth_token","");
             peditor.putString("UID", "");
-            peditor.putString(CURRENTFRAGMENT, "");
+            peditor.putString(CURRENTFRAGMENT, "0");
             peditor.commit();
 
             Intent intent = new Intent(this, LoginActivity.class);
@@ -157,20 +163,20 @@ public class MainActivity extends AppCompatActivity{
     private void initiateFragment() {
         String currentFragment = myPrefs.getString(CURRENTFRAGMENT,"");
         Log.i("MainActivity", "Attempting to inflate: "+currentFragment);
-        if(currentFragment.equals("")){
-            baseFragment = HomeFeedFragment.newInstance();
+        if(currentFragment.equals("0")){
+            baseFragment = HomeFeedFragment.newInstance(user);
         }else if(currentFragment.equals(HomeFeedFragment.FRAGMENTNAME)){
-            baseFragment = HomeFeedFragment.newInstance();
+            baseFragment = HomeFeedFragment.newInstance(user);
         } else if(currentFragment.equals(ProfileFragment.FRAGMENTNAME)){
-            baseFragment = ProfileFragment.newInstance();
+            baseFragment = ProfileFragment.newInstance(user);
         } else if(currentFragment.equals(RecordFragment.FRAGMENTNAME)){
             baseFragment = RecordFragment.newInstance(user);
         } else if(currentFragment.equals(NotificationsFragment.FRAGMENTNAME)){
-            baseFragment = NotificationsFragment.newInstance();
+            baseFragment = NotificationsFragment.newInstance(user);
         } else if(currentFragment.equals(SettingsFragment.FRAGMENTNAME)){
-            baseFragment = SettingsFragment.newInstance();
+            baseFragment = SettingsFragment.newInstance(user);
         } else if(currentFragment.equals(SearchFragment.FRAGMENTNAME)){
-            baseFragment = SearchFragment.newInstance();
+            baseFragment = SearchFragment.newInstance(user);
         } else{
             Log.e("MainActivity", "InvalidFragmentNameFound: "+currentFragment);
         }
