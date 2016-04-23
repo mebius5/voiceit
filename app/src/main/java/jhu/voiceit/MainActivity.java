@@ -16,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.firebase.client.Firebase;
+
 import jhu.voiceit.layout.HomeFeedFragment;
 import layout.BaseFragment;
 import layout.NotificationsFragment;
@@ -26,30 +28,43 @@ import layout.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity{
 
+    /*
+    ####################### Data Variables #####################
+     */
     private final String CURRENTFRAGMENT = "currentFragment";
 
     /*
-    ####################### Instance Variables #####################
+    ####################### Storage Variables #####################
      */
     private SharedPreferences myPrefs;
     private SharedPreferences.Editor peditor;
+    private Firebase mRef;
+
+    /*
+    ####################### View Elements #####################
+     */
     private BaseFragment baseFragment;
-    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
 
-        /***
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-         ****/
-
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         Context context = getApplicationContext();  // app level storage
         myPrefs= PreferenceManager.getDefaultSharedPreferences(context);
         peditor = myPrefs.edit();
+
+        if(myPrefs.getString("auth_token", "")==""){
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }  else{
+            //TODO: Load user information such as userName from Firebase
+        }
 
         //Deal with navigation to Search Fragment
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
