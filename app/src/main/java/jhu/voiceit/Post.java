@@ -2,6 +2,7 @@ package jhu.voiceit;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 
 /**
  * Created by GradyXiao on 4/22/16.
@@ -12,6 +13,8 @@ public class Post {
     private String description;
     private String createDate;
     private int likes;
+
+    HashSet<String> likerIds= new HashSet<String>();
 
     /***
      * Default public constructor
@@ -73,6 +76,14 @@ public class Post {
 
     public void incrementLikes(){
         this.likes++;
+    }
+
+    public HashSet<String> getLikers(){
+        return this.likerIds;
+    }
+
+    public void addLiker(String likerUserId){
+        this.likerIds.add(likerUserId);
     }
 
 }
