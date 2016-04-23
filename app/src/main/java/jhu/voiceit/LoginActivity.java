@@ -140,6 +140,7 @@ public class LoginActivity extends AppCompatActivity {
                 mAuthData = authData;
                 SharedPreferences.Editor peditor = myPrefs.edit();
                 peditor.putString("auth_token", authData.getToken());
+                peditor.putString("UID", authData.getUid());
                 peditor.commit();
                 movetoMain();
             }
@@ -153,8 +154,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public void movetoMain() {
         Intent intent = new Intent(this, MainActivity.class);
-        SharedPreferences.Editor peditor = myPrefs.edit();
-        peditor.putString("UID", mAuthData.getUid());
         startActivity(intent);
     }
 
