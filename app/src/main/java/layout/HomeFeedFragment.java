@@ -67,12 +67,22 @@ public class HomeFeedFragment extends BaseFragment {
         recyclerView.setAdapter(
                 new FirebaseRecyclerAdapter<Post, PostViewHolder>(Post.class, R.layout.post_layout, PostViewHolder.class, mRef) {
             @Override
-            protected void populateViewHolder(PostViewHolder postViewHolder, Post post, int i) {
+            protected void populateViewHolder(final PostViewHolder postViewHolder, Post post, int i) {
+                final Post post1 = post;
+                final Firebase postRef = getRef(i);
                 postViewHolder.username.setText(post.getOwner().getUsername());
                 postViewHolder.description.setText(post.getDescription());
                 postViewHolder.numLikes.setText(""+post.getLikes());
                 //TODO: set postViewHolder.imageView to retrieve image;
                 postViewHolder.timeStamp.setText(post.calculateElapsedTime());
+
+                postViewHolder.numLikes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        post1.incrementLikes();
+                        postRef.setValue(post1);
+                    }
+                });
             }
         });
         return view;

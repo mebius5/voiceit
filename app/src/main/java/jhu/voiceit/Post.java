@@ -71,4 +71,8 @@ public class Post {
         }
     }
 
+    public void incrementLikes(){
+        this.likes++;
+    }
+
 }
