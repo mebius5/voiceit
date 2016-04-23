@@ -95,8 +95,6 @@ public class RecordFragment extends BaseFragment {
 
     public void cleanUpOnStop() {
 
-        //TODO: This is causing an error
-
         mediaRecorder.stop();
         mediaRecorder.release();
 
@@ -284,6 +282,8 @@ public class RecordFragment extends BaseFragment {
 
                         //Push onto firebase
                         mRef.push().setValue(selected);
+
+                        //TODO: either redirect to homefeed or make record list visible again
                     }
                 } else if(isRecording){
                     Toast.makeText(getActivity(), R.string.play_while_recording_feedback, Toast.LENGTH_SHORT).show();
