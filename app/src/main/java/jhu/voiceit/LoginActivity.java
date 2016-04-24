@@ -85,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                             SharedPreferences.Editor peditor = myPrefs.edit();
                             peditor.putString("auth_token", authData.getToken());
                             peditor.putString("UID", authData.getUid());
+                            peditor.putString("Email",usrenter.getText().toString());
                             Log.i("LoginActivity","SuccessAuth: UID: "+authData.getUid());
                             peditor.commit();
                             movetoMain();
@@ -163,6 +164,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
 
                 SharedPreferences.Editor peditor = myPrefs.edit();
+                peditor.putString("Email",usrenter.getText().toString());
                 peditor.putString("UserName", username);
                 peditor.putString("auth_token", authData.getToken());
                 peditor.putString("UID", userId);

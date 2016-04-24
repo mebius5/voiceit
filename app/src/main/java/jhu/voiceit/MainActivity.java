@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity{
      */
     private final String CURRENTFRAGMENT = "currentFragment";
     private User user;
+    private String email;
 
     /*
     ####################### Storage Variables #####################
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity{
         mRef = new Firebase(getResources().getString(R.string.firebaseurl));
 
 
+
         if(myPrefs.getString("auth_token", "").equals("")){
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
@@ -76,9 +78,11 @@ public class MainActivity extends AppCompatActivity{
             String userId = myPrefs.getString("UID","Default");
             String userName = myPrefs.getString("UserName", "Default");
             String profilePic = myPrefs.getString("ProfilePic","default.png");
+            email = myPrefs.getString("Email","Default");
             Log.i("MainActivity","UID: "+userId);
             Log.i("MainActivity","UserName: "+userName);
             Log.i("MainActivity","ProfilePic: "+profilePic);
+            Log.i("MainActivity","Email: "+email);
 
             this.user = new User(userId, userName, profilePic);
         }
@@ -163,6 +167,9 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
         });
+
+        int tabPosition = myPrefs.getInt("TabPosition", 0);
+        tabLayout.getTabAt(tabPosition).select();
 
         initiateFragment();
     }
@@ -250,9 +257,6 @@ public class MainActivity extends AppCompatActivity{
         fragmentTransaction.commit();
         peditor.putString(CURRENTFRAGMENT, baseFragment.getFragmentName());
         peditor.commit();
-
-        int tabPosition = myPrefs.getInt("TabPosition", 0);
-        tabLayout.getTabAt(tabPosition).select();
     }
 
     private void makeToast(String e) {
