@@ -56,7 +56,7 @@
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:id="@+id/imageView3"
+                    android:id="@+id/profilePicture"
                     android:src="@drawable/black_box"
                     android:layout_gravity="center"/>
 
