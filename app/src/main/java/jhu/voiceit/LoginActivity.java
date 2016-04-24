@@ -146,13 +146,29 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthenticated(AuthData authData) {
                 mAuthData = authData;
                 final String userId = authData.getUid();
+
+
+                Firebase fb = fireBase.child("users").child(userId);
+
+                fb.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        username = (String) dataSnapshot.child("username").getValue();
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                });
+
                 SharedPreferences.Editor peditor = myPrefs.edit();
+                peditor.putString("UserName", username);
                 peditor.putString("auth_token", authData.getToken());
                 peditor.putString("UID", userId);
                 peditor.commit();
                 Log.i("LoginActivity","SuccessAuth: UID: "+authData.getUid());
                 peditor.commit();
-                Log.i("username stored:", myPrefs.getString("UserName", "it failed"));
                 movetoMain();
             }
 
