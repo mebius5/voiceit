@@ -123,7 +123,8 @@ public class ProfileFragment extends BaseFragment {
                                     public void onCancelled(FirebaseError firebaseError) {
 
                                     }
-                                });                            }
+                                });
+                            }
                         });
                     }
                 });

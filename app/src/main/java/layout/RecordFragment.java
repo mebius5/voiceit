@@ -299,7 +299,7 @@ public class RecordFragment extends BaseFragment {
                         //Push onto firebase
                         Firebase post = mRef.push();
                         post.setValue(selected);
-                        post.setPriority(0- Calendar.getInstance().getTimeInMillis());
+                        post.setPriority(0 - Calendar.getInstance().getTimeInMillis());
 
                         baseFragment = HomeFeedFragment.newInstance(owner);
                         inflateAndCommitBaseFragment();
