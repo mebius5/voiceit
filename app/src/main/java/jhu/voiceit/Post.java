@@ -14,7 +14,7 @@ public class Post {
     private String createDate;
     private int likes;
 
-    HashSet<String> likerIds= new HashSet<String>();
+    private HashSet<String> likerIds= new HashSet<String>();
 
     /***
      * Default public constructor
@@ -74,16 +74,26 @@ public class Post {
         }
     }
 
-    public void incrementLikes(){
-        this.likes++;
-    }
-
-    public HashSet<String> getLikers(){
+    public HashSet<String> getLikerIds(){
         return this.likerIds;
     }
 
     public void addLiker(String likerUserId){
         this.likerIds.add(likerUserId);
+        this.likes++;
+    }
+
+    public void removeLiker(String likerUserId) {
+        this.likerIds.remove(likerUserId);
+        this.likes--;
+    }
+
+    public void likePost(String likerUserId){
+        if(this.likerIds.contains(likerUserId)){
+            removeLiker(likerUserId);
+        } else{
+            addLiker(likerUserId);
+        }
     }
 
 }

@@ -15,6 +15,9 @@ import jhu.voiceit.User;
 import com.firebase.client.Firebase;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A fragment representing a list of Items.
  * <p/>
@@ -79,7 +82,7 @@ public class HomeFeedFragment extends BaseFragment {
                 postViewHolder.btnLikes.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        post1.incrementLikes(); //Increment likes
+                        post1.likePost(owner.getUserId());
                         postRef.setValue(post1);
                     }
                 });
