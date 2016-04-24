@@ -80,7 +80,8 @@ public class HomeFeedFragment extends BaseFragment {
                 final Firebase postRef = getRef(i);
                 postViewHolder.username.setText(post.getOwner().getUsername());
                 postViewHolder.description.setText(post.getDescription());
-                postViewHolder.numLikes.setText(""+post.getLikes());
+                postViewHolder.numLikes.setText("" + post.getLikes());
+
                 //TODO: set postViewHolder.imageView to retrieve image;
                 postViewHolder.timeStamp.setText(post.calculateElapsedTime());
 
@@ -120,8 +121,21 @@ public class HomeFeedFragment extends BaseFragment {
                             public void onCancelled(FirebaseError firebaseError) {
 
                             }
-                        });                    }
+                        });
+                    }
                 });
+
+                if (!owner.getUserId().equals(post1.getOwner().getUserId())) {
+                    postViewHolder.postsetting.setVisibility(View.GONE);
+                } else {
+                    postViewHolder.postsetting.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            PostSettingDialogue popup = new PostSettingDialogue(getActivity(), HomeFeedFragment.this, owner, postRef);
+                            popup.show();
+                        }
+                    });
+                }
             }
         });
         return view;
