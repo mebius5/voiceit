@@ -30,6 +30,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import jhu.voiceit.MainActivity;
 import jhu.voiceit.Post;
 import jhu.voiceit.R;
 import jhu.voiceit.User;
@@ -310,6 +311,8 @@ public class RecordFragment extends BaseFragment {
                         owner.setNumPosts(owner.getNumPosts() + 1);
                         change.put("numPosts", owner.getNumPosts());
                         user.updateChildren(change);
+
+                        MainActivity.setTabLayout(0);
 
                         baseFragment = HomeFeedFragment.newInstance(owner);
                         inflateAndCommitBaseFragment();

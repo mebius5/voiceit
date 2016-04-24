@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity{
     ####################### View Elements #####################
      */
     private BaseFragment baseFragment;
-    private TabLayout tabLayout;
+    private static TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -273,4 +273,7 @@ public class MainActivity extends AppCompatActivity{
         Toast.makeText(this, e, Toast.LENGTH_SHORT).show();
     }
 
+    public static void setTabLayout(int n) {
+        tabLayout.getTabAt(n).select();
+    }
 }
