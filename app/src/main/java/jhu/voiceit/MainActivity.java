@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity{
     ####################### View Elements #####################
      */
     private BaseFragment baseFragment;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -124,6 +125,11 @@ public class MainActivity extends AppCompatActivity{
                 }else if (position == 3){
                     baseFragment = ProfileFragment.newInstance(user);
                 }
+
+                //Save Tab Position
+                peditor.putInt("TabPosition", position);
+                peditor.commit();
+
                 inflateAndCommitBaseFragment();
             }
 
@@ -137,7 +143,7 @@ public class MainActivity extends AppCompatActivity{
                 Log.i("MainActivity","Reselected Tab Position: "+tab.getPosition());
                 if(baseFragment!=null &&
                         (baseFragment.getFragmentName().equals("SettingsFragment")||
-                        baseFragment.getFragmentName().equals("SearchFragment"))){
+                        baseFragment.getFragmentName().equals("SearchFragment"))) {
                     int position = tab.getPosition();
                     Log.i("MainActivity","Reselected Tab Position: "+position);
                     if(position == 0) {
@@ -149,6 +155,10 @@ public class MainActivity extends AppCompatActivity{
                     }else if (position == 3){
                         baseFragment = ProfileFragment.newInstance(user);
                     }
+                    //Save Tab Position
+                    peditor.putInt("TabPosition", position);
+                    peditor.commit();
+
                     inflateAndCommitBaseFragment();
                 }
             }
@@ -167,6 +177,7 @@ public class MainActivity extends AppCompatActivity{
             Log.i("MainActivity", "onPause on fragment: "+baseFragment.getFragmentName());
             peditor.putString(CURRENTFRAGMENT, baseFragment.getFragmentName());
         }
+        peditor.putInt("TabPosition",tabLayout.getSelectedTabPosition());
         peditor.commit();
     }
 
@@ -239,6 +250,9 @@ public class MainActivity extends AppCompatActivity{
         fragmentTransaction.commit();
         peditor.putString(CURRENTFRAGMENT, baseFragment.getFragmentName());
         peditor.commit();
+
+        int tabPosition = myPrefs.getInt("TabPosition", 0);
+        tabLayout.getTabAt(tabPosition).select();
     }
 
     private void makeToast(String e) {
