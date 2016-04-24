@@ -58,7 +58,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/listViewRecording"
-            android:layout_below="@+id/relativeLayout" />
+            android:layout_below="@+id/relativeLayout"
+            android:visibility="visible" />
 
         <RelativeLayout
             android:orientation="horizontal"
@@ -82,7 +83,7 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
+            android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextRecordDescription"
             android:layout_above="@+id/submitBar"
@@ -95,8 +96,8 @@
             android:textAlignment="textStart"
             android:gravity="start"
             android:imeOptions="actionDone"
+            android:singleLine="true"
             android:maxLength="150"
-            android:hint="@string/description_placeholder"
-            android:maxLines="1" />
+            android:hint="@string/description_placeholder" />
     </RelativeLayout>
 </FrameLayout>
