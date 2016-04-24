@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity{
         peditor = myPrefs.edit();
 
         if(myPrefs.getString("auth_token", "").equals("")){
+            Log.i("it got to here", "hello");
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             this.finishActivity(0);
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity{
             String userId = myPrefs.getString("UID","Default");
             String userName = myPrefs.getString("UserName", "Default");
             String profilePic = myPrefs.getString("ProfilePic","default.png");
-            int numPosts = myPrefs.getInt("numPosts",0);
+            long numPosts = myPrefs.getLong("numPosts",0);
             String email = myPrefs.getString("Email","Default");
             Log.i("MainActivity","UID: "+userId);
             Log.i("MainActivity","UserName: "+userName);
