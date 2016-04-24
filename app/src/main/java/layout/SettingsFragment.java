@@ -32,6 +32,8 @@ public class SettingsFragment extends BaseFragment {
 
     private static User owner;
 
+    private TextView currentName;
+
     public SettingsFragment() {
         // Required empty public constructor
     }
@@ -69,7 +71,7 @@ public class SettingsFragment extends BaseFragment {
         Button changePictureButton = (Button) view.findViewById(R.id.changePictureButton);
         Button changePasswordButton = (Button) view.findViewById(R.id.changePasswordButton);
         Button deleteAccountButton = (Button) view.findViewById(R.id.deleteAccountButton);
-        TextView currentName = (TextView) view.findViewById(R.id.changeText);
+        currentName = (TextView) view.findViewById(R.id.changeText);
 
         currentName.setText(owner.getUsername());
 
@@ -110,8 +112,8 @@ public class SettingsFragment extends BaseFragment {
         return view;
     }
 
-    public void update() {
-        //TODO: the textview to show new username
+    public void updateName() {
+        this.currentName.setText(owner.getUsername());
     }
 
     public void makeToast(CharSequence text) {
