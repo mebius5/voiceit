@@ -24,7 +24,9 @@
             android:elegantTextHeight="false"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"/>
 
         <ListView
             android:layout_width="wrap_content"
@@ -32,6 +34,7 @@
             android:id="@+id/listViewSearch"
             android:layout_below="@+id/editTextSearch"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp" />
+            android:layout_marginTop="50dp"
+            android:isScrollContainer="false"/>
     </RelativeLayout>
 </FrameLayout>
