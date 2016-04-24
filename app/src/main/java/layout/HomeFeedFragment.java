@@ -86,6 +86,14 @@ public class HomeFeedFragment extends BaseFragment {
                         postRef.setValue(post1);
                     }
                 });
+
+                postViewHolder.numLikes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        post1.likePost(owner.getUserId());
+                        postRef.setValue(post1);
+                    }
+                });
             }
         });
         return view;
