@@ -141,6 +141,18 @@ public class ProfileFragment extends BaseFragment {
                                 });
                             }
                         });
+
+                        if (!owner.getUserId().equals(post1.getOwner().getUserId())) {
+                            postViewHolder.postsetting.setVisibility(View.GONE);
+                        } else {
+                            postViewHolder.postsetting.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    PostSettingDialogue popup = new PostSettingDialogue(getActivity(), ProfileFragment.this, owner, postRef);
+                                    popup.show();
+                                }
+                            });
+                        }
                     }
                 });
 
