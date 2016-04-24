@@ -299,7 +299,7 @@ public class RecordFragment extends BaseFragment {
                     } else {
                         //Store the description in the post, submit to firebase
                         selected.setDescription(recordDescription.getText().toString());
-                        Toast.makeText(getActivity(), selected.getDescription(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Your recording has been posted!", Toast.LENGTH_SHORT).show();
 
                         //Push onto firebase
                         Firebase post = mRef.child("posts").push();
