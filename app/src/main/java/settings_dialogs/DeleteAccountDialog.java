@@ -3,10 +3,17 @@ package settings_dialogs;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+
+import jhu.voiceit.LoginActivity;
 import jhu.voiceit.R;
+import jhu.voiceit.User;
 import layout.SettingsFragment;
 
 /**
@@ -17,15 +24,21 @@ public class DeleteAccountDialog{
     private AlertDialog.Builder builder;
     private View dialoglayout;
 
+    private Firebase mRef;
+
     //TODO: Delete account from user node and user authentication
 
-    public DeleteAccountDialog(Activity a, final SettingsFragment myFrag, final String userId){
+    public DeleteAccountDialog(Activity a, final SettingsFragment myFrag, final User user) {
         LayoutInflater inflater = a.getLayoutInflater();
         dialoglayout = inflater.inflate(R.layout.delete_account, null);
+
+        mRef = new Firebase("https://voiceit.firebaseio.com/users/" + user.getUserId());
 
         //setup dialogue box
         builder = new AlertDialog.Builder(a);
         builder.setView(dialoglayout);
+
+        final EditText oldPassword = (EditText) dialoglayout.findViewById(R.id.currPassword);
 
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -35,12 +48,24 @@ public class DeleteAccountDialog{
 
         builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                String oldPass = oldPassword.getText().toString();
+                mRef.removeUser(myFrag.getEmail(), oldPass, new Firebase.ResultHandler() {
+                    @Override
+                    public void onSuccess() {
+                        //TODO: Figure out how to log out after deleting account
+                        myFrag.makeToast("Account Deleted :'(");
+                    }
+
+                    @Override
+                    public void onError(FirebaseError firebaseError) {
+                        myFrag.makeToast("Password entered incorrectly; Account not deleted.");
+                    }
+                });
                 System.out.println("Name Changed");
             }
         });
 
     }
-    //hi
     public void show() {
         builder.show();
     }
