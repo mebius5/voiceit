@@ -128,4 +128,6 @@ public class SettingsFragment extends BaseFragment {
         Toast toast = Toast.makeText(getActivity(), text, duration);
         toast.show();
     }
+
+    //hi
 }
