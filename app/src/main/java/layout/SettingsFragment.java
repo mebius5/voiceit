@@ -1,6 +1,7 @@
 package layout;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.audiofx.BassBoost;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import jhu.voiceit.LoginActivity;
+import jhu.voiceit.MainActivity;
 import jhu.voiceit.R;
 import jhu.voiceit.User;
 import settings_dialogs.ChangeNameDialog;
@@ -107,7 +110,7 @@ public class SettingsFragment extends BaseFragment {
         deleteAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DeleteAccountDialog popUp = new DeleteAccountDialog(getActivity(), SettingsFragment.this, owner.getUserId());
+                DeleteAccountDialog popUp = new DeleteAccountDialog(getActivity(), SettingsFragment.this, owner);
                 popUp.show();
             }
         });
@@ -128,6 +131,4 @@ public class SettingsFragment extends BaseFragment {
         Toast toast = Toast.makeText(getActivity(), text, duration);
         toast.show();
     }
-
-    //hi
 }
