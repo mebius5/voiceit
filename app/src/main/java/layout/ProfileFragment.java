@@ -1,16 +1,27 @@
 package layout;
 
 import android.content.Context;
+import android.content.res.ObbInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
+import com.firebase.ui.FirebaseRecyclerAdapter;
+
+import jhu.voiceit.Post;
 import jhu.voiceit.R;
 import jhu.voiceit.User;
 
@@ -56,6 +67,67 @@ public class ProfileFragment extends BaseFragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        Firebase mRef = new Firebase(getResources().getString(R.string.firebaseurl)).child("posts");
+        Query user = mRef.orderByChild("owner/userId").equalTo(owner.getUserId());
+
+        Context context = view.getContext();
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list_profile);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(
+                new FirebaseRecyclerAdapter<Post, PostViewHolder>(Post.class, R.layout.post_layout, PostViewHolder.class, user) {
+                    @Override
+                    protected void populateViewHolder(final PostViewHolder postViewHolder, Post post, int i) {
+                        final Post post1 = post;
+                        final Firebase postRef = getRef(i);
+                        postViewHolder.username.setText(post.getOwner().getUsername());
+                        postViewHolder.description.setText(post.getDescription());
+                        postViewHolder.numLikes.setText(""+post.getLikes());
+                        //TODO: set postViewHolder.imageView to retrieve image;
+                        postViewHolder.timeStamp.setText(post.calculateElapsedTime());
+
+                        postViewHolder.btnLikes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                post1.likePost(owner.getUserId());
+                                postRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        Object priority = dataSnapshot.getPriority();
+                                        postRef.setValue(post1);
+                                        postRef.setPriority(priority);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(FirebaseError firebaseError) {
+
+                                    }
+                                });
+
+                            }
+                        });
+
+                        postViewHolder.numLikes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                post1.likePost(owner.getUserId());
+                                postRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        Object priority = dataSnapshot.getPriority();
+                                        postRef.setValue(post1);
+                                        postRef.setPriority(priority);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(FirebaseError firebaseError) {
+
+                                    }
+                                });                            }
+                        });
+                    }
+                });
+
         return view;
     }
 }

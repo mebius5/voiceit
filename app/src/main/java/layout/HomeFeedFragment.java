@@ -12,8 +12,11 @@ import jhu.voiceit.Post;
 import jhu.voiceit.R;
 import jhu.voiceit.User;
 
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 
 import java.util.HashMap;
@@ -85,7 +88,19 @@ public class HomeFeedFragment extends BaseFragment {
                     @Override
                     public void onClick(View v) {
                         post1.likePost(owner.getUserId());
-                        postRef.setValue(post1);
+                        postRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Object priority = dataSnapshot.getPriority();
+                                postRef.setValue(post1);
+                                postRef.setPriority(priority);
+                            }
+
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+
+                            }
+                        });
                     }
                 });
 
@@ -93,8 +108,19 @@ public class HomeFeedFragment extends BaseFragment {
                     @Override
                     public void onClick(View v) {
                         post1.likePost(owner.getUserId());
-                        postRef.setValue(post1);
-                    }
+                        postRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Object priority = dataSnapshot.getPriority();
+                                postRef.setValue(post1);
+                                postRef.setPriority(priority);
+                            }
+
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+
+                            }
+                        });                    }
                 });
             }
         });
