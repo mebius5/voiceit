@@ -106,7 +106,12 @@ public class MainActivity extends AppCompatActivity{
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String userName = (String) dataSnapshot.child("username").getValue();
                 String email = (String) dataSnapshot.child("email").getValue();
-                long numPosts = (long) dataSnapshot.child("numPosts").getValue();
+                long numPosts;
+                if(dataSnapshot.child("numPosts").getValue() == null) {
+                    numPosts = 0;
+                } else {
+                    numPosts = (long) dataSnapshot.child("numPosts").getValue();
+                }
                 user.setUsername(userName);
                 user.setNumPosts(numPosts);
                 user.setEmail(email);
