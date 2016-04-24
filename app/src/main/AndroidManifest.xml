@@ -29,7 +29,8 @@
             android:noHistory="true"/>
         <activity
             android:name=".RegisterActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="true">
         </activity>
     </application>
 
