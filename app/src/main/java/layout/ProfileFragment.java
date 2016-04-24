@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -123,7 +124,8 @@ public class ProfileFragment extends BaseFragment {
                                     public void onCancelled(FirebaseError firebaseError) {
 
                                     }
-                                });                            }
+                                });
+                            }
                         });
 
                         if (!owner.getUserId().equals(post1.getOwner().getUserId())) {
@@ -140,6 +142,8 @@ public class ProfileFragment extends BaseFragment {
                     }
                 });
 
+        final TextView topUsername = (TextView) view.findViewById(R.id.username_view);
+        topUsername.setText(owner.getUsername());
         return view;
     }
 }
