@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.audiofx.BassBoost;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -14,6 +17,7 @@ import com.firebase.client.FirebaseError;
 import jhu.voiceit.LoginActivity;
 import jhu.voiceit.R;
 import jhu.voiceit.User;
+import layout.BaseFragment;
 import layout.SettingsFragment;
 
 /**
@@ -53,6 +57,7 @@ public class DeleteAccountDialog{
                     @Override
                     public void onSuccess() {
                         //TODO: Figure out how to log out after deleting account
+                        logout(myFrag);
                         myFrag.makeToast("Account Deleted :'(");
                     }
 
@@ -66,6 +71,20 @@ public class DeleteAccountDialog{
         });
 
     }
+
+    public void logout(final BaseFragment myFrag){
+        SharedPreferences myPrefs= PreferenceManager.getDefaultSharedPreferences(myFrag.getActivity());
+        SharedPreferences.Editor peditor = myPrefs.edit();
+
+        peditor.putString("auth_token","");
+        peditor.putString("UID", "");
+        peditor.putString("currentFragment", "0");
+        peditor.commit();
+
+        Intent intent = new Intent(myFrag.getActivity(), LoginActivity.class);
+        myFrag.getActivity().startActivity(intent);
+    }
+
     public void show() {
         builder.show();
     }
