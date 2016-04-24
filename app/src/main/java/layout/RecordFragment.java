@@ -196,7 +196,7 @@ public class RecordFragment extends BaseFragment {
     public void insertNewRecording() {
         String fileNumber = "" + recordings.size();
 
-        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording " + fileNumber + ".3gp";
+        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording " + owner.getNumPosts() + fileNumber + owner.getUserId() + ".3gp";
 
         Post newPost = new Post(owner, outputFile, "abc");
 
