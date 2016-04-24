@@ -13,6 +13,7 @@ import jhu.voiceit.R;
 import jhu.voiceit.User;
 
 import com.firebase.client.Firebase;
+import com.firebase.client.Query;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 
 import java.util.HashMap;
@@ -63,12 +64,13 @@ public class HomeFeedFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_post_list, container, false);
 
         mRef = new Firebase(getResources().getString(R.string.firebaseurl)).child("posts");
+        Query user = mRef.orderByPriority();
 
         Context context = view.getContext();
         RecyclerView recyclerView = (RecyclerView) view;
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(
-                new FirebaseRecyclerAdapter<Post, PostViewHolder>(Post.class, R.layout.post_layout, PostViewHolder.class, mRef) {
+                new FirebaseRecyclerAdapter<Post, PostViewHolder>(Post.class, R.layout.post_layout, PostViewHolder.class, user) {
             @Override
             protected void populateViewHolder(final PostViewHolder postViewHolder, Post post, int i) {
                 final Post post1 = post;

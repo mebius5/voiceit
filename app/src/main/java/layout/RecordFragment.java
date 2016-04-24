@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import jhu.voiceit.Post;
 import jhu.voiceit.R;
@@ -296,7 +297,9 @@ public class RecordFragment extends BaseFragment {
                         Toast.makeText(getActivity(), selected.getDescription(), Toast.LENGTH_SHORT).show();
 
                         //Push onto firebase
-                        mRef.push().setValue(selected);
+                        Firebase post = mRef.push();
+                        post.setValue(selected);
+                        post.setPriority(0- Calendar.getInstance().getTimeInMillis());
 
                         baseFragment = HomeFeedFragment.newInstance(owner);
                         inflateAndCommitBaseFragment();
