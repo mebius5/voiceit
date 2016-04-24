@@ -17,6 +17,8 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import java.util.Map;
+
 public class LoginActivity extends AppCompatActivity {
 
     private ImageButton login;
@@ -103,8 +105,8 @@ public class LoginActivity extends AppCompatActivity {
                 public void onError(FirebaseError firebaseError) {
                     makeToast(firebaseError.toString());
                 }
-            });
-            */
+            });*/
+
             moveToRegister();
         }
     };
