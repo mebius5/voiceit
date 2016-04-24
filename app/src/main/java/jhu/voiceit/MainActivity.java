@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity{
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            baseFragment = SettingsFragment.newInstance(user);
+            baseFragment = SettingsFragment.newInstance(user, email);
             inflateAndCommitBaseFragment();
             return true;
         } else if (id == R.id.action_logout){
@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity{
         } else if(currentFragment.equals(NotificationsFragment.FRAGMENTNAME)){
             baseFragment = NotificationsFragment.newInstance(user);
         } else if(currentFragment.equals(SettingsFragment.FRAGMENTNAME)){
-            baseFragment = SettingsFragment.newInstance(user);
+            baseFragment = SettingsFragment.newInstance(user, email);
         } else if(currentFragment.equals(SearchFragment.FRAGMENTNAME)){
             baseFragment = SearchFragment.newInstance(user);
         } else{
