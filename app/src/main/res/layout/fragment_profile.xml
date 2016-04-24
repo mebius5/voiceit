@@ -11,11 +11,27 @@
         android:layout_gravity="center_horizontal|top">
 
         <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/darkerRed">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="username"
+                android:id="@+id/username_view"
+                android:textSize="25dp"
+                android:layout_marginLeft="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:padding="10dp"
             android:background="@color/lightRed">
 
