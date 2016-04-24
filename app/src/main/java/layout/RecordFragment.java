@@ -27,6 +27,8 @@ import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import jhu.voiceit.Post;
 import jhu.voiceit.R;
@@ -140,7 +142,7 @@ public class RecordFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_record, container, false);
 
-        mRef = new Firebase(getResources().getString(R.string.firebaseurl)).child("posts");
+        mRef = new Firebase(getResources().getString(R.string.firebaseurl));
 
         recordButton = (ImageView) view.findViewById(R.id.imageViewRecordButton);
         playButton = (ImageView) view.findViewById(R.id.imageViewPlayButton);
@@ -297,9 +299,14 @@ public class RecordFragment extends BaseFragment {
                         Toast.makeText(getActivity(), selected.getDescription(), Toast.LENGTH_SHORT).show();
 
                         //Push onto firebase
-                        Firebase post = mRef.push();
+                        Firebase post = mRef.child("posts").push();
                         post.setValue(selected);
                         post.setPriority(0 - Calendar.getInstance().getTimeInMillis());
+                        Firebase user = mRef.child("users").child(owner.getUserId());
+                        Map<String, Object> change = new HashMap<String, Object>();
+                        owner.setNumPosts(owner.getNumPosts() + 1);
+                        change.put("numPosts", owner.getNumPosts());
+                        user.updateChildren(change);
 
                         baseFragment = HomeFeedFragment.newInstance(owner);
                         inflateAndCommitBaseFragment();

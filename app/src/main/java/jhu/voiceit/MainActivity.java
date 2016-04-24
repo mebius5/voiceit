@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity{
      */
     private final String CURRENTFRAGMENT = "currentFragment";
     private User user;
-    private String email;
 
     /*
     ####################### Storage Variables #####################
@@ -66,26 +65,27 @@ public class MainActivity extends AppCompatActivity{
         myPrefs= PreferenceManager.getDefaultSharedPreferences(context);
         peditor = myPrefs.edit();
 
-        mRef = new Firebase(getResources().getString(R.string.firebaseurl));
-
-
-
         if(myPrefs.getString("auth_token", "").equals("")){
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+            this.finishActivity(0);
         }  else{
             //Valid user, so must have username
             String userId = myPrefs.getString("UID","Default");
             String userName = myPrefs.getString("UserName", "Default");
             String profilePic = myPrefs.getString("ProfilePic","default.png");
-            email = myPrefs.getString("Email","Default");
+            int numPosts = myPrefs.getInt("numPosts",0);
+            String email = myPrefs.getString("Email","Default");
             Log.i("MainActivity","UID: "+userId);
             Log.i("MainActivity","UserName: "+userName);
             Log.i("MainActivity","ProfilePic: "+profilePic);
+            Log.i("MainActivity","NumPosts:"+numPosts);
             Log.i("MainActivity","Email: "+email);
 
-            this.user = new User(userId, userName, profilePic);
+            this.user = new User(userId, userName, profilePic, email, numPosts);
         }
+        Log.i("im here too", "hi");
+        mRef = new Firebase(getResources().getString(R.string.firebaseurl));
 
         //Deal with navigation to Search Fragment
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -105,7 +105,11 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String userName = (String) dataSnapshot.child("username").getValue();
+                String email = (String) dataSnapshot.child("email").getValue();
+                long numPosts = (long) dataSnapshot.child("numPosts").getValue();
                 user.setUsername(userName);
+                user.setNumPosts(numPosts);
+                user.setEmail(email);
             }
 
             @Override
@@ -204,7 +208,7 @@ public class MainActivity extends AppCompatActivity{
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            baseFragment = SettingsFragment.newInstance(user, email);
+            baseFragment = SettingsFragment.newInstance(user);
             inflateAndCommitBaseFragment();
             return true;
         } else if (id == R.id.action_logout){
@@ -236,7 +240,7 @@ public class MainActivity extends AppCompatActivity{
         } else if(currentFragment.equals(NotificationsFragment.FRAGMENTNAME)){
             baseFragment = NotificationsFragment.newInstance(user);
         } else if(currentFragment.equals(SettingsFragment.FRAGMENTNAME)){
-            baseFragment = SettingsFragment.newInstance(user, email);
+            baseFragment = SettingsFragment.newInstance(user);
         } else if(currentFragment.equals(SearchFragment.FRAGMENTNAME)){
             baseFragment = SearchFragment.newInstance(user);
         } else{

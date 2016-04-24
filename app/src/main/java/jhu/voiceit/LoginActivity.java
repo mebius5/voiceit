@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     private ImageButton regis;
 
     private String username;
-    private String password;
+    private int numPosts;
     private EditText usrenter;
     private EditText passenter;
 
@@ -155,6 +155,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         username = (String) dataSnapshot.child("username").getValue();
+                        numPosts = (int) dataSnapshot.child("numPosts").getValue();
                     }
 
                     @Override
@@ -166,6 +167,7 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferences.Editor peditor = myPrefs.edit();
                 peditor.putString("Email",usrenter.getText().toString());
                 peditor.putString("UserName", username);
+                peditor.putInt("numPosts", numPosts);
                 peditor.putString("auth_token", authData.getToken());
                 peditor.putString("UID", userId);
                 peditor.commit();

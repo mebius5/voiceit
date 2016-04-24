@@ -15,6 +15,8 @@ import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import jhu.voiceit.R;
 import jhu.voiceit.User;
@@ -44,6 +46,11 @@ public class PostSettingDialogue {
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                user.setNumPosts(user.getNumPosts() - 1);
+                Firebase userRef = new Firebase("https://voiceit.firebaseio.com").child("users").child(user.getUserId());
+                Map<String, Object> change = new HashMap<String, Object>();
+                change.put("numPosts", user.getNumPosts());
+                userRef.updateChildren(change);
                 postRef.setValue(null);
             }
         });

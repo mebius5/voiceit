@@ -37,8 +37,6 @@ public class ProfileFragment extends BaseFragment {
     public final static String FRAGMENTNAME = "ProfileFragment";
     private final String fragmentName = FRAGMENTNAME;
 
-    private long numberOfPosts;
-
     private static User owner;
 
     public ProfileFragment() {
@@ -71,6 +69,9 @@ public class ProfileFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        TextView numPostText = (TextView) view.findViewById(R.id.post_num);
+        numPostText.setText("" + owner.getNumPosts());
+
         Firebase mRef = new Firebase(getResources().getString(R.string.firebaseurl)).child("posts");
         Query user = mRef.orderByChild("owner/userId").equalTo(owner.getUserId());
 
@@ -83,8 +84,6 @@ public class ProfileFragment extends BaseFragment {
             @Override
             public void onCancelled(FirebaseError firebaseError) {}
         });
-
-        Log.i("Number of posts", "" + numberOfPosts);
 
         Context context = view.getContext();
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list_profile);

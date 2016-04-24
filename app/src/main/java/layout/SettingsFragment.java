@@ -51,10 +51,10 @@ public class SettingsFragment extends BaseFragment {
      * this fragment using the provided parameters.
      * @return A new instance of fragment ProfileFragment.
      */
-    public static SettingsFragment newInstance(User user, String email) {
+    public static SettingsFragment newInstance(User user) {
         SettingsFragment fragment = new SettingsFragment();
         owner = user;
-        yourEmail = email;
+        yourEmail = owner.getEmail();
 
         return fragment;
     }
