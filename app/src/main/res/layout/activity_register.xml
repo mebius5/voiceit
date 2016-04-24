@@ -30,11 +30,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/registerEmail"
         android:hint="Email"
+        android:inputType="textWebEmailAddress"
         android:layout_marginTop="30dp"
         android:layout_below="@+id/registerTitle"
         android:layout_centerHorizontal="true"
+        android:imeOptions="actionNext"
         android:background="#376a6a6a"
-        android:padding="5dp" />
+        android:padding="5dp"
+        android:maxLines="1" />
 
     <EditText
         android:layout_width="250dp"
@@ -44,8 +47,10 @@
         android:layout_marginTop="20dp"
         android:layout_below="@+id/registerTitle"
         android:layout_centerHorizontal="true"
+        android:imeOptions="actionNext"
         android:background="#376a6a6a"
-        android:padding="5dp" />
+        android:padding="5dp"
+        android:maxLines="1" />
 
     <EditText
         android:layout_width="250dp"
@@ -56,10 +61,12 @@
         android:hint="Password"
         android:background="#376a6a6a"
         android:padding="5dp"
+        android:imeOptions="actionNext"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/usrname"
         android:layout_alignLeft="@+id/usrname"
-        android:layout_alignStart="@+id/usrname" />
+        android:layout_alignStart="@+id/usrname"
+        android:maxLines="1" />
 
     <EditText
         android:layout_width="250dp"
@@ -70,10 +77,12 @@
         android:hint="Confirm Password"
         android:background="#376a6a6a"
         android:padding="5dp"
+        android:imeOptions="actionDone"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/usrname"
         android:layout_alignLeft="@+id/usrname"
-        android:layout_alignStart="@+id/usrname" />
+        android:layout_alignStart="@+id/usrname"
+        android:maxLines="1" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -138,7 +147,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="login"
+                android:text="back to login"
                 android:id="@+id/registerLoginLabel"
                 android:layout_below="@+id/imageButtonLogin"
                 android:layout_alignLeft="@+id/imageButtonLogin"

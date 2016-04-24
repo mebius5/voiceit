@@ -94,7 +94,7 @@
             android:visibility="invisible"
             android:textAlignment="textStart"
             android:gravity="start"
-            android:imeOptions="actionSend"
+            android:imeOptions="actionDone"
             android:maxLength="150"
             android:hint="@string/description_placeholder"
             android:maxLines="1" />
