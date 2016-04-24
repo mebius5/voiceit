@@ -17,7 +17,6 @@ import com.firebase.client.FirebaseError;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity {
     private ImageButton loginButton;

@@ -106,25 +106,25 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButtonRegister"
-                android:src="@drawable/register"
+                android:id="@+id/imageButtonLogin"
+                android:src="@drawable/login"
                 android:background="#00ffffff"
-                android:layout_alignTop="@+id/imageButtonLogin"
-                android:layout_toLeftOf="@+id/registerRegisterLabel"
-                android:layout_toStartOf="@+id/registerRegisterLabel"
+                android:layout_alignTop="@+id/imageButtonRegister"
+                android:layout_toLeftOf="@+id/registerLabelLogin"
+                android:layout_toStartOf="@+id/registerLabelLogin"
                 android:tint="#ffffffff"
                 android:layout_gravity="center_horizontal" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="register"
-                android:id="@+id/registerRegisterLabel"
+                android:text="back to login"
+                android:id="@+id/registerLabelLogin"
                 android:gravity="center_horizontal"
                 android:textColor="#ffffffff"
                 android:layout_below="@+id/imageButtonRegister"
-                android:layout_toLeftOf="@+id/registerLoginLabel"
-                android:layout_toStartOf="@+id/registerLoginLabel"
+                android:layout_toLeftOf="@+id/registerLabelRegister"
+                android:layout_toStartOf="@+id/registerLabelRegister"
                 android:layout_gravity="center_horizontal" />
         </LinearLayout>
 
@@ -138,8 +138,8 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButtonLogin"
-                android:src="@drawable/login"
+                android:id="@+id/imageButtonRegister"
+                android:src="@drawable/register"
                 android:background="#00ffffff"
                 android:tint="#ffffff"
                 android:contentDescription="login"
@@ -151,13 +151,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="back to login"
-                android:id="@+id/registerLoginLabel"
-                android:layout_below="@+id/imageButtonLogin"
-                android:layout_alignLeft="@+id/imageButtonLogin"
-                android:layout_alignStart="@+id/imageButtonLogin"
-                android:layout_alignRight="@+id/imageButtonLogin"
-                android:layout_alignEnd="@+id/imageButtonLogin"
+                android:text="register"
+                android:id="@+id/registerLabelRegister"
+                android:layout_below="@+id/imageButtonRegister"
+                android:layout_alignLeft="@+id/imageButtonRegister"
+                android:layout_alignStart="@+id/imageButtonRegister"
+                android:layout_alignRight="@+id/imageButtonRegister"
+                android:layout_alignEnd="@+id/imageButtonRegister"
                 android:gravity="center_horizontal"
                 android:textColor="#ffffffff" />
         </LinearLayout>

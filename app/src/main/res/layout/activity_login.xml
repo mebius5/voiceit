@@ -76,9 +76,9 @@
                 android:id="@+id/register"
                 android:src="@drawable/register"
                 android:background="#00ffffff"
-                android:layout_alignTop="@+id/imageButtonLogin"
-                android:layout_toLeftOf="@+id/registerRegisterLabel"
-                android:layout_toStartOf="@+id/registerRegisterLabel"
+                android:layout_alignTop="@+id/imageButtonRegister"
+                android:layout_toLeftOf="@+id/registerLabelLogin"
+                android:layout_toStartOf="@+id/registerLabelLogin"
                 android:tint="#ffffffff"
                 android:layout_gravity="center_horizontal" />
 
@@ -90,8 +90,8 @@
                 android:gravity="center_horizontal"
                 android:textColor="#ffffffff"
                 android:layout_below="@+id/imageButtonRegister"
-                android:layout_toLeftOf="@+id/registerLoginLabel"
-                android:layout_toStartOf="@+id/registerLoginLabel"
+                android:layout_toLeftOf="@+id/registerLabelRegister"
+                android:layout_toStartOf="@+id/registerLabelRegister"
                 android:layout_gravity="center_horizontal" />
         </LinearLayout>
 
@@ -120,11 +120,11 @@
                 android:layout_height="wrap_content"
                 android:text="login"
                 android:id="@+id/llabel"
-                android:layout_below="@+id/imageButtonLogin"
-                android:layout_alignLeft="@+id/imageButtonLogin"
-                android:layout_alignStart="@+id/imageButtonLogin"
-                android:layout_alignRight="@+id/imageButtonLogin"
-                android:layout_alignEnd="@+id/imageButtonLogin"
+                android:layout_below="@+id/imageButtonRegister"
+                android:layout_alignLeft="@+id/imageButtonRegister"
+                android:layout_alignStart="@+id/imageButtonRegister"
+                android:layout_alignRight="@+id/imageButtonRegister"
+                android:layout_alignEnd="@+id/imageButtonRegister"
                 android:gravity="center_horizontal"
                 android:textColor="#ffffffff" />
         </LinearLayout>
