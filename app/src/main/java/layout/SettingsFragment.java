@@ -77,7 +77,7 @@ public class SettingsFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 //show popup to edit log item
-                ChangeNameDialog popUp = new ChangeNameDialog(getActivity(), SettingsFragment.this, owner.getUserId(), owner.getUsername());
+                ChangeNameDialog popUp = new ChangeNameDialog(getActivity(), SettingsFragment.this, owner);
                 popUp.show();
             }
         });
@@ -108,6 +108,10 @@ public class SettingsFragment extends BaseFragment {
         });
 
         return view;
+    }
+
+    public void update() {
+        //TODO: the textview to show new username
     }
 
     public void makeToast(CharSequence text) {
