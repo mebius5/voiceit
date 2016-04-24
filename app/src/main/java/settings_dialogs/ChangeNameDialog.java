@@ -70,7 +70,7 @@ public class ChangeNameDialog {
                     SharedPreferences.Editor peditor = myPrefs.edit();
                     peditor.putString("UserName", newName);
                     myFrag.makeToast("Your username was successfully changed.");
-                    myFrag.updateName();
+                    myFrag.updateFields();
                 }
             }
         });

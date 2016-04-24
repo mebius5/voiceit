@@ -50,7 +50,7 @@ public class DeleteAccountDialog{
             }
         });
 
-        builder.setPositiveButton("Delete :(", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 String oldPass = oldPassword.getText().toString();
                 mRef.removeUser(myFrag.getEmail(), oldPass, new Firebase.ResultHandler() {

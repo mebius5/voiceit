@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class SettingsFragment extends BaseFragment {
     private static String yourEmail;
 
     private TextView currentName;
+    private ImageView currentProfilePicture;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -78,8 +80,10 @@ public class SettingsFragment extends BaseFragment {
         Button changePasswordButton = (Button) view.findViewById(R.id.changePasswordButton);
         Button deleteAccountButton = (Button) view.findViewById(R.id.deleteAccountButton);
         currentName = (TextView) view.findViewById(R.id.changeText);
+        currentProfilePicture = (ImageView) view.findViewById(R.id.profilePicture);
 
         currentName.setText(owner.getUsername());
+        currentProfilePicture.setImageResource(R.drawable.userdefault);
 
         changeNameButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +97,7 @@ public class SettingsFragment extends BaseFragment {
         changePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChangePhotoDialog popUp = new ChangePhotoDialog(getActivity(), SettingsFragment.this, owner.getUserId());
+                ChangePhotoDialog popUp = new ChangePhotoDialog(getActivity(), SettingsFragment.this, owner);
                 popUp.show();
             }
         });
@@ -118,8 +122,9 @@ public class SettingsFragment extends BaseFragment {
         return view;
     }
 
-    public void updateName() {
+    public void updateFields() {
         this.currentName.setText(owner.getUsername());
+        this.currentProfilePicture.setImageResource(R.drawable.userdefault);
     }
 
     public String getEmail() {
