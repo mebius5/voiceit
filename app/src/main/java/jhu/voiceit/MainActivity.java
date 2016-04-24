@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity{
      */
     private final String CURRENTFRAGMENT = "currentFragment";
     private User user;
+    private String email;
 
     /*
     ####################### Storage Variables #####################
@@ -76,9 +77,11 @@ public class MainActivity extends AppCompatActivity{
             String userId = myPrefs.getString("UID","Default");
             String userName = myPrefs.getString("UserName", "Default");
             String profilePic = myPrefs.getString("ProfilePic","default.png");
+            email = myPrefs.getString("Email","Default");
             Log.i("MainActivity","UID: "+userId);
             Log.i("MainActivity","UserName: "+userName);
             Log.i("MainActivity","ProfilePic: "+profilePic);
+            Log.i("MainActivity","Email: "+email);
 
             this.user = new User(userId, userName, profilePic);
         }

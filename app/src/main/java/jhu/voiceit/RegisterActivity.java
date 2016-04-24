@@ -68,9 +68,9 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Run some validations
-                if(checkFieldsCompletion()) {
+                if (checkFieldsCompletion()) {
                     makeToast(getResources().getString(R.string.missing_input_register));
-                } else if(!passwordsAreEqual()) {
+                } else if (!passwordsAreEqual()) {
                     makeToast(getResources().getString(R.string.passwords_match_feedback));
                 } else {
                     fireBase.createUser(emailInput.getText().toString(), passwordInput.getText().toString(),
@@ -79,9 +79,10 @@ public class RegisterActivity extends AppCompatActivity {
                                 public void onSuccess(Map<String, Object> stringObjectMap) {
                                     loginAfterRegister();
                                 }
+
                                 @Override
                                 public void onError(FirebaseError firebaseError) {
-                                    makeToast("createUser"+firebaseError.toString());
+                                    makeToast("createUser" + firebaseError.toString());
                                 }
                             });
                 }
@@ -138,8 +139,9 @@ public class RegisterActivity extends AppCompatActivity {
                         //For storing in Shared Preferences
                         peditor.putString("auth_token", authData.getToken());
                         peditor.putString("UID", authData.getUid());
+                        peditor.putString("Email", emailInput.getText().toString());
                         peditor.putString("UserName", userName);
-                        Log.i("LoginActivity","SuccessAuth: UID: "+userId);
+                        Log.i("LoginActivity", "SuccessAuth: UID: " + userId);
                         peditor.commit();
 
                         Firebase usersRef = fireBase.child("users").child(userId);
@@ -148,6 +150,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                         movetoMain();
                     }
+
                     @Override
                     public void onAuthenticationError(FirebaseError firebaseError) {
                         makeToast("loginAfterRegister"+firebaseError.toString());
