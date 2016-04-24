@@ -65,15 +65,12 @@ public class ChangeNameDialog {
                     changes.put("username", newName);
                     mRef.updateChildren(changes);
 
-
                     //Push changes to SharedPreferences
                     SharedPreferences myPrefs= PreferenceManager.getDefaultSharedPreferences(myFrag.getActivity());
                     SharedPreferences.Editor peditor = myPrefs.edit();
                     peditor.putString("UserName", newName);
-                    prevUsername.setText(newName);
                     myFrag.makeToast("Your username was successfully changed.");
-                    myFrag.update();
-
+                    myFrag.updateName();
                 }
             }
         });

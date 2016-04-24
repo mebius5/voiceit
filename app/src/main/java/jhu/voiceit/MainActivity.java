@@ -13,11 +13,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import layout.HomeFeedFragment;
 import layout.BaseFragment;
@@ -56,7 +64,7 @@ public class MainActivity extends AppCompatActivity{
         myPrefs= PreferenceManager.getDefaultSharedPreferences(context);
         peditor = myPrefs.edit();
 
-        //mRef = new Firebase(getResources().getString(R.string.firebaseurl));
+        mRef = new Firebase(getResources().getString(R.string.firebaseurl));
 
 
         if(myPrefs.getString("auth_token", "").equals("")){
@@ -86,6 +94,21 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        Firebase userRef = mRef.child("users").child(user.getUserId());
+
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String userName = (String) dataSnapshot.child("username").getValue();
+                user.setUsername(userName);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                makeToast(firebaseError.toString());
+            }
+        });
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -112,6 +135,22 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
                 Log.i("MainActivity","Reselected Tab Position: "+tab.getPosition());
+                if(baseFragment!=null &&
+                        (baseFragment.getFragmentName().equals("SettingsFragment")||
+                        baseFragment.getFragmentName().equals("SearchFragment"))){
+                    int position = tab.getPosition();
+                    Log.i("MainActivity","Reselected Tab Position: "+position);
+                    if(position == 0) {
+                        baseFragment = HomeFeedFragment.newInstance(user);
+                    }else if (position == 1){
+                        baseFragment = RecordFragment.newInstance(user);
+                    }else if (position == 2){
+                        baseFragment = NotificationsFragment.newInstance(user);
+                    }else if (position == 3){
+                        baseFragment = ProfileFragment.newInstance(user);
+                    }
+                    inflateAndCommitBaseFragment();
+                }
             }
         });
 
@@ -185,6 +224,11 @@ public class MainActivity extends AppCompatActivity{
         } else{
             Log.e("MainActivity", "InvalidFragmentNameFound: "+currentFragment);
         }
+
+        Firebase userRef = mRef.child("users").child(user.getUserId());
+        Map<String, Object> changes = new HashMap<String, Object>();
+        userRef.updateChildren(changes);
+
         inflateAndCommitBaseFragment();
     }
 
@@ -195,6 +239,10 @@ public class MainActivity extends AppCompatActivity{
         fragmentTransaction.commit();
         peditor.putString(CURRENTFRAGMENT, baseFragment.getFragmentName());
         peditor.commit();
+    }
+
+    private void makeToast(String e) {
+        Toast.makeText(this, e, Toast.LENGTH_SHORT).show();
     }
 
 }
