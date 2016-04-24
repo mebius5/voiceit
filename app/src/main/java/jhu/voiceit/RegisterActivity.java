@@ -144,9 +144,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                         Firebase usersRef = fireBase.child("users").child(userId);
                         Map<String, Object> userInfo = new HashMap<String, Object>();
-                        userInfo.put("username", userName);
-                        userInfo.put("profilePicName", "userdefault.png");
-                        usersRef.setValue(userInfo);
+                        usersRef.setValue(new User(userId, userName, "userdefault.png"));
 
                         movetoMain();
                     }
@@ -157,25 +155,7 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-    public void tokenAuthentication() {
-        fireBase.authWithCustomToken(token, new Firebase.AuthResultHandler() {
-            @Override
-            public void onAuthenticated(AuthData authData) {
-                mAuthData = authData;
-                SharedPreferences.Editor peditor = myPrefs.edit();
-                peditor.putString("auth_token", authData.getToken());
-                peditor.putString("UID", authData.getUid());
-                Log.i("LoginActivity","SuccessAuth: UID: "+authData.getUid());
-                peditor.commit();
-                movetoMain();
-            }
 
-            @Override
-            public void onAuthenticationError(FirebaseError firebaseError) {
-                makeToast(firebaseError.toString());
-            }
-        });
-    }
 
     public void movetoMain() {
         Intent intent = new Intent(this, MainActivity.class);

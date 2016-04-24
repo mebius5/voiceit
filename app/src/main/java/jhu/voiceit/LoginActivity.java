@@ -14,9 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
@@ -77,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onAuthenticated(AuthData authData) {
                             mAuthData = authData;
+                            final String userId = authData.getUid();
                             SharedPreferences.Editor peditor = myPrefs.edit();
                             peditor.putString("auth_token", authData.getToken());
                             peditor.putString("UID", authData.getUid());
@@ -140,11 +145,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onAuthenticated(AuthData authData) {
                 mAuthData = authData;
+                final String userId = authData.getUid();
                 SharedPreferences.Editor peditor = myPrefs.edit();
                 peditor.putString("auth_token", authData.getToken());
-                peditor.putString("UID", authData.getUid());
+                peditor.putString("UID", userId);
+                peditor.commit();
                 Log.i("LoginActivity","SuccessAuth: UID: "+authData.getUid());
                 peditor.commit();
+                Log.i("username stored:", myPrefs.getString("UserName", "it failed"));
                 movetoMain();
             }
 
