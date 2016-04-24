@@ -95,7 +95,7 @@ public class SettingsFragment extends BaseFragment {
         changePasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChangePasswordDialog popUp = new ChangePasswordDialog(getActivity(), SettingsFragment.this, owner.getUserId());
+                ChangePasswordDialog popUp = new ChangePasswordDialog(getActivity(), SettingsFragment.this, owner);
                 popUp.show();
             }
         });

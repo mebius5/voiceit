@@ -1,17 +1,21 @@
 package layout;
 
+import android.app.FragmentTransaction;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -36,6 +40,7 @@ import jhu.voiceit.User;
  * create an instance of this fragment.
  */
 public class RecordFragment extends BaseFragment {
+    private final String CURRENTFRAGMENT = "currentFragment";
     public final static String FRAGMENTNAME = "RecordFragment";
     private final String fragmentName = FRAGMENTNAME;
 
@@ -67,6 +72,10 @@ public class RecordFragment extends BaseFragment {
 
     private Post selected;
 
+    private BaseFragment baseFragment;
+    private SharedPreferences myPrefs;
+    private SharedPreferences.Editor peditor;
+
     public RecordFragment() {
         // Required empty public constructor
     }
@@ -74,6 +83,7 @@ public class RecordFragment extends BaseFragment {
     public String getFragmentName(){
         return this.fragmentName;
     }
+
 
 
     public void controlTimer() {
@@ -142,6 +152,9 @@ public class RecordFragment extends BaseFragment {
         recordingsAdapter = new RecordingsAdapter(getActivity(), recordings);
         recordList.setAdapter(recordingsAdapter);
         selected = null;
+
+        myPrefs= PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+        peditor = myPrefs.edit();
 
         setRecordButtonListener();
         setSubmitButtonListener();
@@ -285,7 +298,8 @@ public class RecordFragment extends BaseFragment {
                         //Push onto firebase
                         mRef.push().setValue(selected);
 
-                        //TODO: either redirect to homefeed or make record list visible again
+                        baseFragment = HomeFeedFragment.newInstance(owner);
+                        inflateAndCommitBaseFragment();
                     }
                 } else if(isRecording){
                     Toast.makeText(getActivity(), R.string.play_while_recording_feedback, Toast.LENGTH_SHORT).show();
@@ -294,6 +308,15 @@ public class RecordFragment extends BaseFragment {
                 }
             }
         });
+    }
+
+    private void inflateAndCommitBaseFragment() {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame_main, baseFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+        peditor.putString(CURRENTFRAGMENT, baseFragment.getFragmentName());
+        peditor.commit();
     }
 
     @Override
