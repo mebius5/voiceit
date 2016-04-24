@@ -31,6 +31,7 @@ public class SettingsFragment extends BaseFragment {
     private final String fragmentName = FRAGMENTNAME;
 
     private static User owner;
+    private static String yourEmail;
 
     private TextView currentName;
 
@@ -47,9 +48,11 @@ public class SettingsFragment extends BaseFragment {
      * this fragment using the provided parameters.
      * @return A new instance of fragment ProfileFragment.
      */
-    public static SettingsFragment newInstance(User user) {
+    public static SettingsFragment newInstance(User user, String email) {
         SettingsFragment fragment = new SettingsFragment();
         owner = user;
+        yourEmail = email;
+
         return fragment;
     }
 
@@ -114,6 +117,10 @@ public class SettingsFragment extends BaseFragment {
 
     public void updateName() {
         this.currentName.setText(owner.getUsername());
+    }
+
+    public String getEmail() {
+        return yourEmail;
     }
 
     public void makeToast(CharSequence text) {

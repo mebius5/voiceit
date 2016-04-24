@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -48,10 +47,13 @@ public class ChangePasswordDialog{
             public void onClick(DialogInterface dialog, int id) {
                 String oldPass = prevPassword.getText().toString();
                 String newPass = newPassword.getText().toString();
-                //TODO: Retrieve email address from authentication (?)
-                String yourEmail = ""; //how to retrieve email?
-                mRef.changePassword(yourEmail /** how to retrieve email? */, oldPass, newPass, new Firebase.ResultHandler() {
+
+                System.out.println(myFrag.getEmail());
+
+
+                mRef.changePassword(myFrag.getEmail(), oldPass, newPass, new Firebase.ResultHandler() {
                     @Override
+
                     public void onSuccess() {
                         myFrag.makeToast("Your password has been successfully changed!");
                     }
@@ -63,10 +65,9 @@ public class ChangePasswordDialog{
                 });
             }
         });
-
     }
+
     public void show() {
         builder.show();
     }
 }
-
