@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="200dp">
+    android:layout_height="200dp"
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/backgroundbubble"
-        android:layout_margin="20dp">
+        android:layout_margin="20dp"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="McYeezy"
-            android:id="@+id/textView"
+            android:id="@+id/textViewUsername"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
@@ -21,23 +23,87 @@
             android:layout_marginTop="10dp"
             android:textColor="@color/white"
             android:textIsSelectable="false"
-            android:textSize="24sp"
+            android:textSize="28sp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="20dp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView2"
-            android:layout_below="@+id/textView"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="20dp"
+            android:text="liked your post"
+            android:id="@+id/textViewAction"
             android:textAlignment="center"
-            android:layout_marginTop="5dp" />
-    </RelativeLayout>
-</RelativeLayout>
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
+            android:textSize="18sp"
+            android:textColor="#b4b4b4" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView5"
+                android:layout_weight="1"
+                android:src="@drawable/ic_action_add_person" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView6"
+                android:layout_weight="1"
+                android:src="@drawable/ic_action_discard" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView7"
+                android:layout_weight="1"
+                android:src="@drawable/ic_action_slideshow" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="5dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Follow"
+                android:id="@+id/textView"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:textColor="#FFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hide"
+                android:id="@+id/textView2"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:textColor="#FFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View clip"
+                android:id="@+id/textView3"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:textColor="#FFF" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
