@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity{
         mRef = new Firebase(getResources().getString(R.string.firebaseurl));
 
 
+
         if(myPrefs.getString("auth_token", "").equals("")){
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
@@ -167,6 +168,9 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        int tabPosition = myPrefs.getInt("TabPosition", 0);
+        tabLayout.getTabAt(tabPosition).select();
+
         initiateFragment();
     }
 
@@ -253,9 +257,6 @@ public class MainActivity extends AppCompatActivity{
         fragmentTransaction.commit();
         peditor.putString(CURRENTFRAGMENT, baseFragment.getFragmentName());
         peditor.commit();
-
-        int tabPosition = myPrefs.getInt("TabPosition", 0);
-        tabLayout.getTabAt(tabPosition).select();
     }
 
     private void makeToast(String e) {
