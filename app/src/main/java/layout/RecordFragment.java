@@ -260,7 +260,7 @@ public class RecordFragment extends BaseFragment {
         recordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!isRecording) {
+                if(!isRecording && !isAddingDescription) {
                     //Change image, change state, start recording
                     recordButton.setImageResource(R.drawable.stop_button);
                     isRecording = true;
@@ -274,11 +274,14 @@ public class RecordFragment extends BaseFragment {
                         e.printStackTrace();
                     }
 
+                } else if(isAddingDescription) {
+                    Toast.makeText(getActivity(), "Impossible to record right now", Toast.LENGTH_SHORT).show();
                 } else {
                     //Change image, change state, store recording on list
                     countDownTimer.cancel();
                     cleanUpOnStop();
                 }
+
             }
         });
     }
