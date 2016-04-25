@@ -73,10 +73,25 @@
         android:layout_weight="3"
         android:textSize="18dp" />
 
-    <ImageButton
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:id="@+id/imageButton"
-        android:layout_margin="15dp" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:id="@+id/photofromcamera"
+            android:layout_margin="15dp"
+            android:src="@drawable/camera" />
+
+        <ImageButton
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:id="@+id/photofromgallery"
+            android:layout_margin="15dp"
+            android:src="@drawable/gallery" />
+
+    </LinearLayout>
 
 </LinearLayout>
