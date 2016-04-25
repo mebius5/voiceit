@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:icon="@drawable/ic_home_black_24dp"
-                android:text="Home"/>
+                android:text="Home" />
 
             <android.support.design.widget.TabItem
                 android:layout_height="wrap_content"
