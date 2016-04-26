@@ -1,6 +1,7 @@
 package layout;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -83,7 +84,39 @@ public class HomeFeedFragment extends BaseFragment {
                 postViewHolder.numLikes.setText("" + post.getLikes());
 
                 //TODO: set postViewHolder.imageView to retrieve image;
+
                 postViewHolder.timeStamp.setText(post.calculateElapsedTime());
+
+                //TODO: Play network instead of local recordings
+                postViewHolder.btnPlay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Instantiate new mediaPlayer
+                        MediaPlayer mediaPlayer = new MediaPlayer();
+
+                        try {
+                            mediaPlayer.setDataSource(post1.getAudioFilename());
+                        } catch(Exception e ){
+                            e.printStackTrace();
+                        }
+
+                        try {
+                            mediaPlayer.prepare();
+                        } catch(Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        mediaPlayer.start();
+
+                        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mp) {
+                                mp.stop();
+                                mp.release();
+                            }
+                        });
+                    }
+                });
 
                 postViewHolder.btnLikes.setOnClickListener(new View.OnClickListener() {
                     @Override

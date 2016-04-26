@@ -16,6 +16,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder{
     TextView description;
     ImageView imageView;
     ImageView btnLikes;
+    ImageView btnPlay;
     TextView numLikes;
     TextView timeStamp;
     ImageView postsetting;
@@ -25,6 +26,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder{
         username = (TextView) itemView.findViewById(R.id.textViewPostUsername);
         description = (TextView) itemView.findViewById(R.id.textViewPostDescription);
         imageView = (ImageView) itemView.findViewById(R.id.imageViewPostPicture);
+        btnPlay = (ImageView) itemView.findViewById(R.id.imageViewPostPlay);
         btnLikes = (ImageView) itemView.findViewById(R.id.imageViewPostLike);
         numLikes = (TextView) itemView.findViewById(R.id.textViewPostNumberLikes);
         timeStamp = (TextView) itemView.findViewById(R.id.textViewTimestamp);
