@@ -34,7 +34,7 @@ public class User {
 
     public String getUsername() { return this.username;}
 
-    public String getProfilePicName() { return this.profilePicName;}
+    public String getProfilePicName() { return this.profilePicName; }
 
     public void setUsername(String username){
         this.username = username;
