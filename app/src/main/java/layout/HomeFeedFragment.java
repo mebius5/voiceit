@@ -95,7 +95,6 @@ public class HomeFeedFragment extends BaseFragment {
 
                 postViewHolder.timeStamp.setText(post.calculateElapsedTime());
 
-                //TODO: Play network instead of local recordings
                 postViewHolder.btnPlay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
