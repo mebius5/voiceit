@@ -34,6 +34,7 @@ import layout.SettingsFragment;
 public class ChangePhotoDialog{
     private AlertDialog.Builder builder;
     private View dialoglayout;
+    private AlertDialog alertDialog;
 
     private Firebase mRef;
 
@@ -70,6 +71,7 @@ public class ChangePhotoDialog{
             public void onClick(View v) {
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (takePictureIntent.resolveActivity(myFrag.getActivity().getPackageManager()) != null) {
+                    alertDialog.dismiss();
                     myFrag.getActivity().startActivityForResult(takePictureIntent, 1);
                 }
 
@@ -92,6 +94,7 @@ public class ChangePhotoDialog{
         newProfileGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                alertDialog.dismiss();
                 Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 myFrag.getActivity().startActivityForResult(i, 1);
             }
@@ -121,7 +124,7 @@ public class ChangePhotoDialog{
     }
 
     public void show() {
-        builder.show();
+        alertDialog = builder.show();
     }
 }
 
