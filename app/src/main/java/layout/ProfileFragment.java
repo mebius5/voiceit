@@ -1,19 +1,14 @@
 package layout;
 
 import android.content.Context;
-import android.content.res.ObbInfo;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.firebase.client.DataSnapshot;
@@ -109,7 +104,7 @@ public class ProfileFragment extends BaseFragment {
                                 MediaPlayer mediaPlayer = new MediaPlayer();
 
                                 try {
-                                    mediaPlayer.setDataSource(post1.getAudioFilename());
+                                    mediaPlayer.setDataSource(post1.getAudioEncoded());
                                 } catch(Exception e ){
                                     e.printStackTrace();
                                 }

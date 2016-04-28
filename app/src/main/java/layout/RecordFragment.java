@@ -10,12 +10,12 @@ import android.os.CountDownTimer;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -25,11 +25,16 @@ import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import jhu.voiceit.Byte64EncodeAndDecoder;
 import jhu.voiceit.MainActivity;
 import jhu.voiceit.Post;
 import jhu.voiceit.R;
@@ -199,7 +204,7 @@ public class RecordFragment extends BaseFragment {
 
         outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording " + owner.getNumPosts() + fileNumber + owner.getUserId() + ".3gp";
 
-        Post newPost = new Post(owner, outputFile, "abc");
+        Post newPost = new Post(owner);
 
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -228,7 +233,7 @@ public class RecordFragment extends BaseFragment {
                         mediaPlayer = new MediaPlayer();
 
                         try {
-                            mediaPlayer.setDataSource(selected.getAudioFilename());
+                            mediaPlayer.setDataSource(selected.getAudioEncoded());
                         } catch(Exception e ){
                             e.printStackTrace();
                         }
@@ -298,6 +303,10 @@ public class RecordFragment extends BaseFragment {
                         recordDescription.setVisibility(View.VISIBLE);
                         isAddingDescription = true;
                     } else {
+                        Log.i("RecordFragment", "Encoding file "+outputFile);
+                        //Encodes audio recording as string and set it
+                        selected.setAudioEncoded(Byte64EncodeAndDecoder.encode(outputFile));
+
                         //Store the description in the post, submit to firebase
                         selected.setDescription(recordDescription.getText().toString());
                         Toast.makeText(getActivity(), "Your recording has been posted!", Toast.LENGTH_SHORT).show();

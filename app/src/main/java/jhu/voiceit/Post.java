@@ -1,6 +1,5 @@
 package jhu.voiceit;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -9,7 +8,7 @@ import java.util.HashSet;
  */
 public class Post {
     private User owner;
-    private String audioFilename;
+    private String audioEncoded;
     private String description;
     private String createDate;
     private int likes;
@@ -25,30 +24,32 @@ public class Post {
 
     }
 
-    public Post(User owner, String audioFilename, String description) {
+    public Post(User owner) {
         this.owner = owner;
-        this.audioFilename = audioFilename;
-        this.description = description;
         this.createDate = (new Date()).toString();
         this.likes = 0;
     }
 
-    public Post(User owner, String audioFilename, String description, String createDate, int likes){
+    public Post(User owner, String audioEncoded, String description, String createDate, int likes){
         this.owner = owner;
-        this.audioFilename = audioFilename;
+        this.audioEncoded = audioEncoded;
         this.description = description;
         this.createDate = createDate;
         this.likes = likes;
     }
 
     public User getOwner() { return owner;}
-    public String getAudioFilename() { return audioFilename;}
+    public String getAudioEncoded() { return audioEncoded;}
     public String getDescription(){ return this.description;}
     public String getCreateDate() { return createDate;}
     public int getLikes() { return likes;}
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setAudioEncoded(String audioEncoded) {
+        this.audioEncoded = audioEncoded;
     }
 
     public String calculateElapsedTime(){
