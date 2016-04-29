@@ -160,16 +160,18 @@ public class ProfileFragment extends BaseFragment {
                             }
                         });
 
+                        //Checks what the method did to update the image
+                        if(post1.inLikerSet(owner.getUserId())) {
+                            postViewHolder.btnLikes.setImageResource(R.drawable.ic_action_favorite_selected);
+                        } else {
+                            postViewHolder.btnLikes.setImageResource(R.drawable.ic_action_favorite);
+                        }
+
                         postViewHolder.btnLikes.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                boolean status = post1.likePost(owner.getUserId());
-                                //Checks what the method did to update the image
-                                if(status) {
-                                    postViewHolder.btnLikes.setImageResource(R.drawable.ic_action_favorite_selected);
-                                } else {
-                                    postViewHolder.btnLikes.setImageResource(R.drawable.ic_action_favorite);
-                                }
+                                post1.likePost(owner.getUserId());
+
                                 postRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -191,6 +193,7 @@ public class ProfileFragment extends BaseFragment {
                             @Override
                             public void onClick(View v) {
                                 post1.likePost(owner.getUserId());
+
                                 postRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
