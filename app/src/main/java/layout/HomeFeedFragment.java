@@ -97,16 +97,19 @@ public class HomeFeedFragment extends BaseFragment {
                 //TODO: set postViewHolder.imageView to retrieve image;
 
 
-                postViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        OtherUserProfileFragment otherUser = OtherUserProfileFragment.newInstance(post1.getOwner());
-                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.frame_main,otherUser);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
-                    }
-                });
+                //Inflates the another user's profile, but not your own
+                if(!post1.getOwner().getUserId().equals(owner.getUserId())) {
+                    postViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            OtherUserProfileFragment otherUser = OtherUserProfileFragment.newInstance(post1.getOwner());
+                            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                            fragmentTransaction.replace(R.id.frame_main, otherUser);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+                        }
+                    });
+                }
 
                 postViewHolder.timeStamp.setText(post.calculateElapsedTime());
 
