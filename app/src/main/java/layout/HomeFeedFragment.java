@@ -34,14 +34,18 @@ import java.util.Map;
 /**
  * A fragment representing a list of Items.
  * <p/>
+ * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
 public class HomeFeedFragment extends BaseFragment {
 
     public final static String FRAGMENTNAME = "HomeFeedFragment";
     private final String fragmentName = FRAGMENTNAME;
-
+    private MediaPlayer mediaPlayer;
     private Firebase mRef;
+    private OnListFragmentInteractionListener mListener;
+    private boolean isPlaying = false;
+
     private static User owner;
 
     /**
@@ -51,20 +55,11 @@ public class HomeFeedFragment extends BaseFragment {
     public HomeFeedFragment() {
     }
 
-    /***
-     * Returns the name of this fragment to be stored into mysharedprefs
-     * @return
-     */
     public String getFragmentName(){
         return this.fragmentName;
     }
 
 
-    /***
-     * Returns a new instance of the homefeed fragment
-     * @param user the input user
-     * @return a new homefeed fragment instance
-     */
     public static HomeFeedFragment newInstance(User user) {
         HomeFeedFragment fragment = new HomeFeedFragment();
         owner = user;
@@ -81,137 +76,127 @@ public class HomeFeedFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_list, container, false);
 
-        //Firebase Reference
         mRef = new Firebase(getResources().getString(R.string.firebaseurl)).child("posts");
-
-        //Query the users by priority
         Query user = mRef.orderByPriority();
 
         Context context = view.getContext();
-
         RecyclerView recyclerView = (RecyclerView) view;
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(
-                //The firebase recycler adapter view
                 new FirebaseRecyclerAdapter<Post, PostViewHolder>(Post.class, R.layout.post_layout, PostViewHolder.class, user) {
+            @Override
+            protected void populateViewHolder(final PostViewHolder postViewHolder, Post post, int i) {
+                final Post post1 = post;
+                final Firebase postRef = getRef(i);
+                postViewHolder.username.setText(post.getOwner().getUsername());
+                postViewHolder.description.setText(post.getDescription());
+                postViewHolder.numLikes.setText("" + post.getLikes());
 
-                    /***
-                     * Binds and populate a postView Holder with the information of the post
-                     * @param postViewHolder
-                     * @param post
-                     * @param i
-                     */
+                //TODO: set postViewHolder.imageView to retrieve image;
+
+                postViewHolder.timeStamp.setText(post.calculateElapsedTime());
+
+                postViewHolder.btnPlay.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    protected void populateViewHolder(final PostViewHolder postViewHolder, Post post, int i) {
-                        //Must be a final variable to be used in some of the static methods below
-                        final Post post1 = post;
-
-                        //Get reference to the post
-                        final Firebase postRef = getRef(i);
-
-                        //Displays the username
-                        postViewHolder.username.setText(post.getOwner().getUsername());
-
-                        //Displays the description
-                        postViewHolder.description.setText(post.getDescription());
-
-                        //Displays the number of likes
-                        postViewHolder.numLikes.setText("" + post.getLikes());
-
-                        //TODO: set postViewHolder.imageView to retrieve image;
-
-                        //Displays the time stamp
-                        postViewHolder.timeStamp.setText(post.calculateElapsedTime());
-
-                        postViewHolder.btnPlay.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String defaultFilePath = Environment.getExternalStorageDirectory() + "/defaultRecording";
-
-                                //Decodes the string and outputs in path of defaultFileName
-                                Byte64EncodeAndDecoder.decode(defaultFilePath, post1.getAudioEncoded());
-
-                                //Instantiate new mediaPlayer
-                                MediaPlayer mediaPlayer = new MediaPlayer();
-
-                                try {
-                                    mediaPlayer.setDataSource(defaultFilePath);
-                                    //mediaPlayer.setDataSource(post1.getAudioEncoded());
-                                } catch(Exception e ){
-                                    e.printStackTrace();
-                                }
-
-                                try {
-                                    mediaPlayer.prepare();
-                                } catch(Exception e) {
-                                    e.printStackTrace();
-                                }
-
-                                mediaPlayer.start();
-
-                                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                                    @Override
-                                    public void onCompletion(MediaPlayer mp) {
-                                        mp.stop();
-                                        mp.release();
-                                    }
-                                });
-                            }
-                        });
-
-                        postViewHolder.btnLikes.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                post1.likePost(owner.getUserId());
-                                postRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        Object priority = dataSnapshot.getPriority();
-                                        postRef.setValue(post1);
-                                        postRef.setPriority(priority);
-                                    }
-
-                                    @Override
-                                    public void onCancelled(FirebaseError firebaseError) {
-
-                                    }
-                                });
-                            }
-                        });
-
-                        postViewHolder.numLikes.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                post1.likePost(owner.getUserId());
-                                postRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        Object priority = dataSnapshot.getPriority();
-                                        postRef.setValue(post1);
-                                        postRef.setPriority(priority);
-                                    }
-
-                                    @Override
-                                    public void onCancelled(FirebaseError firebaseError) {
-
-                                    }
-                                });
-                            }
-                        });
-
-                        if (!owner.getUserId().equals(post1.getOwner().getUserId())) {
-                            postViewHolder.postsetting.setVisibility(View.GONE);
+                    public void onClick(View v) {
+                        if(isPlaying) {
+                            mediaPlayer.stop();
+                            mediaPlayer.release();
+                            isPlaying = false;
+                            postViewHolder.btnPlay.setImageResource(R.drawable.ic_action_play);
                         } else {
-                            postViewHolder.postsetting.setOnClickListener(new View.OnClickListener() {
+                            String defaultFilePath = Environment.getExternalStorageDirectory() + "/defaultRecording";
+
+                            //Decodes the string and outputs in path of defaultFileName
+                            Byte64EncodeAndDecoder.decode(defaultFilePath, post1.getAudioEncoded());
+
+                            //Instantiate new mediaPlayer
+                            mediaPlayer = new MediaPlayer();
+
+                            try {
+                                mediaPlayer.setDataSource(defaultFilePath);
+                                //mediaPlayer.setDataSource(post1.getAudioEncoded());
+                            } catch(Exception e ){
+                                e.printStackTrace();
+                            }
+
+                            try {
+                                mediaPlayer.prepare();
+                            } catch(Exception e) {
+                                e.printStackTrace();
+                            }
+
+                            mediaPlayer.start();
+
+                            postViewHolder.btnPlay.setImageResource(R.drawable.ic_action_pause);
+                            isPlaying = true;
+
+                            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                                 @Override
-                                public void onClick(View v) {
-                                    PostSettingDialogue popup = new PostSettingDialogue(getActivity(), HomeFeedFragment.this, owner, postRef);
-                                    popup.show();
+                                public void onCompletion(MediaPlayer mp) {
+                                    postViewHolder.btnPlay.setImageResource(R.drawable.ic_action_play);
+                                    isPlaying = false;
+                                    mp.stop();
+                                    mp.release();
                                 }
                             });
                         }
                     }
                 });
+
+                postViewHolder.btnLikes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        post1.likePost(owner.getUserId());
+                        postRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Object priority = dataSnapshot.getPriority();
+                                postRef.setValue(post1);
+                                postRef.setPriority(priority);
+                            }
+
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+
+                            }
+                        });
+                    }
+                });
+
+                postViewHolder.numLikes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        post1.likePost(owner.getUserId());
+                        postRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Object priority = dataSnapshot.getPriority();
+                                postRef.setValue(post1);
+                                postRef.setPriority(priority);
+                            }
+
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+
+                            }
+                        });
+                    }
+                });
+
+                if (!owner.getUserId().equals(post1.getOwner().getUserId())) {
+                    postViewHolder.postsetting.setVisibility(View.GONE);
+                } else {
+                    postViewHolder.postsetting.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            PostSettingDialogue popup = new PostSettingDialogue(getActivity(), HomeFeedFragment.this, owner, postRef);
+                            popup.show();
+                        }
+                    });
+                }
+            }
+        });
         return view;
     }
 

@@ -36,6 +36,9 @@ public class ProfileFragment extends BaseFragment {
     private final String fragmentName = FRAGMENTNAME;
 
     private static User owner;
+    private MediaPlayer mediaPlayer;
+
+    private boolean isPlaying = false;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -101,36 +104,49 @@ public class ProfileFragment extends BaseFragment {
                         postViewHolder.btnPlay.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                String defaultFilePath = Environment.getExternalStorageDirectory() + "/defaultRecording";
+                                if(isPlaying) {
+                                    mediaPlayer.stop();
+                                    mediaPlayer.release();
+                                    isPlaying = false;
+                                    postViewHolder.btnPlay.setImageResource(R.drawable.ic_action_play);
 
-                                //Decodes the string and outputs in path of defaultFileName
-                                Byte64EncodeAndDecoder.decode(defaultFilePath, post1.getAudioEncoded());
+                                } else {
+                                    String defaultFilePath = Environment.getExternalStorageDirectory() + "/defaultRecording";
 
-                                //Instantiate new mediaPlayer
-                                MediaPlayer mediaPlayer = new MediaPlayer();
+                                    //Decodes the string and outputs in path of defaultFileName
+                                    Byte64EncodeAndDecoder.decode(defaultFilePath, post1.getAudioEncoded());
 
-                                try {
-                                    mediaPlayer.setDataSource(defaultFilePath);
-                                    //mediaPlayer.setDataSource(post1.getAudioEncoded());
-                                } catch(Exception e ){
-                                    e.printStackTrace();
-                                }
+                                    //Instantiate new mediaPlayer
+                                    mediaPlayer = new MediaPlayer();
 
-                                try {
-                                    mediaPlayer.prepare();
-                                } catch(Exception e) {
-                                    e.printStackTrace();
-                                }
-
-                                mediaPlayer.start();
-
-                                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                                    @Override
-                                    public void onCompletion(MediaPlayer mp) {
-                                        mp.stop();
-                                        mp.release();
+                                    try {
+                                        mediaPlayer.setDataSource(defaultFilePath);
+                                        //mediaPlayer.setDataSource(post1.getAudioEncoded());
+                                    } catch(Exception e ){
+                                        e.printStackTrace();
                                     }
-                                });
+
+                                    try {
+                                        mediaPlayer.prepare();
+                                    } catch(Exception e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    mediaPlayer.start();
+
+                                    postViewHolder.btnPlay.setImageResource(R.drawable.ic_action_pause);
+                                    isPlaying = true;
+
+                                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                        @Override
+                                        public void onCompletion(MediaPlayer mp) {
+                                            postViewHolder.btnPlay.setImageResource(R.drawable.ic_action_play);
+                                            isPlaying = false;
+                                            mp.stop();
+                                            mp.release();
+                                        }
+                                    });
+                                }
                             }
                         });
 
