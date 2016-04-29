@@ -25,8 +25,9 @@ HomeFeedFragment: (Shows the posts of all users)
       <li>It is divided into category of day (d), hour (h), minute (m), and second (s).
       So if the post is 1 day and 80 minutes old, the timestamp will show up as 1d only.
     </ul>
-  <li> Each post allows user to play the post, like the opst, or delete your own post.
+  <li> Each post allows user to see other users profile page, play the post, like the opst, or delete your own post.
     <ul>
+      <li> When the user hits on the profile picture of another user, he is redirected to the other user's profile page.
       <li> When the user plays the post, the play button automatically changes to pause button.
       Upon completion of the playback, the pause button resets to a play button. 
       <li> When the user likes a post, the heart button turns yellow, and the like increments. <br>
@@ -50,3 +51,4 @@ RecordFragment: (Allows users to record and post)
   <li> A confirmation toast will pop up to confirm post and redirects user to the homefeed
 </ul>
 
+ProfileFragment: (Sees the user's own post)
