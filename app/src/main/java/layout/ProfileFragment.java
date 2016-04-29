@@ -1,19 +1,15 @@
 package layout;
 
 import android.content.Context;
-import android.content.res.ObbInfo;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.firebase.client.DataSnapshot;
@@ -23,6 +19,7 @@ import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 
+import jhu.voiceit.Byte64EncodeAndDecoder;
 import jhu.voiceit.Post;
 import jhu.voiceit.R;
 import jhu.voiceit.User;
@@ -101,15 +98,20 @@ public class ProfileFragment extends BaseFragment {
                         //TODO: set postViewHolder.imageView to retrieve image;
                         postViewHolder.timeStamp.setText(post.calculateElapsedTime());
 
-                        //TODO: Play network instead of local recordings
                         postViewHolder.btnPlay.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                String defaultFilePath = Environment.getExternalStorageDirectory() + "/defaultRecording";
+
+                                //Decodes the string and outputs in path of defaultFileName
+                                Byte64EncodeAndDecoder.decode(defaultFilePath, post1.getAudioEncoded());
+
                                 //Instantiate new mediaPlayer
                                 MediaPlayer mediaPlayer = new MediaPlayer();
 
                                 try {
-                                    mediaPlayer.setDataSource(post1.getAudioFilename());
+                                    mediaPlayer.setDataSource(defaultFilePath);
+                                    //mediaPlayer.setDataSource(post1.getAudioEncoded());
                                 } catch(Exception e ){
                                     e.printStackTrace();
                                 }
