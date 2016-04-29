@@ -78,12 +78,20 @@ Each post allows user to see other users profile page, play the post, like the p
       <li> A user can only see the trash can icon if the post is his own post. Thus, preventing other users from deleting his posts.
     </ul>
 
-###SetingsFragment:
+###SettingsFragment:
 <ul>
-    <li>Change Name: User can see the old username and input a new one, as do all the options in this fragment, this is done on an AlertDialog. This username does not need to be unique.</li>
+    <li>Change Name: User can see the old username and input a new one. Like all the options in this fragment, this is done on an AlertDialog.</li>
+      <ul>
+        <li>Username does not have to unique (due to use of push)
+        <li>Change of username will reflect on all of your previous posts.
+      </ul>
     <li>Change Picture: User can see the old picture and submit a new one from the Gallery or take a picture. This is currently being developed and not entirely functional.</li>
     <li>Change Password: As a safety measure, the user has to enter the old password to confirm identity and also the intended new password.</li>
     <li>Delete Account: User is prompted for the account password if they intend to delete the account.</li>
+      <ul>
+        <li> Will not delete account if password's incorrect
+        <li> Deletion of account will also delete all of the corresponsding posts.
+      </ul>
 </ul>
 
 ###NotificationsFragment:
