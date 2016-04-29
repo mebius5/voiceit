@@ -5,12 +5,17 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,11 +56,33 @@ public class ChangeNameDialog {
 
         builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                String newName = newUsername.getText().toString();
+                final String newName = newUsername.getText().toString();
                 if (newName.equals("")) {
                     myFrag.makeToast("You must input a new username! Username unchanged.");
                 } else {
                     System.out.println("Name Changed");
+
+                    final Firebase postsRef = new Firebase("https://voiceit.firebaseio.com/posts");
+                    final Query postQuery = postsRef.orderByChild("owner/userId").startAt(user.getUserId()).endAt(user.getUserId());
+                    postQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            Log.i("ChangeName", "Number of Posts for this user: "+dataSnapshot.getChildrenCount());
+
+                            for (DataSnapshot i: dataSnapshot.getChildren()){
+                                Log.i("ChangeName", "getPostRefPath: "+i.getRef().getPath());
+                                Map<String, Object> change = new HashMap<>();
+                                change.put("owner/username",newName);
+                                i.getRef().updateChildren(change);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+
+                        }
+                    });
 
                     //Change name of user object
                     user.setUsername(newName);
@@ -64,6 +91,7 @@ public class ChangeNameDialog {
                     Map<String, Object> changes = new HashMap<String, Object>();
                     changes.put("username", newName);
                     mRef.updateChildren(changes);
+
 
                     //Push changes to SharedPreferences
                     SharedPreferences myPrefs= PreferenceManager.getDefaultSharedPreferences(myFrag.getActivity());
