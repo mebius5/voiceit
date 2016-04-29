@@ -8,11 +8,13 @@ import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -71,16 +73,17 @@ public class ProfileFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        TextView numPostText = (TextView) view.findViewById(R.id.post_num);
-        numPostText.setText("" + owner.getNumPosts());
+        final TextView numPostText = (TextView) view.findViewById(R.id.post_num);
 
         Firebase mRef = new Firebase(getResources().getString(R.string.firebaseurl)).child("posts");
         Query user = mRef.orderByChild("owner/userId").equalTo(owner.getUserId());
 
-        user.addListenerForSingleValueEvent(new ValueEventListener() {
+        user.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                dataSnapshot.getChildrenCount();
+                long numPosts = dataSnapshot.getChildrenCount();
+                Log.i("ProfileFragment", "onDataChange: numPosts "+numPosts);
+                numPostText.setText("" + numPosts);
             }
 
             @Override

@@ -145,7 +145,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                         Firebase usersRef = fireBase.child("users").child(userId);
                         Map<String, Object> userInfo = new HashMap<String, Object>();
-                        usersRef.setValue(new User(userId, userName, "userdefault.png", emailInput.getText().toString(), 0));
+                        usersRef.setValue(new User(userId, userName, "userdefault.png", emailInput.getText().toString()));
 
                         movetoMain();
                     }

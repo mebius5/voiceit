@@ -3,6 +3,7 @@ package layout;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -10,7 +11,6 @@ import android.os.CountDownTimer;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,14 +25,8 @@ import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 import jhu.voiceit.Byte64EncodeAndDecoder;
 import jhu.voiceit.MainActivity;
@@ -109,12 +103,12 @@ public class RecordFragment extends BaseFragment {
 
             @Override
             public void onFinish() {
-                cleanUpOnStop();
+                cleanUpMediaRecorderOnStop();
             }
         }.start();
     }
 
-    public void cleanUpOnStop() {
+    public void cleanUpMediaRecorderOnStop() {
 
         mediaRecorder.stop();
         mediaRecorder.release();
@@ -124,6 +118,16 @@ public class RecordFragment extends BaseFragment {
         isRecording = false;
         Toast.makeText(getActivity(), R.string.add_record_feedback, Toast.LENGTH_SHORT).show();
     }
+
+    public void cleanUpMediaPlayerOnStop() {
+
+        mediaPlayer.stop();
+        mediaPlayer.reset();
+        mediaPlayer.release();
+        isPlaying = false;
+        playButton.setImageResource(R.drawable.ic_action_play);
+    }
+
 
     /**
      * Use this factory method to create a new instance of
@@ -170,11 +174,6 @@ public class RecordFragment extends BaseFragment {
         setPlayButtonListener();
         setListListener();
 
-        /*mediaRecorder = new MediaRecorder();
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);*/
-
         return view;
     }
 
@@ -184,6 +183,7 @@ public class RecordFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 changeBackgroundColors(position);
                 selected = recordings.get(position);
+                outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording"+ position+ ".3gp";
             }
         });
     }
@@ -202,7 +202,7 @@ public class RecordFragment extends BaseFragment {
     public void insertNewRecording() {
         String fileNumber = "" + recordings.size();
 
-        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording " + owner.getNumPosts() + fileNumber + owner.getUserId() + ".3gp";
+        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording"+ fileNumber+ ".3gp";
 
         Post newPost = new Post(owner);
 
@@ -224,30 +224,35 @@ public class RecordFragment extends BaseFragment {
                 if(selected != null && !isRecording) {
                     //Checks if it's already playing to configure PLAY or PAUSE
                     if(isPlaying) {
-                        //Changes image, stops the sound, reverts the Boolean
-                        playButton.setImageResource(R.drawable.ic_action_play);
-                        mediaPlayer.stop();
-                        isPlaying = false;
+                        cleanUpMediaPlayerOnStop();
                     } else {
-                        //Instantiate new mediaPlayer
-                        mediaPlayer = new MediaPlayer();
-
                         try {
-                            mediaPlayer.setDataSource(selected.getAudioEncoded());
+                            //Instantiate new mediaPlayer
+                            mediaPlayer = new MediaPlayer();
+                            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                                @Override
+                                public void onPrepared(MediaPlayer mp) {
+                                    if(mp==mediaPlayer) {
+                                        mediaPlayer.start();
+                                        //Change image and reverts the Boolean
+                                        playButton.setImageResource(R.drawable.ic_action_pause);
+                                        isPlaying = true;
+                                        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                            @Override
+                                            public void onCompletion(MediaPlayer mp) {
+                                                cleanUpMediaPlayerOnStop();
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                            mediaPlayer.setDataSource(outputFile);
+                            mediaPlayer.prepare();
+
                         } catch(Exception e ){
                             e.printStackTrace();
                         }
-
-                        try {
-                            mediaPlayer.prepare();
-                        } catch(Exception e) {
-                            e.printStackTrace();
-                        }
-
-                        //Play, change image and reverts the Boolean
-                        mediaPlayer.start();
-                        playButton.setImageResource(R.drawable.ic_action_pause);
-                        isPlaying = true;
                     }
 
                     //Gives appropriate feedback to the user
@@ -267,15 +272,14 @@ public class RecordFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if(!isRecording && !isAddingDescription) {
-                    //Change image, change state, start recording
-                    recordButton.setImageResource(R.drawable.stop_button);
-                    isRecording = true;
-                    controlTimer();
-
                     try {
                         insertNewRecording();
                         mediaRecorder.prepare();
                         mediaRecorder.start();
+                        //Change image, change state, start recording
+                        recordButton.setImageResource(R.drawable.stop_button);
+                        isRecording = true;
+                        controlTimer();
                     } catch(Exception e) {
                         e.printStackTrace();
                     }
@@ -285,7 +289,7 @@ public class RecordFragment extends BaseFragment {
                 } else {
                     //Change image, change state, store recording on list
                     countDownTimer.cancel();
-                    cleanUpOnStop();
+                    cleanUpMediaRecorderOnStop();
                 }
 
             }
@@ -315,11 +319,6 @@ public class RecordFragment extends BaseFragment {
                         Firebase post = mRef.child("posts").push();
                         post.setValue(selected);
                         post.setPriority(0 - Calendar.getInstance().getTimeInMillis());
-                        Firebase user = mRef.child("users").child(owner.getUserId());
-                        Map<String, Object> change = new HashMap<String, Object>();
-                        owner.setNumPosts(owner.getNumPosts() + 1);
-                        change.put("numPosts", owner.getNumPosts());
-                        user.updateChildren(change);
 
                         MainActivity.setTabLayout(0);
 

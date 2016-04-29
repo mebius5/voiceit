@@ -76,15 +76,13 @@ public class MainActivity extends AppCompatActivity{
             String userId = myPrefs.getString("UID","Default");
             String userName = myPrefs.getString("UserName", "Default");
             String profilePic = myPrefs.getString("ProfilePic","default.png");
-            long numPosts = myPrefs.getLong("numPosts",0);
             String email = myPrefs.getString("Email","Default");
             Log.i("MainActivity","UID: "+userId);
             Log.i("MainActivity","UserName: "+userName);
             Log.i("MainActivity","ProfilePic: "+profilePic);
-            Log.i("MainActivity","NumPosts:"+numPosts);
             Log.i("MainActivity","Email: "+email);
 
-            this.user = new User(userId, userName, profilePic, email, numPosts);
+            this.user = new User(userId, userName, profilePic, email);
         }
         Log.i("im here too", "hi");
         mRef = new Firebase(getResources().getString(R.string.firebaseurl));
@@ -110,14 +108,7 @@ public class MainActivity extends AppCompatActivity{
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String userName = (String) dataSnapshot.child("username").getValue();
                 String email = (String) dataSnapshot.child("email").getValue();
-                long numPosts;
-                if(dataSnapshot.child("numPosts").getValue() == null) {
-                    numPosts = 0;
-                } else {
-                    numPosts = (long) dataSnapshot.child("numPosts").getValue();
-                }
                 user.setUsername(userName);
-                user.setNumPosts(numPosts);
                 user.setEmail(email);
             }
 

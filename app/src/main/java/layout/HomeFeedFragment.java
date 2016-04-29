@@ -2,6 +2,7 @@ package layout;
 
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
@@ -114,6 +115,7 @@ public class HomeFeedFragment extends BaseFragment {
                     public void onClick(View v) {
                         if(isPlaying) {
                             mediaPlayer.stop();
+                            mediaPlayer.reset();
                             mediaPlayer.release();
                             isPlaying = false;
                             postViewHolder.btnPlay.setImageResource(R.drawable.ic_action_play);
@@ -125,34 +127,36 @@ public class HomeFeedFragment extends BaseFragment {
 
                             //Instantiate new mediaPlayer
                             mediaPlayer = new MediaPlayer();
+                            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
                             try {
                                 mediaPlayer.setDataSource(defaultFilePath);
-                                //mediaPlayer.setDataSource(post1.getAudioEncoded());
+                                mediaPlayer.prepare();
+                                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                                    @Override
+                                    public void onPrepared(MediaPlayer mp) {
+                                        if(mp==mediaPlayer) {
+                                            mediaPlayer.start();
+
+                                            postViewHolder.btnPlay.setImageResource(R.drawable.ic_action_pause);
+                                            isPlaying = true;
+
+                                            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                                @Override
+                                                public void onCompletion(MediaPlayer mp) {
+                                                    postViewHolder.btnPlay.setImageResource(R.drawable.ic_action_play);
+                                                    isPlaying = false;
+                                                    mp.stop();
+                                                    mp.reset();
+                                                    mp.release();
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
                             } catch(Exception e ){
                                 e.printStackTrace();
                             }
-
-                            try {
-                                mediaPlayer.prepare();
-                            } catch(Exception e) {
-                                e.printStackTrace();
-                            }
-
-                            mediaPlayer.start();
-
-                            postViewHolder.btnPlay.setImageResource(R.drawable.ic_action_pause);
-                            isPlaying = true;
-
-                            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                                @Override
-                                public void onCompletion(MediaPlayer mp) {
-                                    postViewHolder.btnPlay.setImageResource(R.drawable.ic_action_play);
-                                    isPlaying = false;
-                                    mp.stop();
-                                    mp.release();
-                                }
-                            });
                         }
                     }
                 });
