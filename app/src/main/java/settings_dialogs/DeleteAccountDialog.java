@@ -30,8 +30,6 @@ public class DeleteAccountDialog{
 
     private Firebase mRef;
 
-    //TODO: Delete account from user node and user authentication
-
     public DeleteAccountDialog(Activity a, final SettingsFragment myFrag, final User user) {
         LayoutInflater inflater = a.getLayoutInflater();
         dialoglayout = inflater.inflate(R.layout.delete_account, null);
@@ -57,6 +55,7 @@ public class DeleteAccountDialog{
                     @Override
                     public void onSuccess() {
                         //TODO: Figure out how to log out after deleting account
+                        mRef.setValue(null);
                         logout(myFrag);
                         myFrag.makeToast("Account Deleted :'(");
                     }
@@ -72,6 +71,10 @@ public class DeleteAccountDialog{
 
     }
 
+    /***
+     * Logs the user out and reset the auth_token to null
+     * @param myFrag
+     */
     public void logout(final BaseFragment myFrag){
         SharedPreferences myPrefs= PreferenceManager.getDefaultSharedPreferences(myFrag.getActivity());
         SharedPreferences.Editor peditor = myPrefs.edit();
