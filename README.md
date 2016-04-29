@@ -44,16 +44,7 @@ If the user has not made an account, they can register for a new account through
       <li>It is divided into category of day (d), hour (h), minute (m), and second (s).
       So if the post is 1 day and 80 minutes old, the timestamp will show up as 1d only.
     </ul>
-  <li> Each post allows user to see other users profile page, play the post, like the opst, or delete your own post.
-    <ul>
-      <li> When the user hits on the profile picture of another user, he is redirected to the other user's profile page.
-      <li> When the user plays the post, the play button automatically changes to pause button.
-      Upon completion of the playback, the pause button resets to a play button. 
-      <li> When the user likes a post, the heart button turns yellow, and the like increments. <br>
-      A user can also undo his likes by tapping the like button again. Then the color resets and the count decrements. <br>
-      Notice that a user can only like a post once. <br>
-      <li> A user can only see the trash can icon if the post is his own post. Thus, preventing other users from deleting his posts.
-    </ul>
+  <li> See Post below
 </ul>
 
 ###RecordFragment: (Allows users to record and post)
@@ -71,8 +62,16 @@ If the user has not made an account, they can register for a new account through
 </ul>
 
 ###ProfileFragment: (Sees the user's own post)
-<ul>
-  <li> Users can view their own posts in reverse chronological order
-  <li> The user can like and delete their own posts from their profile
-  <li> The user can see their name, as well as their statistics on their page.
-</ul>
+
+
+###Post: (post_layout.xml)
+Each post allows user to see other users profile page, play the post, like the opst, or delete your own post.
+    <ul>
+      <li> When the user hits on the profile picture of another user, he is redirected to the other user's profile page.
+      <li> When the user plays the post, the play button automatically changes to pause button.
+      Upon completion of the playback, the pause button resets to a play button. 
+      <li> When the user likes a post, the heart button turns yellow, and the like increments. <br>
+      A user can also undo his likes by tapping the like button again. Then the color resets and the count decrements. <br>
+      Notice that a user can only like a post once. <br>
+      <li> A user can only see the trash can icon if the post is his own post. Thus, preventing other users from deleting his posts.
+    </ul>
