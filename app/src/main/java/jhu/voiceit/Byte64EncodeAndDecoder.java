@@ -15,9 +15,15 @@ import java.util.Arrays;
  * Created by GradyXiao on 4/28/16.
  */
 public class Byte64EncodeAndDecoder {
-    public static String encode(String defaultFilePath){
+
+    /****
+     * Encodes a file at the filePath into a string
+     * @param inputFilePath
+     * @return
+     */
+    public static String encode(String inputFilePath){
         try {
-            File file = new File(defaultFilePath);
+            File file = new File(inputFilePath);
             byte[] bytes = FileUtils.readFileToByteArray(file);
 
             String encoded = Base64.encodeToString(bytes, 0);
@@ -31,7 +37,12 @@ public class Byte64EncodeAndDecoder {
         }
     }
 
-    public static void decode(String defaultOutputFileName, String encodedString){
+    /***
+     * Decodes a encodedString into a file at defaultOutputFilePath
+     * @param outputPath
+     * @param encodedString
+     */
+    public static void decode(String outputPath, String encodedString){
         try
         {
             byte[] decoded = Base64.decode(encodedString, 0);
@@ -39,7 +50,7 @@ public class Byte64EncodeAndDecoder {
             //For Debugging
             //Log.i("~~~~~~~~ Decoded: ", Arrays.toString(decoded));
 
-            File outputFile = new File(defaultOutputFileName);
+            File outputFile = new File(outputPath);
             FileOutputStream os = new FileOutputStream(outputFile, false);
             os.write(decoded);
             os.close();
