@@ -71,3 +71,8 @@ If the user has not made an account, they can register for a new account through
 </ul>
 
 ###ProfileFragment: (Sees the user's own post)
+<ul>
+  <li> Users can view their own posts in reverse chronological order
+  <li> The user can like and delete their own posts from their profile
+  <li> The user can see their name, as well as their statistics on their page.
+</ul>
