@@ -1,11 +1,11 @@
-#VoiceIt: A Music social media application.
+#VoiceIt: A Music social media application
 
 ##The Gist:
 VoiceIt is an Android application that allows user to record, discover, and share 30-second sound clips.
 
 ##The Developers:
-
-VoiceIt was built by Leonardo Fontes, Seung Jae Paik, Sarah Sukardi, and Grady Xiao for Johns Hopkins' Spring 2016 User Interfaces & Mobile Applications class.
+VoiceIt was built by <a href="https://github.com/leofontes">Leonardo Fontes</a>, <a href="https://github.com/sjp511">Seung Jae Paik</a>,
+<a href="https://github.com/smsukardi"> Sarah Sukardi</a>, and <a href="https://github.com/mebius5">Grady Xiao</a> for Johns Hopkins' Spring 2016 User Interfaces & Mobile Applications class.
 
 ##The Premise:
 
@@ -20,8 +20,17 @@ There are only three activities for this application:
 ###Register Activity
 ###Main Activity
 
+###Activities:
+
+###MainActivity:
 Main Activity contains the toolbar, action overflow bar, and the button tabs. <br>
 These elements can be effectively reused by the fragments contained within MainActivity.
+MainActivity provides the parent for many of the fragment screns used within the app.
+###LoginActivity:
+Login Activity provides the first screen a user sees upon installing the app: a screen where they can log in to an existing account
+or create a new account.
+###RegisterActivity:
+If the user has not made an account, they can register for a new account through this screen.
 
 ###Fragments (w. Neat Features):
 
