@@ -16,11 +16,12 @@ Users can then like others' media posts and delete only their own posts. They ca
 ##Features:
 
 There are only three activities for this application:
-###Login Activity
-###Register Activity
-###Main Activity
-
-###Activities:
+<ul>
+  <li> Login Activity
+  <li> Register Activity
+  <li> Main Activity
+</ul>
+##Activities
 
 ###MainActivity:
 Main Activity contains the toolbar, action overflow bar, and the button tabs. <br>
@@ -32,7 +33,7 @@ or create a new account.
 ###RegisterActivity:
 If the user has not made an account, they can register for a new account through this screen.
 
-###Fragments (w. Neat Features):
+##Fragments (w. Neat Features)
 
 ###HomeFeedFragment: (Shows the posts of all users)
 <ul>
