@@ -111,7 +111,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="League of legends is a joke and heres why"
+                android:text="League of legends is a joke and heres wh"
                 android:id="@+id/textViewPostDescription"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
