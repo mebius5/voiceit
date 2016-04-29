@@ -7,12 +7,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.audiofx.BassBoost;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 
 import jhu.voiceit.LoginActivity;
 import jhu.voiceit.R;
@@ -56,6 +60,28 @@ public class DeleteAccountDialog{
                     public void onSuccess() {
                         //TODO: Figure out how to log out after deleting account
                         mRef.setValue(null);
+
+                        final Firebase postsRef = new Firebase("https://voiceit.firebaseio.com/posts");
+                        final Query postQuery = postsRef.orderByChild("owner/userId").startAt(user.getUserId()).endAt(user.getUserId());
+
+                        postQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                Log.i("DeleteAccount", "Number of Posts for this user: "+dataSnapshot.getChildrenCount());
+
+                                for (DataSnapshot i: dataSnapshot.getChildren()){
+                                    Log.i("DeleteAccount", "getPostRefPath: "+i.getRef().getPath());
+                                    i.getRef().setValue(null);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+
+                            }
+                        });
+
                         logout(myFrag);
                         myFrag.makeToast("Account Deleted :'(");
                     }
