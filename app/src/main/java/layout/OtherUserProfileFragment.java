@@ -135,11 +135,13 @@ public class OtherUserProfileFragment extends BaseFragment {
                                                     mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                                                         @Override
                                                         public void onCompletion(MediaPlayer mp) {
-                                                            postViewHolder.btnPlay.setImageResource(R.drawable.ic_action_play);
-                                                            isPlaying = false;
-                                                            mp.stop();
-                                                            mp.reset();
-                                                            mp.release();
+                                                            if(mp==mediaPlayer) {
+                                                                postViewHolder.btnPlay.setImageResource(R.drawable.ic_action_play);
+                                                                isPlaying = false;
+                                                                mp.stop();
+                                                                mp.reset();
+                                                                mp.release();
+                                                            }
                                                         }
                                                     });
                                                 }
