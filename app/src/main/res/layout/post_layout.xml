@@ -5,15 +5,28 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical">
 
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.7">
+            android:layout_weight="0.7"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/imageViewPostPicture"
+                android:layout_below="@+id/textViewPostDescription"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/userdefault"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -23,55 +36,18 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:textSize="24sp"
-                android:textColor="#000000"
-                />
-
-            <ImageView
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:id="@+id/imageViewPostPicture"
-                android:layout_below="@+id/textViewPostDescription"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/userdefault"
-                android:layout_marginBottom="10dp" />
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginTop="5dp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="vertical"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.3">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="League of legends is a joke and heres why"
-                android:id="@+id/textViewPostDescription"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_toRightOf="@+id/textViewPostUsername"
-                android:layout_toEndOf="@+id/textViewPostUsername"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
-                android:textSize="18sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="10m"
-                android:id="@+id/textViewTimestamp"
-                android:layout_alignBottom="@+id/imageViewPostPicture"
-                android:layout_alignRight="@+id/textViewPostDescription"
-                android:layout_alignEnd="@+id/textViewPostDescription"
-                android:layout_marginRight="5dp"
-                android:layout_gravity="right" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5"
+            android:background="#bebebe"
+            android:textSize="1dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -80,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/imageViewPostPicture"
-        android:background="@color/colorPrimary"
+        android:background="#66d6383a"
         android:layout_margin="0dp">
 
         <ImageView
@@ -118,7 +94,47 @@
             android:src="@drawable/delete"
             android:layout_margin="0dp"
             android:layout_weight="1"
-            android:tint="#ffffffff" />
+            android:tint="#ffffff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="League of legends is a joke and heres why"
+                android:id="@+id/textViewPostDescription"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_toRightOf="@+id/textViewPostUsername"
+                android:layout_toEndOf="@+id/textViewPostUsername"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textSize="18sp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10m"
+                android:id="@+id/textViewTimestamp"
+                android:layout_alignBottom="@+id/imageViewPostPicture"
+                android:layout_alignRight="@+id/textViewPostDescription"
+                android:layout_alignEnd="@+id/textViewPostDescription"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="right"
+                android:layout_marginTop="50dp" />
+        </LinearLayout>
     </LinearLayout>
 
     <RelativeLayout
