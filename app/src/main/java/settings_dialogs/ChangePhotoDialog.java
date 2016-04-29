@@ -45,7 +45,7 @@ public class ChangePhotoDialog{
         mRef=new Firebase("https://voiceit.firebaseio.com/users/"+user.getUserId());
 
         //Retrieves elements on the change profile picture dialog box
-        final ImageView oldProfilePicture = (ImageView) dialoglayout.findViewById(R.id.prev_photo);
+        ImageView oldProfilePicture = (ImageView) dialoglayout.findViewById(R.id.prev_photo);
         final ImageButton newProfileCamera = (ImageButton) dialoglayout.findViewById(R.id.photofromcamera);
         final ImageButton newProfileGallery = (ImageButton) dialoglayout.findViewById(R.id.photofromgallery);
 
@@ -76,19 +76,7 @@ public class ChangePhotoDialog{
                 }
 
             }
-            protected void OnActivityResult (int requestCode, int resultCode, Intent data) {
-                if (requestCode == 1) {
-                    Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
 
-                    String imagefile = encodeToBase64(thumbnail, Bitmap.CompressFormat.PNG, 100);
-
-                    //Push changes to firebase
-                    Map<String, Object> changes = new HashMap<String, Object>();
-                    changes.put("profilePicName", imagefile);
-                    mRef.updateChildren(changes);
-                    oldProfilePicture.setImageBitmap(thumbnail);
-                }
-            }
         });
 
         newProfileGallery.setOnClickListener(new View.OnClickListener() {
@@ -99,25 +87,28 @@ public class ChangePhotoDialog{
                 myFrag.getActivity().startActivityForResult(i, 1);
             }
 
-            protected void OnActivityResult (int requestCode, int resultCode, Intent data) {
-                if (requestCode == 1) {
-                    Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
 
-                    String imagefile = encodeToBase64(thumbnail, Bitmap.CompressFormat.PNG, 100);
-
-                    //Push changes to firebase
-                    Map<String, Object> changes = new HashMap<String, Object>();
-                    changes.put("profilePicName", imagefile);
-                    mRef.updateChildren(changes);
-                    oldProfilePicture.setImageBitmap(thumbnail);
-                }
-            }
         });
 
     }
 
-    public static String encodeToBase64(Bitmap image, Bitmap.CompressFormat compressFormat, int quality)
-    {
+    public void OnActivityResult (int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+
+            String imagefile = encodeToBase64(thumbnail, Bitmap.CompressFormat.PNG, 100);
+
+            //Push changes to firebase
+            Map<String, Object> changes = new HashMap<String, Object>();
+            changes.put("profilePicName", imagefile);
+            mRef.updateChildren(changes);
+
+            ImageView oldPicture = (ImageView) dialoglayout.findViewById(R.id.prev_photo);
+            oldPicture.setImageBitmap(thumbnail);
+        }
+    }
+
+    public static String encodeToBase64(Bitmap image, Bitmap.CompressFormat compressFormat, int quality) {
         ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();
         image.compress(compressFormat, quality, byteArrayOS);
         return Base64.encodeToString(byteArrayOS.toByteArray(), Base64.DEFAULT);
