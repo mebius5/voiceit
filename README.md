@@ -17,9 +17,15 @@ These elements can be effectively reused by the fragments contained within MainA
 Fragments (w. Neat Features):
 
 HomeFeedFragment: (Shows the posts of all users, where you can play, like, and also delete if it's your own post)
-Uses the Firebase Recycler View to automatically update the list whenever a post is changed, added, or deleted
-Calculates the timestamp of the post automatically every single time you pull up homefeed or when a child is added
-The timestamp is users relative time lapse from the creation of the post till now.
-It is divided into category of day (d), hour (h), minute (m), and second (s).
-So if the post is 1 day and 80 minutes old, the timestamp will show up as 1d only.
+<ul>
+  <li>Uses the Firebase Recycler View to automatically update the list whenever a post is changed, added, or deleted
+  <li>Calculates the timestamp of the post automatically every single time you pull up homefeed or when a child is added
+  <ul>
+    <li>The timestamp is users relative time lapse from the creation of the post till now.
+    <li>It is divided into category of day (d), hour (h), minute (m), and second (s).
+    So if the post is 1 day and 80 minutes old, the timestamp will show up as 1d only.
+  </ul>
+</ul>
+
+
 
