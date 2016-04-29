@@ -48,7 +48,8 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:icon="@drawable/ic_hearing_black_24dp"
-                android:text="Notifs"/>
+                android:text="Notifs"
+                android:id="@+id/tab_notify" />
 
             <android.support.design.widget.TabItem
                 android:layout_height="wrap_content"

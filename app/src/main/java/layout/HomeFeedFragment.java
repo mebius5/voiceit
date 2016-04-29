@@ -1,5 +1,6 @@
 package layout;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -93,6 +94,18 @@ public class HomeFeedFragment extends BaseFragment {
                 postViewHolder.numLikes.setText("" + post.getLikes());
 
                 //TODO: set postViewHolder.imageView to retrieve image;
+
+
+                postViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        OtherUserProfileFragment otherUser = OtherUserProfileFragment.newInstance(post1.getOwner());
+                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.frame_main,otherUser);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    }
+                });
 
                 postViewHolder.timeStamp.setText(post.calculateElapsedTime());
 

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
+import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity{
         //Deal with navigation to Search Fragment
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        /*** Hides the search button
         toolbar.setNavigationIcon(R.drawable.ic_search_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +101,7 @@ public class MainActivity extends AppCompatActivity{
                 inflateAndCommitBaseFragment();
             }
         });
+         ***/
 
         Firebase userRef = mRef.child("users").child(user.getUserId());
 
@@ -156,9 +159,10 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
                 Log.i("MainActivity","Reselected Tab Position: "+tab.getPosition());
-                if(baseFragment!=null &&
-                        (baseFragment.getFragmentName().equals("SettingsFragment")||
-                        baseFragment.getFragmentName().equals("SearchFragment"))) {
+                if(baseFragment!=null //&&
+                        //(baseFragment.getFragmentName().equals("SettingsFragment")||
+                        //baseFragment.getFragmentName().equals("SearchFragment"))
+                ) {
                     int position = tab.getPosition();
                     Log.i("MainActivity","Reselected Tab Position: "+position);
                     if(position == 0) {

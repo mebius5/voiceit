@@ -1,6 +1,5 @@
 package layout;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -25,15 +24,12 @@ import jhu.voiceit.Post;
 import jhu.voiceit.R;
 import jhu.voiceit.User;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * Use the {@link ProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
+/***
+ * Exactly the same as ProfileFragment, except you can't see the trash icon.
  */
-public class ProfileFragment extends BaseFragment {
+public class OtherUserProfileFragment extends BaseFragment {
 
-    public final static String FRAGMENTNAME = "ProfileFragment";
+    public final static String FRAGMENTNAME = "OtherUserProfileFragment";
     private final String fragmentName = FRAGMENTNAME;
 
     private static User owner;
@@ -41,7 +37,7 @@ public class ProfileFragment extends BaseFragment {
 
     private boolean isPlaying = false;
 
-    public ProfileFragment() {
+    public OtherUserProfileFragment() {
         // Required empty public constructor
     }
 
@@ -54,8 +50,8 @@ public class ProfileFragment extends BaseFragment {
      * this fragment using the provided parameters.
      * @return A new instance of fragment ProfileFragment.
      */
-    public static ProfileFragment newInstance(User user) {
-        ProfileFragment fragment = new ProfileFragment();
+    public static OtherUserProfileFragment newInstance(User user) {
+        OtherUserProfileFragment fragment = new OtherUserProfileFragment();
         owner = user;
         return fragment;
     }
@@ -100,7 +96,6 @@ public class ProfileFragment extends BaseFragment {
                         postViewHolder.description.setText(post.getDescription());
                         postViewHolder.numLikes.setText(""+post.getLikes());
                         //TODO: set postViewHolder.imageView to retrieve image;
-
                         postViewHolder.timeStamp.setText(post.calculateElapsedTime());
 
                         postViewHolder.btnPlay.setOnClickListener(new View.OnClickListener() {
@@ -193,17 +188,8 @@ public class ProfileFragment extends BaseFragment {
                             }
                         });
 
-                        if (!owner.getUserId().equals(post1.getOwner().getUserId())) {
-                            postViewHolder.postsetting.setVisibility(View.GONE);
-                        } else {
-                            postViewHolder.postsetting.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    PostSettingDialogue popup = new PostSettingDialogue(getActivity(), ProfileFragment.this, owner, postRef);
-                                    popup.show();
-                                }
-                            });
-                        }
+                        postViewHolder.postsetting.setVisibility(View.GONE);
+
                     }
                 });
 
