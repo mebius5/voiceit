@@ -1,19 +1,19 @@
 #VoiceIt: A Music social media application
 
-##The Gist:
+##The Gist
 VoiceIt is an Android application that allows user to record, discover, and share 30-second sound clips.
 
-##The Developers:
+##The Developers
 VoiceIt was built by <a href="https://github.com/leofontes">Leonardo Fontes</a>, <a href="https://github.com/sjp511">Seung Jae Paik</a>,
-<a href="https://github.com/smsukardi"> Sarah Sukardi</a>, and <a href="https://github.com/mebius5">Grady Xiao</a> for Johns Hopkins' Spring 2016 User Interfaces & Mobile Applications class.
+<a href="https://github.com/smsukardi"> Sarah Sukardi</a>, and <a href="https://github.com/mebius5">Grady Xiao</a> for Johns Hopkins' <a href="http://www.cs.jhu.edu/~joanne/cs250/">Spring 2016 User Interfaces & Mobile Applications</a> class.
 
-##The Premise:
+##The Premise
 
 Users create clips, recording directly through the device, which has a 30-second countdown timer that stops after 30 seconds have elapsed.
 Their media posts then appear on a news feed where they can view them in reverse chronological order.
 Users can then like others' media posts and delete only their own posts. They can also change their profile picture, their account name, as well as change and delete their password.
 
-##Features:
+##Features
 
 There are only three activities for this application:
 <ul>
