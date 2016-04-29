@@ -1,4 +1,4 @@
-###VoiceIt: A Music social media application.
+#VoiceIt: A Music social media application.
 
 ##The Gist:
 VoiceIt is an Android application that allows user to record, discover, and share 30-second sound clips.
@@ -16,16 +16,16 @@ Users can then like others' media posts and delete only their own posts. They ca
 ##Features:
 
 There are only three activities for this application:
-#Login Activity
-#Register Activity
-#Main Activity
+###Login Activity
+###Register Activity
+###Main Activity
 
-#Main Activity contains the toolbar, action overflow bar, and the button tabs. <br>
+Main Activity contains the toolbar, action overflow bar, and the button tabs. <br>
 These elements can be effectively reused by the fragments contained within MainActivity.
 
-##Fragments (w. Neat Features):
+###Fragments (w. Neat Features):
 
-#HomeFeedFragment: (Shows the posts of all users)
+###HomeFeedFragment: (Shows the posts of all users)
 <ul>
   <li> Uses the Firebase Recycler View to automatically update the list whenever a post is changed, added, or deleted. Notice that each post is displayed in reverse-chronological order.
   <li> Calculates the timestamp of the post automatically every single time you pull up homefeed or when a child is added
@@ -46,7 +46,7 @@ These elements can be effectively reused by the fragments contained within MainA
     </ul>
 </ul>
 
-#RecordFragment: (Allows users to record and post)
+###RecordFragment: (Allows users to record and post)
 <ul>
   <li> The record button allows user to record audio sound files (limit to 30 sec)
     <ul>
@@ -60,4 +60,4 @@ These elements can be effectively reused by the fragments contained within MainA
   <li> A confirmation toast will pop up to confirm post and redirects user to the homefeed
 </ul>
 
-#ProfileFragment: (Sees the user's own post)
+###ProfileFragment: (Sees the user's own post)
