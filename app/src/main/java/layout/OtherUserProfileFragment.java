@@ -157,7 +157,13 @@ public class OtherUserProfileFragment extends BaseFragment {
                         postViewHolder.btnLikes.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                post1.likePost(owner.getUserId());
+                                boolean status = post1.likePost(owner.getUserId());
+                                //Checks what the method did to update the image
+                                if(status) {
+                                    postViewHolder.btnLikes.setImageResource(R.drawable.ic_action_favorite_selected);
+                                } else {
+                                    postViewHolder.btnLikes.setImageResource(R.drawable.ic_action_favorite);
+                                }
                                 postRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {

@@ -159,11 +159,13 @@ public class Post {
      * If not already liked, add liker. Else, remove liker
      * @param likerUserId
      */
-    public void likePost(String likerUserId){
+    public boolean likePost(String likerUserId){
         if(this.likerIds.contains(likerUserId)){
             removeLiker(likerUserId);
+            return false;
         } else{
             addLiker(likerUserId);
+            return true;
         }
     }
 
