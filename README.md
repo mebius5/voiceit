@@ -1,22 +1,31 @@
-##VoiceIt: A Music social media application.
+###VoiceIt: A Music social media application.
 
-VoiceIt is an Android application that allows user to record, discover, and share 30-second sound clips. 
+##The Gist:
+VoiceIt is an Android application that allows user to record, discover, and share 30-second sound clips.
+
+##The Developers:
 
 VoiceIt was built by Leonardo Fontes, Seung Jae Paik, Sarah Sukardi, and Grady Xiao for Johns Hopkins' Spring 2016 User Interfaces & Mobile Applications class.
 
-Features:
+##The Premise:
+
+Users create clips, recording directly through the device, which has a 30-second countdown timer that stops after 30 seconds have elapsed.
+Their media posts then appear on a news feed where they can view them in reverse chronological order.
+Users can then like others' media posts and delete only their own posts. They can also change their profile picture, their account name, as well as change and delete their password.
+
+##Features:
 
 There are only three activities for this application:
-Login Activity
-Register Activity
-Main Activity
+#Login Activity
+#Register Activity
+#Main Activity
 
-Main Activity contains the toolbar, action overflow bar, and the button tabs. <br>
+#Main Activity contains the toolbar, action overflow bar, and the button tabs. <br>
 These elements can be effectively reused by the fragments contained within MainActivity.
 
-Fragments (w. Neat Features):
+##Fragments (w. Neat Features):
 
-HomeFeedFragment: (Shows the posts of all users)
+#HomeFeedFragment: (Shows the posts of all users)
 <ul>
   <li> Uses the Firebase Recycler View to automatically update the list whenever a post is changed, added, or deleted. Notice that each post is displayed in reverse-chronological order.
   <li> Calculates the timestamp of the post automatically every single time you pull up homefeed or when a child is added
@@ -37,7 +46,7 @@ HomeFeedFragment: (Shows the posts of all users)
     </ul>
 </ul>
 
-RecordFragment: (Allows users to record and post)
+#RecordFragment: (Allows users to record and post)
 <ul>
   <li> The record button allows user to record audio sound files (limit to 30 sec)
     <ul>
@@ -51,4 +60,4 @@ RecordFragment: (Allows users to record and post)
   <li> A confirmation toast will pop up to confirm post and redirects user to the homefeed
 </ul>
 
-ProfileFragment: (Sees the user's own post)
+#ProfileFragment: (Sees the user's own post)
