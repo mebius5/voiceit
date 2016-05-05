@@ -6,10 +6,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +23,7 @@ import android.widget.TextView;
 import com.firebase.client.Firebase;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -84,14 +88,45 @@ public class ChangePhotoDialog{
             public void onClick(View v) {
                 alertDialog.dismiss();
                 Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                myFrag.getActivity().startActivityForResult(i, 1);
+                myFrag.startActivityForResult(i, 1);
             }
-
-
         });
-
     }
 
+    protected void onActivityResult(int resultCode, Intent data) {
+        Log.i("ChangePhoto", "Here");
+
+        Uri outputFileUri;
+        // Determine Uri of camera image to save.
+        final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "MyDir" + File.separator);
+        root.mkdirs();
+        final String fname = "fileName";
+        final File sdImageMainDirectory = new File(root, fname);
+        outputFileUri = Uri.fromFile(sdImageMainDirectory);
+
+        if (resultCode == 1) {
+                final boolean isCamera;
+                if (data == null) {
+                    isCamera = true;
+                } else {
+                    final String action = data.getAction();
+                    if (action == null) {
+                        isCamera = false;
+                    } else {
+                        isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    }
+                }
+
+                Uri selectedImageUri;
+                if (isCamera) {
+                    selectedImageUri = outputFileUri;
+                } else {
+                    selectedImageUri = data == null ? null : data.getData();
+                }
+        }
+    }
+
+    /****
     public void OnActivityResult (int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
@@ -106,7 +141,9 @@ public class ChangePhotoDialog{
             ImageView oldPicture = (ImageView) dialoglayout.findViewById(R.id.prev_photo);
             oldPicture.setImageBitmap(thumbnail);
         }
-    }
+    }****/
+    
+    
 
     public static String encodeToBase64(Bitmap image, Bitmap.CompressFormat compressFormat, int quality) {
         ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();

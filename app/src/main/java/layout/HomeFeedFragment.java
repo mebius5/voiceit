@@ -208,7 +208,6 @@ public class HomeFeedFragment extends BaseFragment {
 
                             @Override
                             public void onCancelled(FirebaseError firebaseError) {
-
                             }
                         });
                     }

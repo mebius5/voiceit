@@ -107,13 +107,32 @@ public class MainActivity extends AppCompatActivity{
 
         Firebase userRef = mRef.child("users").child(user.getUserId());
 
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String userName = (String) dataSnapshot.child("username").getValue();
+                String email = (String) dataSnapshot.child("email").getValue();
+                String profilePic = (String) dataSnapshot.child("profilePicName").getValue();
+                user.setUsername(userName);
+                user.setEmail(email);
+                user.setProfilePicName(profilePic);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                makeToast(firebaseError.toString());
+            }
+        });
+
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String userName = (String) dataSnapshot.child("username").getValue();
                 String email = (String) dataSnapshot.child("email").getValue();
+                String profilePic = (String) dataSnapshot.child("profilePicName").getValue();
                 user.setUsername(userName);
                 user.setEmail(email);
+                user.setProfilePicName(profilePic);
             }
 
             @Override

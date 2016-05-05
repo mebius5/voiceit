@@ -74,16 +74,20 @@ public class ProfileFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        final TextView topUsername = (TextView) view.findViewById(R.id.username_view);
+        topUsername.setText(owner.getUsername());
+
         final TextView numPostText = (TextView) view.findViewById(R.id.post_num);
 
-        Firebase mRef = new Firebase(getResources().getString(R.string.firebaseurl)).child("posts");
-        Query user = mRef.orderByChild("owner/userId").equalTo(owner.getUserId());
+        Firebase mRef = new Firebase(getResources().getString(R.string.firebaseurl));
+        Firebase postRef = mRef.child("posts");
+        Query postOfUser = postRef.orderByChild("owner/userId").equalTo(owner.getUserId());
 
-        user.addValueEventListener(new ValueEventListener() {
+        postOfUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 long numPosts = dataSnapshot.getChildrenCount();
-                Log.i("ProfileFragment", "onDataChange: numPosts "+numPosts);
+                //Log.i("ProfileFragment", "onDataChange: numPosts "+numPosts);
                 numPostText.setText("" + numPosts);
             }
 
@@ -91,11 +95,26 @@ public class ProfileFragment extends BaseFragment {
             public void onCancelled(FirebaseError firebaseError) {}
         });
 
+        Firebase userRef = mRef.child("users").child(owner.getUserId());
+
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String username = (String) dataSnapshot.child("username").getValue();
+                topUsername.setText(username);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
         Context context = view.getContext();
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list_profile);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(
-                new FirebaseRecyclerAdapter<Post, PostViewHolder>(Post.class, R.layout.post_layout, PostViewHolder.class, user) {
+                new FirebaseRecyclerAdapter<Post, PostViewHolder>(Post.class, R.layout.post_layout, PostViewHolder.class, postOfUser) {
                     @Override
                     protected void populateViewHolder(final PostViewHolder postViewHolder, Post post, int i) {
                         final Post post1 = post;
@@ -224,8 +243,6 @@ public class ProfileFragment extends BaseFragment {
                     }
                 });
 
-        final TextView topUsername = (TextView) view.findViewById(R.id.username_view);
-        topUsername.setText(owner.getUsername());
         return view;
     }
 }
