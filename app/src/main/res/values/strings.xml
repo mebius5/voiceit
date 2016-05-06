@@ -18,4 +18,11 @@
     <string name="play_record_feedback">Please finish recording before playing</string>
     <string name="missing_input_register">Please fill both username and email fields</string>
     <string name="passwords_match_feedback">Please make sure the password is the same on both fields</string>
+    <string name="defaultPostUsername">Angel</string>
+    <string name="default_post_timestamp" />
+    <string name="default_post_time">10m</string>
+    <string name="default_post_like">10</string>
+    <string name="default_post_descript">League of legends is a joke and heres</string>
+    <string name="delete_prompt">Would you like to delete your post?</string>
+    <string name="recording">Recording</string>
 </resources>

@@ -5,71 +5,46 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical">
+        android:layout_height="0dp"
+        android:layout_weight="0.7"
+        android:layout_gravity="center">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.7"
-            android:layout_gravity="center">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:id="@+id/imageViewPostPicture"
-                android:layout_below="@+id/textViewPostDescription"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:src="@drawable/userdefault"
-                android:layout_marginTop="2dp"
-                android:layout_marginLeft="5dp"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Angel"
-                android:id="@+id/textViewPostUsername"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:textSize="20sp"
-                android:textColor="@color/colorPrimary"
-                android:layout_marginTop="3dp"
-                android:layout_weight="8" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="10m"
-                android:id="@+id/textViewTimestamp"
-                android:layout_alignBottom="@+id/imageViewPostPicture"
-                android:layout_alignRight="@+id/textViewPostDescription"
-                android:layout_alignEnd="@+id/textViewPostDescription"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:layout_marginTop="3dp"
-                android:gravity="center_vertical|right" />
-        </LinearLayout>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/imageViewPostPicture"
+            android:src="@drawable/userdefault"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView5"
-            android:background="#bebebe"
-            android:textSize="1dp" />
+            android:text="@string/defaultPostUsername"
+            android:id="@+id/textViewPostUsername"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="3dp"
+            android:layout_weight="8" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_post_time"
+            android:id="@+id/textViewTimestamp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:layout_marginTop="3dp"
+            android:gravity="center_vertical|right" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/imageViewPostPicture"
         android:background="#66d6383a"
         android:layout_margin="0dp">
 
@@ -92,7 +67,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="10"
+            android:text="@string/default_post_like"
             android:id="@+id/textViewPostNumberLikes"
             android:textSize="40sp"
             android:textColor="@color/white"
@@ -119,13 +94,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="League of legends is a joke and heres"
+            android:text="@string/default_post_descript"
             android:id="@+id/textViewPostDescription"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_toRightOf="@+id/textViewPostUsername"
-            android:layout_toEndOf="@+id/textViewPostUsername"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:textSize="18sp"
