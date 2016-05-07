@@ -1,5 +1,8 @@
 package jhu.voiceit;
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -7,15 +10,20 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,9 +51,24 @@ public class RegisterActivity extends AppCompatActivity {
         loginButton = (ImageButton) findViewById(R.id.imageButtonLogin);
         registerButton = (ImageButton) findViewById(R.id.imageButtonRegister);
         emailInput = (EditText) findViewById(R.id.registerEmail);
+        emailInput.setHintTextColor(getResources().getColor(R.color.white));
         usernameInput = (EditText) findViewById(R.id.registerUsername);
+        usernameInput.setHintTextColor(getResources().getColor(R.color.white));
         passwordInput = (EditText) findViewById(R.id.registerPassword);
+        passwordInput.setHintTextColor(getResources().getColor(R.color.white));
         confirmPasswordInput = (EditText) findViewById(R.id.registerPasswordConfirm);
+        confirmPasswordInput.setHintTextColor(getResources().getColor(R.color.white));
+
+        confirmPasswordInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_DONE) {
+                    submitRegister();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         setLoginButtonListener();
         setRegisterButtonListener();
@@ -57,6 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+
     public void setLoginButtonListener() {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +88,17 @@ public class RegisterActivity extends AppCompatActivity {
                 moveToLogin();
             }
         });
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     public void setRegisterButtonListener() {
@@ -76,21 +111,25 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (!passwordsAreEqual()) {
                     makeToast(getResources().getString(R.string.passwords_match_feedback));
                 } else {
-                    fireBase.createUser(emailInput.getText().toString(), passwordInput.getText().toString(),
-                            new Firebase.ValueResultHandler<Map<String, Object>>() {
-                                @Override
-                                public void onSuccess(Map<String, Object> stringObjectMap) {
-                                    loginAfterRegister();
-                                }
-
-                                @Override
-                                public void onError(FirebaseError firebaseError) {
-                                    makeToast("createUser" + firebaseError.toString());
-                                }
-                            });
+                    submitRegister();
                 }
             }
         });
+    }
+
+    private void submitRegister() {
+        fireBase.createUser(emailInput.getText().toString(), passwordInput.getText().toString(),
+                new Firebase.ValueResultHandler<Map<String, Object>>() {
+                    @Override
+                    public void onSuccess(Map<String, Object> stringObjectMap) {
+                        loginAfterRegister();
+                    }
+
+                    @Override
+                    public void onError(FirebaseError firebaseError) {
+                        makeToast("createUser" + firebaseError.toString());
+                    }
+                });
     }
 
     Firebase.AuthStateListener authlistener = new Firebase.AuthStateListener() {

@@ -1,6 +1,8 @@
 package layout;
 
+import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -12,9 +14,12 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -75,6 +80,8 @@ public class RecordFragment extends BaseFragment {
 
     private Post selected;
 
+    private Toast toast;
+
     private BaseFragment baseFragment;
     private SharedPreferences myPrefs;
     private SharedPreferences.Editor peditor;
@@ -116,7 +123,7 @@ public class RecordFragment extends BaseFragment {
         recordButton.setImageResource(R.drawable.record_button);
         recordTime.setText("00:30");
         isRecording = false;
-        Toast.makeText(getActivity(), R.string.add_record_feedback, Toast.LENGTH_SHORT).show();
+        toast.makeText(getActivity(), R.string.add_record_feedback, Toast.LENGTH_SHORT).show();
     }
 
     public void cleanUpMediaPlayerOnStop() {
@@ -160,6 +167,18 @@ public class RecordFragment extends BaseFragment {
         recordDescription = (EditText) view.findViewById(R.id.editTextRecordDescription);
         recordList = (ListView) view.findViewById(R.id.listViewRecording);
         submitButton = (RelativeLayout) view.findViewById(R.id.submitBar);
+
+        recordDescription.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_DONE) {
+                    submitRecording();
+                    hideKeyboard(getActivity());
+                    return true;
+                }
+                return false;
+            }
+        });
 
         recordings = new ArrayList<Post>();
         recordingsAdapter = new RecordingsAdapter(getActivity(), recordings);
@@ -257,11 +276,11 @@ public class RecordFragment extends BaseFragment {
 
                     //Gives appropriate feedback to the user
                 } else if(isRecording) {
-                    Toast.makeText(getActivity(), R.string.play_while_recording_feedback, Toast.LENGTH_SHORT).show();
+                    toast.makeText(getActivity(), R.string.play_while_recording_feedback, Toast.LENGTH_SHORT).show();
 
                     //Gives appropriate feedback to the user
                 } else {
-                    Toast.makeText(getActivity(), R.string.play_record_feedback, Toast.LENGTH_SHORT).show();
+                    toast.makeText(getActivity(), R.string.play_record_feedback, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -285,7 +304,7 @@ public class RecordFragment extends BaseFragment {
                     }
 
                 } else if(isAddingDescription) {
-                    Toast.makeText(getActivity(), "Impossible to record right now", Toast.LENGTH_SHORT).show();
+                    toast.makeText(getActivity(), "Impossible to record right now", Toast.LENGTH_SHORT).show();
                 } else {
                     //Change image, change state, store recording on list
                     countDownTimer.cancel();
@@ -294,6 +313,17 @@ public class RecordFragment extends BaseFragment {
 
             }
         });
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     public void setSubmitButtonListener() {
@@ -307,31 +337,35 @@ public class RecordFragment extends BaseFragment {
                         recordDescription.setVisibility(View.VISIBLE);
                         isAddingDescription = true;
                     } else {
-                        Log.i("RecordFragment", "Encoding file "+outputFile);
-                        //Encodes audio recording as string and set it
-                        selected.setAudioEncoded(Byte64EncodeAndDecoder.encode(outputFile));
-
-                        //Store the description in the post, submit to firebase
-                        selected.setDescription(recordDescription.getText().toString());
-                        Toast.makeText(getActivity(), "Your recording has been posted!", Toast.LENGTH_SHORT).show();
-
-                        //Push onto firebase
-                        Firebase post = mRef.child("posts").push();
-                        post.setValue(selected);
-                        post.setPriority(0 - Calendar.getInstance().getTimeInMillis());
-
-                        MainActivity.setTabLayout(0);
-
-                        baseFragment = HomeFeedFragment.newInstance(owner);
-                        inflateAndCommitBaseFragment();
+                        submitRecording();
                     }
                 } else if(isRecording){
-                    Toast.makeText(getActivity(), R.string.play_while_recording_feedback, Toast.LENGTH_SHORT).show();
+                    toast.makeText(getActivity(), R.string.play_while_recording_feedback, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity(), R.string.submit_error_feedback, Toast.LENGTH_SHORT).show();
+                    toast.makeText(getActivity(), R.string.submit_error_feedback, Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    private void submitRecording() {
+        Log.i("RecordFragment", "Encoding file "+outputFile);
+        //Encodes audio recording as string and set it
+        selected.setAudioEncoded(Byte64EncodeAndDecoder.encode(outputFile));
+
+        //Store the description in the post, submit to firebase
+        selected.setDescription(recordDescription.getText().toString());
+        toast.makeText(getActivity(), "Your recording has been posted!", Toast.LENGTH_SHORT).show();
+
+        //Push onto firebase
+        Firebase post = mRef.child("posts").push();
+        post.setValue(selected);
+        post.setPriority(0 - Calendar.getInstance().getTimeInMillis());
+
+        MainActivity.setTabLayout(0);
+
+        baseFragment = HomeFeedFragment.newInstance(owner);
+        inflateAndCommitBaseFragment();
     }
 
     private void inflateAndCommitBaseFragment() {

@@ -2,33 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#ffffff">
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.7"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_weight="0.8"
+        android:gravity="center">
 
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/imageViewPostPicture"
             android:src="@drawable/userdefault"
-            android:layout_marginTop="2dp"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1" />
+            android:layout_marginLeft="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/defaultPostUsername"
             android:id="@+id/textViewPostUsername"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textColor="@color/colorPrimary"
-            android:layout_marginTop="3dp"
-            android:layout_weight="8" />
+            android:layout_marginLeft="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -37,8 +36,32 @@
             android:id="@+id/textViewTimestamp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:layout_marginTop="3dp"
-            android:gravity="center_vertical|right" />
+            android:gravity="center_vertical|right"
+            android:textColor="#cbcbcb" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:id="@+id/textView5"
+            android:background="#dbdbdb" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_post_descript"
+            android:id="@+id/textViewPostDescription"
+            android:layout_marginLeft="10dp"
+            android:textSize="15sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -46,11 +69,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#66d6383a"
-        android:layout_margin="0dp">
+        android:layout_margin="0dp"
+        android:gravity="center_vertical">
 
         <ImageView
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="30dp"
             android:id="@+id/imageViewPostPlay"
             android:src="@drawable/ic_action_play"
             android:layout_margin="0dp"
@@ -58,7 +82,7 @@
 
         <ImageView
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="30dp"
             android:id="@+id/imageViewPostLike"
             android:src="@drawable/ic_action_favorite"
             android:layout_margin="0dp"
@@ -69,7 +93,7 @@
             android:layout_height="wrap_content"
             android:text="@string/default_post_like"
             android:id="@+id/textViewPostNumberLikes"
-            android:textSize="40sp"
+            android:textSize="20dp"
             android:textColor="@color/white"
             android:layout_margin="0dp"
             android:layout_weight="1"
@@ -78,7 +102,7 @@
 
         <ImageView
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="30dp"
             android:id="@+id/imageViewPostSettings"
             android:src="@drawable/delete"
             android:layout_margin="0dp"
@@ -86,30 +110,9 @@
             android:tint="#ffffff" />
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/default_post_descript"
-            android:id="@+id/textViewPostDescription"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:textSize="18sp"
-            android:layout_marginRight="15dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp"
-            android:textAlignment="center" />
-
-    </LinearLayout>
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_gravity="center_horizontal"
-        android:background="#000"></RelativeLayout>
+        android:layout_height="0.5dp"
+        android:background="#cbcbcb"></RelativeLayout>
 
 </LinearLayout>
