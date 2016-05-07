@@ -20,7 +20,7 @@
         android:id="@+id/title"
         android:layout_marginTop="41dp"
         android:textColor="#ffffffff"
-        android:textSize="50dp"
+        android:textSize="70sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal" />
