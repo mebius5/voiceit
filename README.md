@@ -64,6 +64,7 @@ If the user has not made an account, they can register for a new account through
 
 ###ProfileFragment:
 <ul>
+  <li> Displays the username and the number of posts for the current user. In the future, when the follow system is implemented, will also display the number of users that follow the current user, and the number of users the current user follows.
   <li> See Post, which details information about single posts.
 </ul>
 
