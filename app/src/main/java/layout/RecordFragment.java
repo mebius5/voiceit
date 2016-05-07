@@ -80,6 +80,8 @@ public class RecordFragment extends BaseFragment {
 
     private Post selected;
 
+    private Toast toast;
+
     private BaseFragment baseFragment;
     private SharedPreferences myPrefs;
     private SharedPreferences.Editor peditor;
@@ -121,7 +123,7 @@ public class RecordFragment extends BaseFragment {
         recordButton.setImageResource(R.drawable.record_button);
         recordTime.setText("00:30");
         isRecording = false;
-        Toast.makeText(getActivity(), R.string.add_record_feedback, Toast.LENGTH_SHORT).show();
+        toast.makeText(getActivity(), R.string.add_record_feedback, Toast.LENGTH_SHORT).show();
     }
 
     public void cleanUpMediaPlayerOnStop() {
@@ -274,11 +276,11 @@ public class RecordFragment extends BaseFragment {
 
                     //Gives appropriate feedback to the user
                 } else if(isRecording) {
-                    Toast.makeText(getActivity(), R.string.play_while_recording_feedback, Toast.LENGTH_SHORT).show();
+                    toast.makeText(getActivity(), R.string.play_while_recording_feedback, Toast.LENGTH_SHORT).show();
 
                     //Gives appropriate feedback to the user
                 } else {
-                    Toast.makeText(getActivity(), R.string.play_record_feedback, Toast.LENGTH_SHORT).show();
+                    toast.makeText(getActivity(), R.string.play_record_feedback, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -302,7 +304,7 @@ public class RecordFragment extends BaseFragment {
                     }
 
                 } else if(isAddingDescription) {
-                    Toast.makeText(getActivity(), "Impossible to record right now", Toast.LENGTH_SHORT).show();
+                    toast.makeText(getActivity(), "Impossible to record right now", Toast.LENGTH_SHORT).show();
                 } else {
                     //Change image, change state, store recording on list
                     countDownTimer.cancel();
@@ -338,9 +340,9 @@ public class RecordFragment extends BaseFragment {
                         submitRecording();
                     }
                 } else if(isRecording){
-                    Toast.makeText(getActivity(), R.string.play_while_recording_feedback, Toast.LENGTH_SHORT).show();
+                    toast.makeText(getActivity(), R.string.play_while_recording_feedback, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity(), R.string.submit_error_feedback, Toast.LENGTH_SHORT).show();
+                    toast.makeText(getActivity(), R.string.submit_error_feedback, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -353,7 +355,7 @@ public class RecordFragment extends BaseFragment {
 
         //Store the description in the post, submit to firebase
         selected.setDescription(recordDescription.getText().toString());
-        Toast.makeText(getActivity(), "Your recording has been posted!", Toast.LENGTH_SHORT).show();
+        toast.makeText(getActivity(), "Your recording has been posted!", Toast.LENGTH_SHORT).show();
 
         //Push onto firebase
         Firebase post = mRef.child("posts").push();
