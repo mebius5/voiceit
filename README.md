@@ -44,6 +44,7 @@ If the user has not made an account, they can register for a new account through
       <li>It is divided into category of day (d), hour (h), minute (m), and second (s).
       So if the post is 1 day and 80 minutes old, the timestamp will show up as 1d only.
     </ul>
+  <li> Users can see other profiles by clicking on the picture or the username, does not direct to self if the user clicks on own picture or username.
   <li> See Post below
 </ul>
 
@@ -52,6 +53,7 @@ If the user has not made an account, they can register for a new account through
   <li> The record button allows user to record audio sound files (limit to 30 sec)
     <ul>
       <li> Due to the restriction of the MediaRecorder, user cannot hit record and stop too fast. Must be a minimum of 1 sec
+      <li> According to <a href="https://developer.android.com/reference/android/media/MediaRecorder.html">Developer Reference Guide</a> "Currently, MediaRecorder does not work on the emulator.". We found that this behavior is not predictable as it depends on the emulator, but for accurate testing please use an Android Device.
       <li> The countdown of 30 seconds starts once user hits record
       <li> The user can either hit stop to end record or when the counter hits 0, it automatically stops the recording
     </ul>
@@ -63,6 +65,7 @@ If the user has not made an account, they can register for a new account through
 
 ###ProfileFragment:
 <ul>
+  <li> Displays the username and the number of posts for the current user. In the future, when the follow system is implemented, will also display the number of users that follow the current user, and the number of users the current user follows.
   <li> See Post, which details information about single posts.
 </ul>
 
@@ -85,7 +88,7 @@ Each post allows user to see other users profile page, play the post, like the p
         <li>Username does not have to unique (due to use of push)
         <li>Change of username will reflect on all of your previous posts.
       </ul>
-    <li>Change Picture: User can see the old picture and submit a new one from the Gallery or take a picture. This is currently being developed and not entirely functional.</li>
+    <li>Change Picture: User can see the old picture and submit a new one from the Gallery or take a picture.<br>The default emulator does not allow access to the camera so beware of that, if testing on GenyMotion or an Android device, the access to Camera works, on the default emulator only gallery pictures. </li>
     <li>Change Password: As a safety measure, the user has to enter the old password to confirm identity and also the intended new password.</li>
     <li>Delete Account: User is prompted for the account password if they intend to delete the account.</li>
       <ul>
