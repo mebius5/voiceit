@@ -42,7 +42,8 @@
                 android:layout_height="60dp"
                 android:id="@+id/profileImageView"
                 android:src="@drawable/userdefault"
-                android:background="#ffffff" />
+                android:background="#ffffff"
+                android:scaleType="centerCrop" />
 
             <LinearLayout
                 android:orientation="vertical"

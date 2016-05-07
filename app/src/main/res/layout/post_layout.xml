@@ -18,7 +18,8 @@
             android:layout_height="30dp"
             android:id="@+id/imageViewPostPicture"
             android:src="@drawable/userdefault"
-            android:layout_marginLeft="5dp" />
+            android:layout_marginLeft="5dp"
+            android:scaleType="centerCrop" />
 
         <TextView
             android:layout_width="wrap_content"
