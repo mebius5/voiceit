@@ -62,7 +62,13 @@ public class ChangePhotoActivity extends AppCompatActivity {
         saveButton = (Button) findViewById(R.id.button_save);
         cancelButton = (Button) findViewById(R.id.button_cancel);
 
-        profilePicture.setImageResource(R.drawable.userdefault);
+        //Decode profile string into file and turn into bitmap
+        String encodedImageString = intentFromMain.getStringExtra("profilePicName");
+        Byte64EncodeAndDecoder.decode(ChangePhotoActivity.DEFAULT_IMAGE_PATH,encodedImageString);
+        Bitmap bitmap;
+        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+        bitmap = BitmapFactory.decodeFile(ChangePhotoActivity.DEFAULT_IMAGE_PATH, bitmapOptions);
+        profilePicture.setImageBitmap(bitmap);
 
         newProfileCamera.setOnClickListener(new View.OnClickListener() {
             @Override

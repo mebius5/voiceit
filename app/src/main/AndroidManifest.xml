@@ -40,7 +40,7 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".ChangePhotoActivity"
             android:parentActivityName=".MainActivity"
-            android:noHistory="false">
+            android:noHistory="true">
         </activity>
     </application>
 

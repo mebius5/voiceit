@@ -105,6 +105,7 @@ public class SettingsFragment extends BaseFragment {
                 //Show popup to edit picture
                 Intent intent = new Intent(getActivity(), ChangePhotoActivity.class);
                 intent.putExtra("userId", owner.getUserId());
+                intent.putExtra("profilePicName", owner.getProfilePicName());
                 startActivity(intent);
             }
         });
