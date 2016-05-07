@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity{
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/title.otf");
         maintitle.setTypeface(font, Typeface.BOLD);
 
-        /*** Hides the search button
+        /*** Hide the Search icon for now
         toolbar.setNavigationIcon(R.drawable.ic_search_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity{
                 inflateAndCommitBaseFragment();
             }
         });
-         ***/
+        */
 
         Firebase userRef = mRef.child("users").child(user.getUserId());
 
