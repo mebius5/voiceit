@@ -8,7 +8,9 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -71,6 +73,18 @@ public class LoginActivity extends AppCompatActivity {
         passenter = (EditText) findViewById(R.id.passwd);
         passenter.setHintTextColor(getResources().getColor(R.color.white));
 
+        passenter.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_DONE) {
+                    submitLogin();
+                    return true;
+                }
+                return false;
+            }
+
+        });
+
         login = (ImageButton) findViewById(R.id.login);
         regis = (ImageButton) findViewById(R.id.register);
 
@@ -81,27 +95,31 @@ public class LoginActivity extends AppCompatActivity {
     View.OnClickListener loginlistener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            fireBase.authWithPassword(usrenter.getText().toString(), passenter.getText().toString(),
-                    new Firebase.AuthResultHandler() {
-                        @Override
-                        public void onAuthenticated(AuthData authData) {
-                            mAuthData = authData;
-                            final String userId = authData.getUid();
-                            SharedPreferences.Editor peditor = myPrefs.edit();
-                            peditor.putString("auth_token", authData.getToken());
-                            peditor.putString("UID", authData.getUid());
-                            peditor.putString("Email",usrenter.getText().toString());
-                            Log.i("LoginActivity","SuccessAuth: UID: "+authData.getUid());
-                            peditor.commit();
-                            movetoMain();
-                        }
-                        @Override
-                        public void onAuthenticationError(FirebaseError firebaseError) {
-                            makeToast(firebaseError.toString());
-                        }
-                    });
+            submitLogin();
         }
     };
+
+    private void submitLogin() {
+        fireBase.authWithPassword(usrenter.getText().toString(), passenter.getText().toString(),
+                new Firebase.AuthResultHandler() {
+                    @Override
+                    public void onAuthenticated(AuthData authData) {
+                        mAuthData = authData;
+                        final String userId = authData.getUid();
+                        SharedPreferences.Editor peditor = myPrefs.edit();
+                        peditor.putString("auth_token", authData.getToken());
+                        peditor.putString("UID", authData.getUid());
+                        peditor.putString("Email",usrenter.getText().toString());
+                        Log.i("LoginActivity","SuccessAuth: UID: "+authData.getUid());
+                        peditor.commit();
+                        movetoMain();
+                    }
+                    @Override
+                    public void onAuthenticationError(FirebaseError firebaseError) {
+                        makeToast(firebaseError.toString());
+                    }
+                });
+    }
 
     View.OnClickListener regislistener = new View.OnClickListener() {
         @Override
