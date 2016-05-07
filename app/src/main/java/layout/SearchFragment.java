@@ -7,6 +7,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.firebase.client.Firebase;
 
 import jhu.voiceit.R;
 import jhu.voiceit.User;
@@ -24,6 +28,11 @@ public class SearchFragment extends BaseFragment {
     private final String fragmentName = FRAGMENTNAME;
 
     private static User owner;
+
+    private Firebase mRef;
+    private TextView searchInput;
+    private ListView searchList;
+
 
     public SearchFragment() {
         // Required empty public constructor
@@ -51,9 +60,14 @@ public class SearchFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+
+        mRef = new Firebase(getResources().getString(R.string.firebaseurl)).child("users");
+        searchInput = (TextView) view.findViewById(R.id.editTextSearch);
+        searchList = (ListView) view.findViewById(R.id.listViewSearch);
+
+
         return view;
     }
 }
