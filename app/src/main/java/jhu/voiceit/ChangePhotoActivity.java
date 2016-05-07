@@ -40,7 +40,11 @@ public class ChangePhotoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_picture);
 
-        //mRef=new Firebase("https://voiceit.firebaseio.com/users/"+user.getUserId());
+        final Intent intentFromMain = getIntent();
+        final String userId = intentFromMain.getStringExtra("userId");
+        Log.i("ChangePhotoActivity:","userId from intent: "+userId);
+
+        mRef=new Firebase("https://voiceit.firebaseio.com/users/"+userId);
 
         //Retrieves elements on the change profile picture dialog box
         profilePicture = (ImageView) findViewById(R.id.prev_photo);
@@ -92,39 +96,28 @@ public class ChangePhotoActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
                 File f = new File(Environment.getExternalStorageDirectory().toString()+"/temp.jpg");
+                Log.i("Camera temp path:",f.getPath().toString());
                 try {
+
                     Bitmap bitmap;
                     BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 
                     bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
                             bitmapOptions);
 
-                    Log.i("Camera temp path:",f.getPath().toString());
+                    OutputStream outFile = new FileOutputStream(f.getPath().toString(),false);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
+                    outFile.flush();
+                    outFile.close();
+
+                    bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
+                            bitmapOptions);
 
                     profilePicture.setImageBitmap(bitmap);
-
-                    String path = android.os.Environment
-                            .getExternalStorageDirectory()
-                            + File.separator
-                            + "Phoenix" + File.separator + "default";
-                    f.delete();
-                    OutputStream outFile = null;
-                    File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
-                    try {
-                        outFile = new FileOutputStream(file);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
-                        outFile.flush();
-                        outFile.close();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
             } else if (requestCode == 2) {
 
                 Uri selectedImage = data.getData();
