@@ -92,17 +92,17 @@ public class SettingsFragment extends BaseFragment {
         changePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Show popup to edit picture
                 Intent intent = new Intent(getActivity(), ChangePhotoActivity.class);
                 intent.putExtra("userId", owner.getUserId());
                 startActivity(intent);
-                //ChangePhotoDialog popUp = new ChangePhotoDialog(getActivity(), SettingsFragment.this, owner);
-                //popUp.show();
             }
         });
 
         changePasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Show popup to change user password
                 ChangePasswordDialog popUp = new ChangePasswordDialog(getActivity(), SettingsFragment.this, owner);
                 popUp.show();
             }
@@ -112,6 +112,7 @@ public class SettingsFragment extends BaseFragment {
         deleteAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Show popup to delete a user's account
                 DeleteAccountDialog popUp = new DeleteAccountDialog(getActivity(), SettingsFragment.this, owner);
                 popUp.show();
             }
