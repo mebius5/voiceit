@@ -29,7 +29,7 @@ public class Byte64EncodeAndDecoder {
             String encoded = Base64.encodeToString(bytes, 0);
 
             //For Debugging
-            //Log.i("~~~~~~~~ Encoded: ", encoded);
+            Log.i("~~~~~~~~ Encoded: ", encoded);
             return encoded;
         }catch (IOException e){
             e.printStackTrace();

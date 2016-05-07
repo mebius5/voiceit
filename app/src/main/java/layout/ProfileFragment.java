@@ -2,6 +2,8 @@ package layout;
 
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.client.ChildEventListener;
@@ -24,6 +27,7 @@ import com.firebase.client.ValueEventListener;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 
 import jhu.voiceit.Byte64EncodeAndDecoder;
+import jhu.voiceit.ChangePhotoActivity;
 import jhu.voiceit.Post;
 import jhu.voiceit.R;
 import jhu.voiceit.User;
@@ -78,10 +82,11 @@ public class ProfileFragment extends BaseFragment {
         topUsername.setText(owner.getUsername());
 
         final TextView numPostText = (TextView) view.findViewById(R.id.post_num);
+        final ImageView profileImageView = (ImageView) view.findViewById(R.id.profileImageView);
 
         Firebase mRef = new Firebase(getResources().getString(R.string.firebaseurl));
         Firebase postRef = mRef.child("posts");
-        Query postOfUser = postRef.orderByChild("owner/userId").equalTo(owner.getUserId());
+        final Query postOfUser = postRef.orderByChild("owner/userId").equalTo(owner.getUserId());
 
         postOfUser.addValueEventListener(new ValueEventListener() {
             @Override
@@ -101,7 +106,17 @@ public class ProfileFragment extends BaseFragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String username = (String) dataSnapshot.child("username").getValue();
+                owner.setUsername(username);
                 topUsername.setText(username);
+
+                String encodedImageString = (String) dataSnapshot.child("profilePicName").getValue();
+                owner.setProfilePicName(encodedImageString);
+                Byte64EncodeAndDecoder.decode(ChangePhotoActivity.DEFAULT_IMAGE_PATH,encodedImageString);
+
+                Bitmap bitmap;
+                BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                bitmap = BitmapFactory.decodeFile(ChangePhotoActivity.DEFAULT_IMAGE_PATH, bitmapOptions);
+                profileImageView.setImageBitmap(bitmap);
             }
 
             @Override
@@ -240,6 +255,14 @@ public class ProfileFragment extends BaseFragment {
                                 }
                             });
                         }
+
+                        //Decode profile string into file and turn into bitmap
+                        String encodedImageString = post1.getOwner().getProfilePicName();
+                        Byte64EncodeAndDecoder.decode(ChangePhotoActivity.DEFAULT_IMAGE_PATH,encodedImageString);
+                        Bitmap bitmap;
+                        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                        bitmap = BitmapFactory.decodeFile(ChangePhotoActivity.DEFAULT_IMAGE_PATH, bitmapOptions);
+                        postViewHolder.imageView.setImageBitmap(bitmap);
                     }
                 });
 

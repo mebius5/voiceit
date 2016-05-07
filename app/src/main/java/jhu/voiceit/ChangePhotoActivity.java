@@ -16,15 +16,24 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ChangePhotoActivity extends AppCompatActivity {
+
+    public static final String DEFAULT_IMAGE_PATH =
+            Environment.getExternalStorageDirectory().toString()+"/temp.jpg";
 
     ImageView profilePicture;
     ImageButton newProfileCamera;
@@ -44,7 +53,7 @@ public class ChangePhotoActivity extends AppCompatActivity {
         final String userId = intentFromMain.getStringExtra("userId");
         Log.i("ChangePhotoActivity:","userId from intent: "+userId);
 
-        mRef=new Firebase("https://voiceit.firebaseio.com/users/"+userId);
+        mRef=new Firebase(getString(R.string.firebaseurl));
 
         //Retrieves elements on the change profile picture dialog box
         profilePicture = (ImageView) findViewById(R.id.prev_photo);
@@ -76,6 +85,36 @@ public class ChangePhotoActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final String imageEncodedString = Byte64EncodeAndDecoder.encode(DEFAULT_IMAGE_PATH);
+
+                Firebase userRef = mRef.child("users").child(userId);
+                Map<String, Object> change = new HashMap<>();
+                change.put("profilePicName",imageEncodedString);
+                userRef.updateChildren(change);
+
+                final Firebase postsRef = new Firebase("https://voiceit.firebaseio.com/posts");
+                final Query postQuery = postsRef.orderByChild("owner/userId").startAt(userId).endAt(userId);
+                postQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        Log.i("ChangePhoto", "Number of Posts for this user: "+dataSnapshot.getChildrenCount());
+
+                        for (DataSnapshot i: dataSnapshot.getChildren()){
+                            Log.i("ChangePhoto", "getPostRefPath: "+i.getRef().getPath());
+                            Map<String, Object> change = new HashMap<>();
+                            change.put("owner/profilePicName",imageEncodedString);
+                            i.getRef().updateChildren(change);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                });
+
+                //Go back to Main Activity
                 Intent intent = new Intent(ChangePhotoActivity.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -84,6 +123,8 @@ public class ChangePhotoActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //Go back to Main Activity
                 Intent intent = new Intent(ChangePhotoActivity.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -95,17 +136,16 @@ public class ChangePhotoActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
-                File f = new File(Environment.getExternalStorageDirectory().toString()+"/temp.jpg");
-                Log.i("Camera temp path:",f.getPath().toString());
+                File f = new File(DEFAULT_IMAGE_PATH);
+                Bitmap bitmap;
+                BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+
+                bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
+                        bitmapOptions);
+
                 try {
-
-                    Bitmap bitmap;
-                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-
-                    bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
-                            bitmapOptions);
-
-                    OutputStream outFile = new FileOutputStream(f.getPath().toString(),false);
+                    Log.i("ChangePhotoActivity","compressing camera photo");
+                    OutputStream outFile = new FileOutputStream(DEFAULT_IMAGE_PATH,false);
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
                     outFile.flush();
                     outFile.close();
@@ -127,9 +167,30 @@ public class ChangePhotoActivity extends AppCompatActivity {
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
                 c.close();
-                Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
+
                 Log.i("Gallery path:", picturePath);
-                profilePicture.setImageBitmap(thumbnail);
+
+                File f = new File(DEFAULT_IMAGE_PATH);
+
+                Bitmap bitmap;
+                BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                bitmap = BitmapFactory.decodeFile(picturePath, bitmapOptions);
+
+                try {
+                    Log.i("ChangePhotoActivity","compressing gallery photo");
+                    OutputStream outFile = new FileOutputStream(f.getPath().toString(), false);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
+                    outFile.flush();
+                    outFile.close();
+
+                    bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
+                            bitmapOptions);
+
+                    profilePicture.setImageBitmap(bitmap);
+
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
             }
         }
     }

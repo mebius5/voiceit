@@ -2,6 +2,8 @@ package layout;
 
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import jhu.voiceit.Byte64EncodeAndDecoder;
+import jhu.voiceit.ChangePhotoActivity;
 import jhu.voiceit.Post;
 import jhu.voiceit.R;
 import jhu.voiceit.User;
@@ -241,6 +244,14 @@ public class HomeFeedFragment extends BaseFragment {
                         }
                     });
                 }
+
+                //Decode profile string into file and turn into bitmap
+                String encodedImageString = post1.getOwner().getProfilePicName();
+                Byte64EncodeAndDecoder.decode(ChangePhotoActivity.DEFAULT_IMAGE_PATH,encodedImageString);
+                Bitmap bitmap;
+                BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                bitmap = BitmapFactory.decodeFile(ChangePhotoActivity.DEFAULT_IMAGE_PATH, bitmapOptions);
+                postViewHolder.imageView.setImageBitmap(bitmap);
             }
         });
         return view;

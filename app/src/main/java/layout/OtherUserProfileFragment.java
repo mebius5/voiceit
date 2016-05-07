@@ -1,6 +1,8 @@
 package layout;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.client.DataSnapshot;
@@ -22,6 +25,7 @@ import com.firebase.client.ValueEventListener;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 
 import jhu.voiceit.Byte64EncodeAndDecoder;
+import jhu.voiceit.ChangePhotoActivity;
 import jhu.voiceit.Post;
 import jhu.voiceit.R;
 import jhu.voiceit.User;
@@ -69,16 +73,21 @@ public class OtherUserProfileFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        final TextView topUsername = (TextView) view.findViewById(R.id.username_view);
+        topUsername.setText(owner.getUsername());
+
         final TextView numPostText = (TextView) view.findViewById(R.id.post_num);
+        final ImageView profileImageView = (ImageView) view.findViewById(R.id.profileImageView);
 
-        Firebase mRef = new Firebase(getResources().getString(R.string.firebaseurl)).child("posts");
-        Query user = mRef.orderByChild("owner/userId").equalTo(owner.getUserId());
+        Firebase mRef = new Firebase(getResources().getString(R.string.firebaseurl));
+        Firebase postRef = mRef.child("posts");
+        Query postOfUser = postRef.orderByChild("owner/userId").equalTo(owner.getUserId());
 
-        user.addValueEventListener(new ValueEventListener() {
+        postOfUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 long numPosts = dataSnapshot.getChildrenCount();
-                Log.i("OtherUserProfileFrag", "onDataChange: numPosts "+numPosts);
+                //Log.i("ProfileFragment", "onDataChange: numPosts "+numPosts);
                 numPostText.setText("" + numPosts);
             }
 
@@ -86,11 +95,34 @@ public class OtherUserProfileFragment extends BaseFragment {
             public void onCancelled(FirebaseError firebaseError) {}
         });
 
+        Firebase userRef = mRef.child("users").child(owner.getUserId());
+
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String username = (String) dataSnapshot.child("username").getValue();
+                topUsername.setText(username);
+
+                String encodedImageString = (String) dataSnapshot.child("profilePicName").getValue();
+                Byte64EncodeAndDecoder.decode(ChangePhotoActivity.DEFAULT_IMAGE_PATH,encodedImageString);
+
+                Bitmap bitmap;
+                BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                bitmap = BitmapFactory.decodeFile(ChangePhotoActivity.DEFAULT_IMAGE_PATH, bitmapOptions);
+                profileImageView.setImageBitmap(bitmap);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
         Context context = view.getContext();
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list_profile);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(
-                new FirebaseRecyclerAdapter<Post, PostViewHolder>(Post.class, R.layout.post_layout, PostViewHolder.class, user) {
+                new FirebaseRecyclerAdapter<Post, PostViewHolder>(Post.class, R.layout.post_layout, PostViewHolder.class, postOfUser) {
                     @Override
                     protected void populateViewHolder(final PostViewHolder postViewHolder, Post post, int i) {
                         final Post post1 = post;
@@ -99,6 +131,7 @@ public class OtherUserProfileFragment extends BaseFragment {
                         postViewHolder.description.setText(post.getDescription());
                         postViewHolder.numLikes.setText(""+post.getLikes());
                         //TODO: set postViewHolder.imageView to retrieve image;
+
                         postViewHolder.timeStamp.setText(post.calculateElapsedTime());
 
                         postViewHolder.btnPlay.setOnClickListener(new View.OnClickListener() {
@@ -187,6 +220,7 @@ public class OtherUserProfileFragment extends BaseFragment {
                             @Override
                             public void onClick(View v) {
                                 post1.likePost(owner.getUserId());
+
                                 postRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -205,11 +239,16 @@ public class OtherUserProfileFragment extends BaseFragment {
 
                         postViewHolder.postsetting.setVisibility(View.GONE);
 
+                        //Decode profile string into file and turn into bitmap
+                        String encodedImageString = post1.getOwner().getProfilePicName();
+                        Byte64EncodeAndDecoder.decode(ChangePhotoActivity.DEFAULT_IMAGE_PATH,encodedImageString);
+                        Bitmap bitmap;
+                        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                        bitmap = BitmapFactory.decodeFile(ChangePhotoActivity.DEFAULT_IMAGE_PATH, bitmapOptions);
+                        postViewHolder.imageView.setImageBitmap(bitmap);
                     }
                 });
 
-        final TextView topUsername = (TextView) view.findViewById(R.id.username_view);
-        topUsername.setText(owner.getUsername());
         return view;
     }
 }
