@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,6 +48,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         //Disables landscape mode
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        TextView title = (TextView) findViewById(R.id.registerTitle);
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/title.otf");
+        title.setTypeface(font, Typeface.BOLD);
 
         loginButton = (ImageButton) findViewById(R.id.imageButtonLogin);
         registerButton = (ImageButton) findViewById(R.id.imageButtonRegister);
