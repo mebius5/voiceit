@@ -53,6 +53,7 @@ If the user has not made an account, they can register for a new account through
   <li> The record button allows user to record audio sound files (limit to 30 sec)
     <ul>
       <li> Due to the restriction of the MediaRecorder, user cannot hit record and stop too fast. Must be a minimum of 1 sec
+      <li> According to <a href="https://developer.android.com/reference/android/media/MediaRecorder.html">Developer Reference Guide</a> "Currently, MediaRecorder does not work on the emulator.". We found that this behavior is not predictable as it depends on the emulator, but for accurate testing please use an Android Device.
       <li> The countdown of 30 seconds starts once user hits record
       <li> The user can either hit stop to end record or when the counter hits 0, it automatically stops the recording
     </ul>
