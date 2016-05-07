@@ -50,6 +50,8 @@ public class HomeFeedFragment extends BaseFragment {
 
     private static User owner;
 
+    private PostViewHolder currentPlaying = null;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -117,12 +119,15 @@ public class HomeFeedFragment extends BaseFragment {
                     @Override
                     public void onClick(View v) {
                         if(isPlaying) {
+                            currentPlaying.btnPlay.setImageResource(R.drawable.ic_action_play);
+
                             mediaPlayer.stop();
                             mediaPlayer.reset();
                             mediaPlayer.release();
                             isPlaying = false;
                             postViewHolder.btnPlay.setImageResource(R.drawable.ic_action_play);
                         } else {
+                            currentPlaying = postViewHolder;
                             String defaultFilePath = Environment.getExternalStorageDirectory() + "/defaultRecording";
 
                             //Decodes the string and outputs in path of defaultFileName
@@ -148,6 +153,7 @@ public class HomeFeedFragment extends BaseFragment {
                                                 @Override
                                                 public void onCompletion(MediaPlayer mp) {
                                                     if(mp==mediaPlayer) {
+                                                        currentPlaying = null;
                                                         postViewHolder.btnPlay.setImageResource(R.drawable.ic_action_play);
                                                         isPlaying = false;
                                                         mp.stop();
