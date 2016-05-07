@@ -111,6 +111,17 @@ public class HomeFeedFragment extends BaseFragment {
                             fragmentTransaction.commit();
                         }
                     });
+
+                    postViewHolder.username.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            OtherUserProfileFragment otherUser = OtherUserProfileFragment.newInstance(post1.getOwner());
+                            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                            fragmentTransaction.replace(R.id.frame_main, otherUser);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+                        }
+                    });
                 }
 
                 postViewHolder.timeStamp.setText(post.calculateElapsedTime());
