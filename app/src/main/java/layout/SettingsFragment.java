@@ -93,6 +93,7 @@ public class SettingsFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ChangePhotoActivity.class);
+                intent.putExtra("userId", owner.getUserId());
                 startActivity(intent);
                 //ChangePhotoDialog popUp = new ChangePhotoDialog(getActivity(), SettingsFragment.this, owner);
                 //popUp.show();
