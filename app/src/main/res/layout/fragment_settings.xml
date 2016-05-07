@@ -43,7 +43,10 @@
                     android:text="Change Name"
                     android:id="@+id/changeNameButton"
                     android:layout_gravity="center"
-                    android:backgroundTint="@color/lightRed" />
+                    android:backgroundTint="@color/lightRed"
+                    android:background="@color/lightRed"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -58,7 +61,8 @@
                     android:layout_height="80dp"
                     android:id="@+id/profilePicture"
                     android:src="@drawable/black_box"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:paddingBottom="10dp" />
 
                 <Button
                     android:layout_width="wrap_content"
@@ -66,7 +70,10 @@
                     android:text="Change Picture"
                     android:id="@+id/changePictureButton"
                     android:layout_gravity="center"
-                    android:backgroundTint="@color/lightRed" />
+                    android:backgroundTint="@color/lightRed"
+                    android:background="@color/lightRed"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -89,7 +96,8 @@
                     android:layout_height="80dp"
                     android:id="@+id/shield"
                     android:src="@drawable/shield"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp" />
 
                 <Button
                     android:layout_width="wrap_content"
@@ -97,7 +105,10 @@
                     android:text="Change Password"
                     android:id="@+id/changePasswordButton"
                     android:layout_gravity="center"
-                    android:backgroundTint="@color/lightRed" />
+                    android:backgroundTint="@color/lightRed"
+                    android:background="@color/lightRed"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -112,7 +123,8 @@
                     android:layout_height="80dp"
                     android:id="@+id/imageView4"
                     android:src="@drawable/sadface"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp" />
 
                 <Button
                     android:layout_width="wrap_content"
@@ -120,7 +132,10 @@
                     android:text="Delete Account"
                     android:id="@+id/deleteAccountButton"
                     android:layout_gravity="center"
-                    android:backgroundTint="@color/lightRed" />
+                    android:backgroundTint="@color/lightRed"
+                    android:background="@color/lightRed"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp" />
             </LinearLayout>
         </LinearLayout>
 
