@@ -5,16 +5,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.ChildEventListener;
@@ -64,7 +67,9 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         //Disables landscape mode
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+
 
         Context context = getApplicationContext();  // app level storage
         myPrefs= PreferenceManager.getDefaultSharedPreferences(context);
@@ -94,6 +99,11 @@ public class MainActivity extends AppCompatActivity{
         //Deal with navigation to Search Fragment
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        TextView maintitle = (TextView) findViewById(R.id.toolbar_title);
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/title.otf");
+        maintitle.setTypeface(font, Typeface.BOLD);
+
         /*** Hides the search button
         toolbar.setNavigationIcon(R.drawable.ic_search_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

@@ -40,20 +40,20 @@ If the user has not made an account, they can register for a new account through
   <li> Uses the Firebase Recycler View to automatically update the list whenever a post is changed, added, or deleted. Notice that each post is displayed in reverse-chronological order.
   <li> Calculates the timestamp of the post automatically every single time you pull up homefeed or when a child is added
     <ul>
-      <li>The timestamp is users relative time lapse from the creation of the post till now.
-      <li>It is divided into category of day (d), hour (h), minute (m), and second (s).
-      So if the post is 1 day and 80 minutes old, the timestamp will show up as 1d only.
+      <li>The timestamp is the user's relative time elapsed from the creation of the post until current time
+      <li>It is divided into category of day (d), hour (h), minute (m), and second (s)
+      For example, if a post is 1 day and 80 minutes old, the timestamp will show up as 1d only
     </ul>
-  <li> Users can see other profiles by clicking on the picture or the username, does not direct to self if the user clicks on own picture or username.
+  <li> Users can see other profiles by clicking on the picture or the username. If the user clicks on their own picture or username, it does not direct to themselves.
   <li> See Post below
 </ul>
 
 ###RecordFragment: (Allows users to record and post)
 <ul>
-  <li> The record button allows user to record audio sound files (limit to 30 sec)
+  <li> The record button allows user to record audio sound files (limit to 30 seconds of audio)
     <ul>
-      <li> Due to the restriction of the MediaRecorder, user cannot hit record and stop too fast. Must be a minimum of 1 sec
-      <li> According to <a href="https://developer.android.com/reference/android/media/MediaRecorder.html">Developer Reference Guide</a> "Currently, MediaRecorder does not work on the emulator.". We found that this behavior is not predictable as it depends on the emulator, but for accurate testing please use an Android Device.
+      <li> Due to the restriction of the MediaRecorder, the user cannot hit record and stop too fast. There must be a minimum of 1 second between when the user hits the record button and hits it again to stop the recording
+      <li> According to <a href="https://developer.android.com/reference/android/media/MediaRecorder.html">Developer Reference Guide</a> "Currently, MediaRecorder does not work on the emulator.". We found that this behavior is not predictable as it depends on the emulator, but for accurate testing please text the application on a physical Android Device
       <li> The countdown of 30 seconds starts once user hits record
       <li> The user can either hit stop to end record or when the counter hits 0, it automatically stops the recording
     </ul>
@@ -102,5 +102,15 @@ Each post allows user to see other users profile page, play the post, like the p
     <li>For now this section is just a placeholder, we have designed the layout for each notification (notification_layout.xml) but we decided to prioritize other functionalities of the app. Definitely a future development.</li>
 </ul>
 
+###Sample login accounts to test with:
+Username: hello@uima.com
+Password: hello
 
+Username: joanne@isthebest.com
+Password: joanne selinski
 
+Username: Aakash
+Password: isawesome
+
+Username: Katie
+Password: iswonderful
