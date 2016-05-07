@@ -139,6 +139,7 @@ public class ChangePhotoActivity extends AppCompatActivity {
                 File f = new File(DEFAULT_IMAGE_PATH);
                 Bitmap bitmap;
                 BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                bitmapOptions.inSampleSize=5;
 
                 bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
                         bitmapOptions);
@@ -146,7 +147,7 @@ public class ChangePhotoActivity extends AppCompatActivity {
                 try {
                     Log.i("ChangePhotoActivity","compressing camera photo");
                     OutputStream outFile = new FileOutputStream(DEFAULT_IMAGE_PATH,false);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outFile);
                     outFile.flush();
                     outFile.close();
 
@@ -174,12 +175,13 @@ public class ChangePhotoActivity extends AppCompatActivity {
 
                 Bitmap bitmap;
                 BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                bitmapOptions.inSampleSize=5;
                 bitmap = BitmapFactory.decodeFile(picturePath, bitmapOptions);
 
                 try {
                     Log.i("ChangePhotoActivity","compressing gallery photo");
                     OutputStream outFile = new FileOutputStream(f.getPath().toString(), false);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outFile);
                     outFile.flush();
                     outFile.close();
 
