@@ -107,7 +107,7 @@ public class HomeFeedFragment extends BaseFragment {
                     postViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            OtherUserProfileFragment otherUser = OtherUserProfileFragment.newInstance(post1.getOwner());
+                            OtherUserProfileFragment otherUser = OtherUserProfileFragment.newInstance(post1.getOwner(), owner);
                             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                             fragmentTransaction.replace(R.id.frame_main, otherUser);
                             fragmentTransaction.addToBackStack(null);
@@ -118,7 +118,7 @@ public class HomeFeedFragment extends BaseFragment {
                     postViewHolder.username.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            OtherUserProfileFragment otherUser = OtherUserProfileFragment.newInstance(post1.getOwner());
+                            OtherUserProfileFragment otherUser = OtherUserProfileFragment.newInstance(post1.getOwner(), owner);
                             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                             fragmentTransaction.replace(R.id.frame_main, otherUser);
                             fragmentTransaction.addToBackStack(null);

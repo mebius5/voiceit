@@ -7,10 +7,8 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +36,8 @@ public class OtherUserProfileFragment extends BaseFragment {
     public final static String FRAGMENTNAME = "OtherUserProfileFragment";
     private final String fragmentName = FRAGMENTNAME;
 
-    private static User owner;
+    private static User postUser;
+    private static User appUser;
     private MediaPlayer mediaPlayer;
 
     private boolean isPlaying = false;
@@ -56,9 +55,10 @@ public class OtherUserProfileFragment extends BaseFragment {
      * this fragment using the provided parameters.
      * @return A new instance of fragment ProfileFragment.
      */
-    public static OtherUserProfileFragment newInstance(User user) {
+    public static OtherUserProfileFragment newInstance(User postUser, User appUser) {
         OtherUserProfileFragment fragment = new OtherUserProfileFragment();
-        owner = user;
+        OtherUserProfileFragment.postUser = postUser;
+        OtherUserProfileFragment.appUser = appUser;
         return fragment;
     }
 
@@ -74,14 +74,14 @@ public class OtherUserProfileFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         final TextView topUsername = (TextView) view.findViewById(R.id.username_view);
-        topUsername.setText(owner.getUsername());
+        topUsername.setText(postUser.getUsername());
 
         final TextView numPostText = (TextView) view.findViewById(R.id.post_num);
         final ImageView profileImageView = (ImageView) view.findViewById(R.id.profileImageView);
 
         Firebase mRef = new Firebase(getResources().getString(R.string.firebaseurl));
         Firebase postRef = mRef.child("posts");
-        Query postOfUser = postRef.orderByChild("owner/userId").equalTo(owner.getUserId());
+        Query postOfUser = postRef.orderByChild("owner/userId").equalTo(postUser.getUserId());
 
         postOfUser.addValueEventListener(new ValueEventListener() {
             @Override
@@ -95,7 +95,7 @@ public class OtherUserProfileFragment extends BaseFragment {
             public void onCancelled(FirebaseError firebaseError) {}
         });
 
-        Firebase userRef = mRef.child("users").child(owner.getUserId());
+        Firebase userRef = mRef.child("users").child(postUser.getUserId());
 
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -188,7 +188,7 @@ public class OtherUserProfileFragment extends BaseFragment {
                         });
 
                         //Checks what the method did to update the image
-                        if(post1.inLikerSet(owner.getUserId())) {
+                        if(post1.inLikerSet(appUser.getUserId())) {
                             postViewHolder.btnLikes.setImageResource(R.drawable.ic_action_favorite_selected);
                         } else {
                             postViewHolder.btnLikes.setImageResource(R.drawable.ic_action_favorite);
@@ -197,7 +197,7 @@ public class OtherUserProfileFragment extends BaseFragment {
                         postViewHolder.btnLikes.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                post1.likePost(owner.getUserId());
+                                post1.likePost(appUser.getUserId());
 
                                 postRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -219,7 +219,7 @@ public class OtherUserProfileFragment extends BaseFragment {
                         postViewHolder.numLikes.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                post1.likePost(owner.getUserId());
+                                post1.likePost(appUser.getUserId());
 
                                 postRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -237,7 +237,17 @@ public class OtherUserProfileFragment extends BaseFragment {
                             }
                         });
 
-                        postViewHolder.postsetting.setVisibility(View.GONE);
+                        if (!appUser.getUserId().equals(postUser.getUserId())) {
+                            postViewHolder.postsetting.setVisibility(View.GONE);
+                        } else {
+                            postViewHolder.postsetting.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    PostSettingDialogue popup = new PostSettingDialogue(getActivity(), OtherUserProfileFragment.this, postUser, postRef);
+                                    popup.show();
+                                }
+                            });
+                        }
 
                         //Decode profile string into file and turn into bitmap
                         String encodedImageString = post1.getOwner().getProfilePicName();
