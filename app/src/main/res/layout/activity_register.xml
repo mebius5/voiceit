@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="jhu.voiceit.RegisterActivity"
-    android:background="@color/toolbarBg"
+    android:background="@drawable/background"
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
@@ -38,7 +38,8 @@
         android:imeOptions="actionNext"
         android:background="#376a6a6a"
         android:padding="5dp"
-        android:maxLines="1" />
+        android:maxLines="1"
+        android:textColor="@color/white" />
 
     <EditText
         android:layout_width="250dp"
@@ -52,7 +53,8 @@
         android:imeOptions="actionNext"
         android:background="#376a6a6a"
         android:padding="5dp"
-        android:maxLines="1" />
+        android:maxLines="1"
+        android:textColor="@color/white" />
 
     <EditText
         android:layout_width="250dp"
@@ -69,7 +71,8 @@
         android:layout_below="@+id/usrname"
         android:layout_alignLeft="@+id/usrname"
         android:layout_alignStart="@+id/usrname"
-        android:maxLines="1" />
+        android:maxLines="1"
+        android:textColor="@color/white" />
 
     <EditText
         android:layout_width="250dp"
@@ -86,7 +89,8 @@
         android:layout_below="@+id/usrname"
         android:layout_alignLeft="@+id/usrname"
         android:layout_alignStart="@+id/usrname"
-        android:maxLines="1" />
+        android:maxLines="1"
+        android:textColor="@color/white" />
 
     <LinearLayout
         android:orientation="horizontal"

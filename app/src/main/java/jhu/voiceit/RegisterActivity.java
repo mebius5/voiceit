@@ -43,9 +43,13 @@ public class RegisterActivity extends AppCompatActivity {
         loginButton = (ImageButton) findViewById(R.id.imageButtonLogin);
         registerButton = (ImageButton) findViewById(R.id.imageButtonRegister);
         emailInput = (EditText) findViewById(R.id.registerEmail);
+        emailInput.setHintTextColor(getResources().getColor(R.color.white));
         usernameInput = (EditText) findViewById(R.id.registerUsername);
+        usernameInput.setHintTextColor(getResources().getColor(R.color.white));
         passwordInput = (EditText) findViewById(R.id.registerPassword);
+        passwordInput.setHintTextColor(getResources().getColor(R.color.white));
         confirmPasswordInput = (EditText) findViewById(R.id.registerPasswordConfirm);
+        confirmPasswordInput.setHintTextColor(getResources().getColor(R.color.white));
 
         setLoginButtonListener();
         setRegisterButtonListener();

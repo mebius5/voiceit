@@ -67,7 +67,9 @@ public class LoginActivity extends AppCompatActivity {
         regislabel.setTypeface(label);
 
         usrenter = (EditText) findViewById(R.id.usrname);
+        usrenter.setHintTextColor(getResources().getColor(R.color.white));
         passenter = (EditText) findViewById(R.id.passwd);
+        passenter.setHintTextColor(getResources().getColor(R.color.white));
 
         login = (ImageButton) findViewById(R.id.login);
         regis = (ImageButton) findViewById(R.id.register);
