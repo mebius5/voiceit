@@ -85,7 +85,7 @@ Each post allows user to see other users profile page, play the post, like the p
         <li>Username does not have to unique (due to use of push)
         <li>Change of username will reflect on all of your previous posts.
       </ul>
-    <li>Change Picture: User can see the old picture and submit a new one from the Gallery or take a picture. This is currently being developed and not entirely functional.</li>
+    <li>Change Picture: User can see the old picture and submit a new one from the Gallery or take a picture.<br>The default emulator does not allow access to the camera so beware of that, if testing on GenyMotion or an Android device, the access to Camera works, on the default emulator only gallery pictures. </li>
     <li>Change Password: As a safety measure, the user has to enter the old password to confirm identity and also the intended new password.</li>
     <li>Delete Account: User is prompted for the account password if they intend to delete the account.</li>
       <ul>
