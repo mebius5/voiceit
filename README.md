@@ -30,6 +30,7 @@ MainActivity provides the parent for many of the fragment screns used within the
 ###LoginActivity:
 Login Activity provides the first screen a user sees upon installing the app: a screen where they can log in to an existing account
 or create a new account.
+Note: Two users cannot log into the same account at the same time.
 ###RegisterActivity:
 If the user has not made an account, they can register for a new account through this screen.
 
@@ -106,11 +107,5 @@ Each post allows user to see other users profile page, play the post, like the p
 Username: hello@uima.com
 Password: hello
 
-Username: joanne@isthebest.com
-Password: joanne selinski
-
-Username: Aakash
-Password: isawesome
-
-Username: Katie
-Password: iswonderful
+Username: obama@usa.com
+Password: barackobama
