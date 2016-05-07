@@ -44,6 +44,7 @@ If the user has not made an account, they can register for a new account through
       <li>It is divided into category of day (d), hour (h), minute (m), and second (s).
       So if the post is 1 day and 80 minutes old, the timestamp will show up as 1d only.
     </ul>
+  <li> Users can see other profiles by clicking on the picture or the username, does not direct to self if the user clicks on own picture or username.
   <li> See Post below
 </ul>
 
