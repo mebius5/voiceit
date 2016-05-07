@@ -25,7 +25,6 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -39,7 +38,10 @@
             android:name=".RegisterActivity"
             android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".ChangePhotoActivity"></activity>
+        <activity android:name=".ChangePhotoActivity"
+            android:parentActivityName=".MainActivity"
+            android:noHistory="false">
+        </activity>
     </application>
 
 </manifest>
