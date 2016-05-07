@@ -25,4 +25,13 @@
     <string name="default_post_descript">League of legends is a joke and heres</string>
     <string name="delete_prompt">Would you like to delete your post?</string>
     <string name="recording">Recording</string>
+
+    <!--ChangePhotoActivity-->
+    <string name="change_photo_title">Change Profile Picture:</string>
+    <string name="profile_photo_description">Current Photo:</string>
+    <string name="upload_new_photo">Upload New Photo:</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_save">Save</string>
+
+
 </resources>

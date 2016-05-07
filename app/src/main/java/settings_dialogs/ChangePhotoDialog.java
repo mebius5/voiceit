@@ -4,28 +4,19 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 import jhu.voiceit.R;
 import jhu.voiceit.User;
@@ -42,9 +33,9 @@ public class ChangePhotoDialog{
 
     private Firebase mRef;
 
-    public ChangePhotoDialog(Activity a, final SettingsFragment myFrag, final User user){
+    public ChangePhotoDialog(final Activity a, final SettingsFragment myFrag, final User user){
         LayoutInflater inflater = a.getLayoutInflater();
-        dialoglayout = inflater.inflate(R.layout.change_picture, null);
+        dialoglayout = inflater.inflate(R.layout.activity_change_picture, null);
 
         mRef=new Firebase("https://voiceit.firebaseio.com/users/"+user.getUserId());
 
@@ -73,12 +64,11 @@ public class ChangePhotoDialog{
         newProfileCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (takePictureIntent.resolveActivity(myFrag.getActivity().getPackageManager()) != null) {
-                    alertDialog.dismiss();
-                    myFrag.getActivity().startActivityForResult(takePictureIntent, 1);
-                }
-
+                alertDialog.dismiss();
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                a.startActivityForResult(intent, 1);
             }
 
         });
@@ -87,61 +77,11 @@ public class ChangePhotoDialog{
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                myFrag.startActivityForResult(i, 1);
+                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                a.startActivityForResult(intent, 2);
             }
         });
     }
-
-    protected void onActivityResult(int resultCode, Intent data) {
-        Log.i("ChangePhoto", "Here");
-
-        Uri outputFileUri;
-        // Determine Uri of camera image to save.
-        final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "MyDir" + File.separator);
-        root.mkdirs();
-        final String fname = "fileName";
-        final File sdImageMainDirectory = new File(root, fname);
-        outputFileUri = Uri.fromFile(sdImageMainDirectory);
-
-        if (resultCode == 1) {
-                final boolean isCamera;
-                if (data == null) {
-                    isCamera = true;
-                } else {
-                    final String action = data.getAction();
-                    if (action == null) {
-                        isCamera = false;
-                    } else {
-                        isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    }
-                }
-
-                Uri selectedImageUri;
-                if (isCamera) {
-                    selectedImageUri = outputFileUri;
-                } else {
-                    selectedImageUri = data == null ? null : data.getData();
-                }
-        }
-    }
-
-    /****
-    public void OnActivityResult (int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-
-            String imagefile = encodeToBase64(thumbnail, Bitmap.CompressFormat.PNG, 100);
-
-            //Push changes to firebase
-            Map<String, Object> changes = new HashMap<String, Object>();
-            changes.put("profilePicName", imagefile);
-            mRef.updateChildren(changes);
-
-            ImageView oldPicture = (ImageView) dialoglayout.findViewById(R.id.prev_photo);
-            oldPicture.setImageBitmap(thumbnail);
-        }
-    }****/
     
     
 
