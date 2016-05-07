@@ -1,6 +1,8 @@
 package layout;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import jhu.voiceit.Byte64EncodeAndDecoder;
 import jhu.voiceit.ChangePhotoActivity;
 import jhu.voiceit.R;
 import jhu.voiceit.User;
@@ -78,7 +81,14 @@ public class SettingsFragment extends BaseFragment {
         currentProfilePicture = (ImageView) view.findViewById(R.id.profilePicture);
 
         currentName.setText(owner.getUsername());
-        currentProfilePicture.setImageResource(R.drawable.userdefault);
+
+        //Decode profile string into file and turn into bitmap
+        String encodedImageString = owner.getProfilePicName();
+        Byte64EncodeAndDecoder.decode(ChangePhotoActivity.DEFAULT_IMAGE_PATH,encodedImageString);
+        Bitmap bitmap;
+        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+        bitmap = BitmapFactory.decodeFile(ChangePhotoActivity.DEFAULT_IMAGE_PATH, bitmapOptions);
+        currentProfilePicture.setImageBitmap(bitmap);
 
         changeNameButton.setOnClickListener(new View.OnClickListener() {
             @Override
