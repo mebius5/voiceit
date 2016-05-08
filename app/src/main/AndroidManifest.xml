@@ -31,7 +31,7 @@
         <activity
             android:name=".MainActivity"
             android:label=""
-            android:noHistory="true"
+            android:noHistory="false"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
@@ -39,8 +39,7 @@
             android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".ChangePhotoActivity"
-            android:parentActivityName=".MainActivity"
-            android:noHistory="true">
+            android:noHistory="false">
         </activity>
     </application>
 
