@@ -79,7 +79,7 @@ Each post allows user to see other users profile page, play the post, like the p
       <li> When the user likes a post, the heart button turns yellow, and the like increments. <br>
       A user can also undo his likes by tapping the like button again. Then the color resets and the count decrements. <br>
       Notice that a user can only like a post once. <br>
-      <li> A user can only see the trash can icon if the post is his own post. Thus, preventing other users from deleting his posts.
+      <li> A user can only see the trash can icon if the post is his own post. Thus, preventing other users from deleting his posts. This sometimes will not work on Emulator due to slow refresh rate, but definitely works on mobile devices and super fast emulators.
     </ul>
 
 ###SettingsFragment:
