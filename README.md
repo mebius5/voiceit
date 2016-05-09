@@ -67,6 +67,7 @@ If the user has not made an account, they can register for a new account through
 ###ProfileFragment:
 <ul>
   <li> Displays the username and the number of posts for the current user. In the future, when the follow system is implemented, will also display the number of users that follow the current user, and the number of users the current user follows.
+  <li> The profile page is not in reverse-chronological due to the limitation of Firebase. Firebase does not allow the use of multiple orderBy() calls for queries. Due to the use of Firebase Recycler View Adapter, we cannot use a data structure or compile a list such that we can limit the posts and order the posts in reverse-chronological order.
   <li> See Post, which details information about single posts.
 </ul>
 
